@@ -1,8 +1,104 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Instituicao {
+  instituicao_id String   @id @default(uuid()) @db.Uuid
+  nome           String
+  logo_url       String?
+  mapa_url       String?
+  configuracoes  Json?
+
+  locais   Local[]
+  usuarios Usuario[]
+  avisos   Aviso[]
+  eventos  Evento[]
+  sugestoes Sugestao[]
+
+  @@map("instituicoes")
+}
+
+model Local {
+  local_id        String   @id @default(uuid()) @db.Uuid
+  instituicao_id  String   @db.Uuid
+  nome            String
+  tipo            String?
+  bloco           String?
+  coordenadas     Unsupported("point")?
+  mapa_xy         Json?
+  acessivel       Boolean  @default(false)
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+
+  @@map("locais")
+}
+
+model Usuario {
+  usuario_id      String   @id @default(uuid()) @db.Uuid
+  instituicao_id  String   @db.Uuid
+  nome            String
+  email           String   @unique
+  tipo_acesso     String?
+  curso           String?
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  avisos Aviso[]
+  sugestoes Sugestao[]
+
+  @@map("usuarios")
+}
+
+model Aviso {
+  aviso_id        String   @id @default(uuid()) @db.Uuid
+  instituicao_id  String   @db.Uuid
+  usuario_id      String?
+  usuario_nome    String?
+  titulo          String
+  mensagem        String?
+  data_criacao    DateTime @default(now())
+  prioridade      String?
+  curso_alvo      String[]
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
+
+  @@map("avisos")
+}
+
+model Evento {
+  evento_id       String   @id @default(uuid()) @db.Uuid
+  instituicao_id  String   @db.Uuid
+  titulo          String
+  data            DateTime
+  tipo            String?
+  descricao       String?
+  local_id        String?
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  local Local? @relation(fields: [local_id], references: [local_id])
+
+  @@map("eventos")
+}
+
+model Sugestao {
+  sugestao_id     String   @id @default(uuid()) @db.Uuid
+  instituicao_id  String   @db.Uuid
+  usuario_id      String   @db.Uuid
+  titulo          String
+  descricao       String?
+  tipo            String?
+  status          String?
+  localizacao     Unsupported("point")?
+  foto_url        String?
+  data_criacao    DateTime @default(now())
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
+
+  @@map("sugestoes")
 }
