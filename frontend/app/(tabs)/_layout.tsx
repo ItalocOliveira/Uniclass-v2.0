@@ -14,7 +14,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontStyle: 'italic', fontSize: 20 }}>marlon</Text>
+    <View className='flex-1 justifyContent bg-slate-400'>
+      <Text>marlon</Text>
     </View>);
 }
