@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
@@ -14,10 +15,20 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
+=======
+import React from "react";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+import { View, Text } from "react-native";
+>>>>>>> Stashed changes
 
+export default function Sugenstao (){
+    return (
+        <View>
+            <Text>
+                Uniclass
+            </Text>
+
+<<<<<<< Updated upstream
   return (
     <Tabs
       screenOptions={{
@@ -57,3 +68,8 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+=======
+        </View>
+    );
+}
+>>>>>>> Stashed changes
