@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { prisma } from '../database/prisma/prisma';
 import { ILocalRepository } from 'src/core/repositories/ILocalRepository';
 import { LocalDomain } from 'src/core/repositories/dtos/local/LocalDomain';
 import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto';
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
 import { Prisma } from '../database/generated/prisma/client';
+import { PrismaService } from '../database/prisma/prisma.service';
 
 @Injectable()
 export class PrismaLocalRepository implements ILocalRepository {
 
+  constructor(private prisma: PrismaService){}
+
   async findAll(): Promise<LocalDomain[]> {
-    const result = await prisma.$queryRaw<any[]>`
+    const result = await this.prisma.$queryRaw<any[]>`
       SELECT 
         l.*,
         ST_X(coordenadas::geometry) as longitude,
@@ -29,7 +31,7 @@ export class PrismaLocalRepository implements ILocalRepository {
   }
 
   async findById(id: string): Promise<LocalDomain | null> {
-    const result = await prisma.$queryRaw<any[]>`
+    const result = await this.prisma.$queryRaw<any[]>`
       SELECT 
         l.*,
         ST_X(coordenadas::geometry) as longitude,
@@ -49,8 +51,21 @@ export class PrismaLocalRepository implements ILocalRepository {
     return this.mapToDomain(raw, coords);
   }
 
+  async findByName(instituicaoId: string, name: string): Promise<LocalDomain | null> {
+      const local = await this.prisma.local.findFirst({
+        where: { 
+          instituicao_id: instituicaoId,
+          nome: name
+        }
+      });
+
+      if(!local) return null;
+
+      return this.mapToDomain(local);
+  }
+
   async create(data: CreateLocalDto): Promise<LocalDomain> {
-    const localCriado = await prisma.$transaction(async (tx) => {
+    const localCriado = await this.prisma.$transaction(async (tx) => {
       const novoLocal = await tx.local.create({
         data: {
           instituicao_id: data.instituicaoId,
@@ -80,7 +95,7 @@ export class PrismaLocalRepository implements ILocalRepository {
   }
 
   async updateById(id: string, data: UpdateLocalDto): Promise<LocalDomain> {
-    const localAtualizado = await prisma.$transaction(async (tx) => {
+    const localAtualizado = await this.prisma.$transaction(async (tx) => {
       const updated = await tx.local.update({
         where: { local_id: id },
         data: {
@@ -107,7 +122,7 @@ export class PrismaLocalRepository implements ILocalRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.local.delete({
+    await this.prisma.local.delete({
       where: { local_id: id },
     });
   }

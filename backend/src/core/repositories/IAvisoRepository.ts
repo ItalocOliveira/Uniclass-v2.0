@@ -8,4 +8,7 @@ export interface IAvisoRepository {
   create(data: CreateAvisoDto): Promise<AvisoDomain>
   updateById(id: string, data: UpdateAvisoDto): Promise<AvisoDomain>
   deleteById(id: string): Promise<void>
+
+  // UseCase
+  findByTitulo(instituicaoId: string, title: string): Promise<AvisoDomain | null>
 }

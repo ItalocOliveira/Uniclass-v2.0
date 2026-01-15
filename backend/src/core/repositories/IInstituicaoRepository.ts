@@ -7,4 +7,7 @@ export interface IInstituicaoRepository {
   create(data: CreateInstituicaoDto): Promise<InstituicaoDomain>
   updateById(id: string, data: InstituicaoDomain): Promise<InstituicaoDomain>
   deleteById(id: string): Promise<void>
+
+  // UseCase
+  findByNome(name: string): Promise<InstituicaoDomain | null>
 }

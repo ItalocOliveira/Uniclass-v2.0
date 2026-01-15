@@ -7,4 +7,7 @@ export interface IUsuarioRepository {
   create(data: CreateUsuarioDto): Promise<UsuarioDomain>
   updateById(id: string, data: UsuarioDomain): Promise<UsuarioDomain>
   deleteById(id: string): Promise<void>
+
+  //usecase
+  findByEmail(instituicaoId: string, email: string): Promise<UsuarioDomain | null>
 }
