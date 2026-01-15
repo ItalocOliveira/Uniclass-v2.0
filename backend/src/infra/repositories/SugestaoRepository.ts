@@ -3,7 +3,6 @@ import { ISugestaoRepository } from 'src/core/repositories/ISugestaoRepository'
 import { SugestaoDomain } from 'src/core/repositories/dtos/sugestao/SugestaoDomain' 
 import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSugestaoDto' 
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
-import { PrismaClient, Sugestao } from '../database/prisma/generated/prisma/client'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
