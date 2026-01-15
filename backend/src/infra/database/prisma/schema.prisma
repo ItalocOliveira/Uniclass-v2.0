@@ -1,18 +1,18 @@
 generator client {
   provider = "prisma-client-js"
+  output = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
 
 model Instituicao {
   instituicao_id String   @id @default(uuid()) @db.Uuid
   nome           String
   logo_url       String?
   mapa_url       String?
-  configuracoes  Json?
 
   locais   Local[]
   usuarios Usuario[]
@@ -29,11 +29,12 @@ model Local {
   nome            String
   tipo            String?
   bloco           String?
-  coordenadas     Unsupported("point")?
+  coordenadas     Unsupported("geometry(Point, 4326)")?
   mapa_xy         Json?
   acessivel       Boolean  @default(false)
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  eventos Evento[]
 
   @@map("locais")
 }
@@ -56,7 +57,7 @@ model Usuario {
 model Aviso {
   aviso_id        String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
-  usuario_id      String?
+  usuario_id      String?  @db.Uuid
   usuario_nome    String?
   titulo          String
   mensagem        String?
@@ -77,7 +78,7 @@ model Evento {
   data            DateTime
   tipo            String?
   descricao       String?
-  local_id        String?
+  local_id        String?  @db.Uuid
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   local Local? @relation(fields: [local_id], references: [local_id])
@@ -93,7 +94,7 @@ model Sugestao {
   descricao       String?
   tipo            String?
   status          String?
-  localizacao     Unsupported("point")?
+  localizacao     Unsupported("geometry(Point, 4326)")?
   foto_url        String?
   data_criacao    DateTime @default(now())
 
