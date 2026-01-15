@@ -62,23 +62,28 @@ export default function Date() {
                 </View>
             ))}
 
-            <View style={styles.eventSection}>
-                <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Próximos...</Text>
-                <Text style={[styles.eventDate, styles.fontAnta]}>
-                    Sexta-feira, 9 de janeiro de 2026
-                </Text>
-                <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
+            <View style={styles.events}>
+
+                <View style={styles.eventSection}>
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Próximos...</Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        Sexta-feira, 9 de janeiro de 2026
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
+                </View>
+
+                <View style={styles.divider} />
+
+                <View style={styles.eventSection}>
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Nessa Data</Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        Sexta-feira, 9 de janeiro de 2026
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
+                </View>
+
             </View>
 
-            <View style={styles.divider} />
-
-            <View style={styles.eventSection}>
-                <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Nessa Data</Text>
-                <Text style={[styles.eventDate, styles.fontAnta]}>
-                    Sexta-feira, 9 de janeiro de 2026
-                </Text>
-                <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
-            </View>
         </ScrollView>
     );
 }
@@ -89,14 +94,14 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     fontAnta: {
-        fontFamily: "Anta_400Regular", 
+        fontFamily: "Anta_400Regular",
     },
     titulo: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#03366A",
-        padding: 10,
+        padding: 15,
     },
     uniclass: {
         color: "#fff",
@@ -134,11 +139,27 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
     },
+    events: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingBottom: 20,
+    },
+
     eventSection: {
-        marginTop: 30,
+        marginVertical: 10,
         padding: 15,
-        backgroundColor: "#f9f9f9",
-        borderRadius: 10,
+        backgroundColor: "#fff",
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: "#444",
+        width: "90%",
+        alignSelf: "center",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     eventTitle: {
         fontSize: 16,
