@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Titulo } from "@/components/HeaderText";
-import { IconMenu2 } from '@tabler/icons-react';
+import { IconArrowLeft, IconMenu2 } from '@tabler/icons-react';
 
 export default function Date() {
     const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
@@ -17,9 +17,13 @@ export default function Date() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Titulo />
-            <IconMenu2 stroke={2} />
-            
+            <View style={styles.titulo}>
+                <Titulo />
+                <IconMenu2 color="black" size={32} />
+            </View>
+
+            <br />
+
             {/* Dias da semana */}
             <View style={styles.weekRow}>
                 {daysOfWeek.map((day, index) => (
@@ -79,6 +83,12 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
         backgroundColor: "#fff",
+    },
+    titulo: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+
     },
     weekRow: {
         flexDirection: "row",
