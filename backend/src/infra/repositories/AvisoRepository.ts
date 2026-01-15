@@ -1,14 +1,18 @@
-import { prisma } from 'src/infra/database/prisma/prisma';
 import { IAvisoRepository } from 'src/core/repositories/IAvisoRepository';
 import { AvisoDomain } from 'src/core/repositories/dtos/aviso/AvisoDomain';
 import { CreateAvisoDto } from 'src/core/repositories/dtos/aviso/CreateAvisoDto';
 import { UpdateAvisoDto } from 'src/core/repositories/dtos/aviso/UpdateAvisoDto';
 import { Aviso } from '../database/generated/prisma/client';
+import { PrismaService } from '../database/prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
 
-
+@Injectable()
 export class AvisoRepository implements IAvisoRepository {
+
+    constructor(private prisma: PrismaService){}
+
     async findAll(): Promise<AvisoDomain[]> {
-        const avisos = await prisma.aviso.findMany({
+        const avisos = await this.prisma.aviso.findMany({
             orderBy: {data_criacao: 'asc'},
         });
 
@@ -16,7 +20,7 @@ export class AvisoRepository implements IAvisoRepository {
     }
 
     async findById(id: string): Promise<AvisoDomain | null> {
-        const aviso = await prisma.aviso.findUnique({
+        const aviso = await this.prisma.aviso.findUnique({
             where: { aviso_id: id },
         })
 
@@ -25,8 +29,21 @@ export class AvisoRepository implements IAvisoRepository {
         return this.mapToDomain(aviso);
     }
 
+    async findByTitulo(instituicaoId: string, title: string): Promise<AvisoDomain | null> {
+        const aviso = await this.prisma.aviso.findFirst({
+            where: { 
+                instituicao_id: instituicaoId,
+                titulo: title
+            }
+        });
+
+        if(!aviso) return null;
+
+        return this.mapToDomain(aviso);
+    }
+
     async create(data: CreateAvisoDto): Promise<AvisoDomain> {
-        const aviso = await prisma.aviso.create({
+        const aviso = await this.prisma.aviso.create({
             data: {
                 instituicao_id: data.instituicaoId,
                 curso_alvo: data.cursoAlvo,
@@ -53,7 +70,7 @@ export class AvisoRepository implements IAvisoRepository {
             prioridade: data.prioridade,
         }
 
-        const updatedAviso = await prisma.aviso.update({
+        const updatedAviso = await this.prisma.aviso.update({
             where: { aviso_id: id },
             data: {
                 ...dataToUpdate
@@ -64,7 +81,7 @@ export class AvisoRepository implements IAvisoRepository {
     }
 
     async deleteById(id: string): Promise<void> {
-        await prisma.aviso.delete({
+        await this.prisma.aviso.delete({
             where: { aviso_id: id },
         });
     }

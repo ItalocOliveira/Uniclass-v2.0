@@ -2,11 +2,16 @@ import { CreateInstituicaoDto } from "src/core/repositories/dtos/instituicao/Cre
 import { InstituicaoDomain } from "src/core/repositories/dtos/instituicao/InstituicaoDomain";
 import { IInstituicaoRepository } from "src/core/repositories/IInstituicaoRepository";
 import { Instituicao } from '../database/generated/prisma/client';
-import { prisma } from "../database/prisma/prisma";
+import { PrismaService } from "../database/prisma/prisma.service";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class InstituicaoRepository implements IInstituicaoRepository {
+
+  constructor(private prisma: PrismaService){}
+
   async create(data: CreateInstituicaoDto): Promise<InstituicaoDomain> {
-    const instituicao = await prisma.instituicao.create({ 
+    const instituicao = await this.prisma.instituicao.create({ 
       data: {
         nome: data.nome,
         logo_url: data.logoUrl,
@@ -19,14 +24,24 @@ export class InstituicaoRepository implements IInstituicaoRepository {
 
 
   async findAll(): Promise<InstituicaoDomain[]> {
-    const instituicoes = await prisma.instituicao.findMany();
+    const instituicoes = await this.prisma.instituicao.findMany();
 
     return instituicoes.map((instituicao) => this.mapToDomain(instituicao));
   }
 
   async findById(id: string): Promise<InstituicaoDomain | null> {
-    const instituicao = await prisma.instituicao.findUnique({
+    const instituicao = await this.prisma.instituicao.findUnique({
       where: { instituicao_id: id}
+    });
+
+    if(!instituicao) return null;
+
+    return this.mapToDomain(instituicao);
+  }
+
+  async findByNome(name: string): Promise<InstituicaoDomain | null> {
+    const instituicao = await this.prisma.instituicao.findFirst({
+      where: { nome: name }
     });
 
     if(!instituicao) return null;
@@ -41,7 +56,7 @@ export class InstituicaoRepository implements IInstituicaoRepository {
       mapa_url: data.mapaUrl
     }
 
-    const updatedInstituicao = await prisma.instituicao.update({
+    const updatedInstituicao = await this.prisma.instituicao.update({
       where: { instituicao_id: id },
       data: {
         ...dataToUpdate
@@ -52,7 +67,7 @@ export class InstituicaoRepository implements IInstituicaoRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.instituicao.delete({
+    await this.prisma.instituicao.delete({
       where: { instituicao_id: id }
     });
   }

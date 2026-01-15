@@ -27,7 +27,7 @@ model Local {
   local_id        String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
   nome            String
-  tipo            String?
+  tipo            localTipos
   bloco           String?
   coordenadas     Unsupported("geometry(Point, 4326)")?
   mapa_xy         Json?
@@ -43,7 +43,7 @@ model Usuario {
   usuario_id      String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
   nome            String
-  email           String   @unique
+  email           String   
   tipo_acesso     String?
   curso           String?
 
@@ -52,7 +52,10 @@ model Usuario {
   sugestoes Sugestao[]
 
   @@map("usuarios")
+
+  @@unique([email, instituicao_id]) 
 }
+
 
 model Aviso {
   aviso_id        String   @id @default(uuid()) @db.Uuid
@@ -62,7 +65,7 @@ model Aviso {
   titulo          String
   mensagem        String?
   data_criacao    DateTime @default(now())
-  prioridade      String?
+  prioridade      avisoPrioridade
   curso_alvo      String[]
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
@@ -76,7 +79,7 @@ model Evento {
   instituicao_id  String   @db.Uuid
   titulo          String
   data            DateTime
-  tipo            String?
+  tipo            eventoTipos
   descricao       String?
   local_id        String?  @db.Uuid
 
@@ -92,14 +95,35 @@ model Sugestao {
   usuario_id      String   @db.Uuid
   titulo          String
   descricao       String?
-  tipo            String?
+  tipo            sugestaoTipos
   status          String?
   localizacao     Unsupported("geometry(Point, 4326)")?
   foto_url        String?
-  data_criacao    DateTime @default(now())
+  created_at    DateTime @default(now())
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
 
   @@map("sugestoes")
 }
+
+enum localTipos {
+  BLOCO
+  COMERCIO
+  BIBLIOTECA
+}
+
+enum sugestaoTipos {
+  TESTE
+}
+
+enum eventoTipos {
+  TESTE
+}
+
+enum avisoPrioridade {
+  TESTE
+}
+
+
+// Cria created_at e updated_at em todos os models pfv

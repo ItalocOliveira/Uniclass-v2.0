@@ -1,15 +1,17 @@
-import { prisma } from 'src/infra/database/prisma/prisma'
 import { ISugestaoRepository } from 'src/core/repositories/ISugestaoRepository' 
 import { SugestaoDomain } from 'src/core/repositories/dtos/sugestao/SugestaoDomain' 
 import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSugestaoDto' 
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
 import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../database/prisma/prisma.service'
 
 @Injectable()
 export class SugestaoRepository implements ISugestaoRepository {
 
+  constructor(private prisma: PrismaService){}
+
   async findAll(): Promise<SugestaoDomain[]> {
-    const result = await prisma.$queryRaw<any[]>`
+    const result = await this.prisma.$queryRaw<any[]>`
       SELECT 
         s.*,
         ST_X(localizacao::geometry) as longitude,
@@ -28,7 +30,7 @@ export class SugestaoRepository implements ISugestaoRepository {
 }
 
   async findById(id: string): Promise<SugestaoDomain | null> {
-    const result = await prisma.$queryRaw<any[]>`
+    const result = await this.prisma.$queryRaw<any[]>`
     SELECT 
       s.*, 
       ST_X(localizacao::geometry) as longitude, 
@@ -47,7 +49,7 @@ export class SugestaoRepository implements ISugestaoRepository {
   }
 
   async create(data: CreateSugestaoDto): Promise<SugestaoDomain> {
-    const sugestao = await prisma.$transaction(async (tx) => {
+    const sugestao = await this.prisma.$transaction(async (tx) => {
       const newSugestao = await tx.sugestao.create({
         data: {
           instituicao_id: data.instituicaoId,
@@ -77,7 +79,7 @@ export class SugestaoRepository implements ISugestaoRepository {
   }
 
   async updateById(id: string, data: UpdateSugestaoDto): Promise<SugestaoDomain> {
-    const sugestaoAtualizada = await prisma.$transaction(async (tx) => {
+    const sugestaoAtualizada = await this.prisma.$transaction(async (tx) => {
         const updated = await tx.sugestao.update({
             where: { sugestao_id: id },
             data: {
@@ -104,7 +106,7 @@ export class SugestaoRepository implements ISugestaoRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.sugestao.delete({
+    await this.prisma.sugestao.delete({
       where: { sugestao_id: id },
     })
   }
