@@ -3,7 +3,7 @@ import { IAvisoRepository } from 'src/core/repositories/IAvisoRepository';
 import { AvisoDomain } from 'src/core/repositories/dtos/aviso/AvisoDomain';
 import { CreateAvisoDto } from 'src/core/repositories/dtos/aviso/CreateAvisoDto';
 import { UpdateAvisoDto } from 'src/core/repositories/dtos/aviso/UpdateAvisoDto';
-import { Aviso } from '../database/prisma/generated/prisma/client';
+import { Aviso } from '../database/generated/prisma/client';
 
 
 export class AvisoRepository implements IAvisoRepository {

@@ -6,7 +6,6 @@ import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto'
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
 import { Prisma } from '../database/generated/prisma/client';
 
-
 @Injectable()
 export class PrismaLocalRepository implements ILocalRepository {
 

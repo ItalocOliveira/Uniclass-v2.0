@@ -1,7 +1,7 @@
 import { CreateInstituicaoDto } from "src/core/repositories/dtos/instituicao/CreateInstituicaoDto";
 import { InstituicaoDomain } from "src/core/repositories/dtos/instituicao/InstituicaoDomain";
 import { IInstituicaoRepository } from "src/core/repositories/IInstituicaoRepository";
-import { Instituicao } from '../database/prisma/generated/prisma/client'
+import { Instituicao } from '../database/generated/prisma/client';
 import { prisma } from "../database/prisma/prisma";
 
 export class InstituicaoRepository implements IInstituicaoRepository {
