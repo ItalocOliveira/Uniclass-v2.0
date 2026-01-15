@@ -1,9 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Titulo } from "@/components/HeaderText";
-import { IconArrowLeft, IconMenu2 } from '@tabler/icons-react';
+import { IconArrowLeft, IconMenu2 } from "@tabler/icons-react";
+import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 
 export default function Date() {
+    const [fontsLoaded] = useFonts({
+        Anta_400Regular,
+    });
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
     const calendarDays = [
         [28, 29, 30, 31, 1, 2, 3],
@@ -18,22 +26,18 @@ export default function Date() {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.titulo}>
-                <Titulo />
-                <IconMenu2 color="black" size={32} />
+                <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
+                <IconMenu2 color="#fff" size={32} />
             </View>
 
-            <br />
-
-            {/* Dias da semana */}
             <View style={styles.weekRow}>
                 {daysOfWeek.map((day, index) => (
-                    <Text key={index} style={styles.weekDay}>
+                    <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
                         {day}
                     </Text>
                 ))}
             </View>
 
-            {/* Dias do calendário */}
             {calendarDays.map((week, i) => (
                 <View key={i} style={styles.weekRow}>
                     {week.map((day, j) => (
@@ -47,6 +51,7 @@ export default function Date() {
                             <Text
                                 style={[
                                     styles.dayText,
+                                    styles.fontAnta,
                                     day === selectedDay && styles.selectedDayText,
                                 ]}
                             >
@@ -57,43 +62,51 @@ export default function Date() {
                 </View>
             ))}
 
-            {/* Eventos */}
             <View style={styles.eventSection}>
-                <Text style={styles.eventTitle}>Eventos Próximos...</Text>
-                <Text style={styles.eventDate}>Sexta-feira, 9 de janeiro de 2026</Text>
-                <Text style={styles.eventDescription}>Sem Eventos!</Text>
+                <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Próximos...</Text>
+                <Text style={[styles.eventDate, styles.fontAnta]}>
+                    Sexta-feira, 9 de janeiro de 2026
+                </Text>
+                <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
             </View>
 
-            <hr />
+            <View style={styles.divider} />
 
             <View style={styles.eventSection}>
-                <Text style={styles.eventTitle}>Eventos Nessa Data</Text>
-                <Text style={styles.eventDate}>Sexta-feira, 9 de janeiro de 2026</Text>
-                <Text style={styles.eventDescription}>Sem Eventos!</Text>
+                <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Nessa Data</Text>
+                <Text style={[styles.eventDate, styles.fontAnta]}>
+                    Sexta-feira, 9 de janeiro de 2026
+                </Text>
+                <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
             </View>
         </ScrollView>
     );
 }
 
-
-// style do css 
-
-
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
         backgroundColor: "#fff",
+        paddingBottom: 20,
+    },
+    fontAnta: {
+        fontFamily: "Anta_400Regular", 
     },
     titulo: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-
+        backgroundColor: "#03366A",
+        padding: 10,
+    },
+    uniclass: {
+        color: "#fff",
+        fontSize: 20,
     },
     weekRow: {
         flexDirection: "row",
         justifyContent: "space-between",
         marginVertical: 5,
+        paddingHorizontal: 10,
     },
     weekDay: {
         fontWeight: "bold",
@@ -140,5 +153,10 @@ const styles = StyleSheet.create({
     eventDescription: {
         fontSize: 14,
         color: "#999",
+    },
+    divider: {
+        height: 1,
+        backgroundColor: "#ccc",
+        marginVertical: 20,
     },
 });

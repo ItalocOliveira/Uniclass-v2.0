@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/anta": "^0.4.0",
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/native": "^7.1.8",
     "@tabler/icons-react": "^3.36.1",
