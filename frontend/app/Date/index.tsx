@@ -1,35 +1,63 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { IconArrowLeft, IconMenu2 } from "@tabler/icons-react";
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+} from "react-native";
+import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 
 export default function Date() {
-    const [fontsLoaded] = useFonts({
-        Anta_400Regular,
-    });
+    const [fontsLoaded] = useFonts({ Anta_400Regular });
+    const [selectedDay, setSelectedDay] = useState(9);
 
-    if (!fontsLoaded) {
-        return null;
-    }
+    const selectedYear: number = 2026;
+    const selectedMonth: string = "janeiro";
+
+    if (!fontsLoaded) return null;
 
     const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
     const calendarDays = [
-        [28, 29, 30, 31, 1, 2, 3],
+        ["28", "29", "30", "31", 1, 2, 3],
         [4, 5, 6, 7, 8, 9, 10],
         [11, 12, 13, 14, 15, 16, 17],
         [18, 19, 20, 21, 22, 23, 24],
         [25, 26, 27, 28, 29, 30, 31],
     ];
 
-    const selectedDay = 9;
+    // nomes completos dos dias da semana
+    const weekdays = [
+        "domingo",
+        "segunda-feira",
+        "terça-feira",
+        "quarta-feira",
+        "quinta-feira",
+        "sexta-feira",
+        "sábado",
+    ];
+
+    // função para formatar sem usar new Date
+    const formatDate = (day: number) => {
+        // cálculo simples para simular índice do dia da semana
+        const weekdayIndex = day % 7;
+        const weekday = weekdays[weekdayIndex];
+        return `${capitalize(weekday)}, ${day} de ${selectedMonth} de ${selectedYear}`;
+    };
+
+    const capitalize = (text: string) =>
+        text.charAt(0).toUpperCase() + text.slice(1);
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            {/* Cabeçalho */}
             <View style={styles.titulo}>
                 <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
                 <IconMenu2 color="#fff" size={32} />
             </View>
 
+            {/* Dias da semana */}
             <View style={styles.weekRow}>
                 {daysOfWeek.map((day, index) => (
                     <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
@@ -38,11 +66,13 @@ export default function Date() {
                 ))}
             </View>
 
+            {/* Dias do calendário */}
             {calendarDays.map((week, i) => (
                 <View key={i} style={styles.weekRow}>
                     {week.map((day, j) => (
-                        <View
+                        <TouchableOpacity
                             key={j}
+                            onPress={() => setSelectedDay(day)}
                             style={[
                                 styles.dayBox,
                                 day === selectedDay && styles.selectedDayBox,
@@ -57,33 +87,39 @@ export default function Date() {
                             >
                                 {day}
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     ))}
                 </View>
             ))}
 
+            {/* Blocos de eventos */}
             <View style={styles.events}>
-
                 <View style={styles.eventSection}>
-                    <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Próximos...</Text>
-                    <Text style={[styles.eventDate, styles.fontAnta]}>
-                        Sexta-feira, 9 de janeiro de 2026
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>
+                        Eventos Próximos...
                     </Text>
-                    <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        {formatDate(selectedDay)}
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>
+                        Sem Eventos!
+                    </Text>
                 </View>
 
                 <View style={styles.divider} />
 
-                <View style={styles.eventSection}>
-                    <Text style={[styles.eventTitle, styles.fontAnta]}>Eventos Nessa Data</Text>
-                    <Text style={[styles.eventDate, styles.fontAnta]}>
-                        Sexta-feira, 9 de janeiro de 2026
+                <View style={styles.eventSection2}>
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>
+                        Eventos Nessa Data
                     </Text>
-                    <Text style={[styles.eventDescription, styles.fontAnta]}>Sem Eventos!</Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        {formatDate(selectedDay)}
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>
+                        Sem Eventos!
+                    </Text>
                 </View>
-
             </View>
-
         </ScrollView>
     );
 }
@@ -125,27 +161,27 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 20,
+        borderRadius: 20,          // deixa redondo
         backgroundColor: "#f0f0f0",
     },
+
     selectedDayBox: {
-        backgroundColor: "#007AFF",
+        backgroundColor: "#007AFF", // fundo azul quando selecionado
     },
+
     dayText: {
         fontSize: 14,
-        color: "#333",
+        color: "#333",              // cor padrão
     },
+
     selectedDayText: {
-        color: "#fff",
+        color: "#fff",              // número branco quando selecionado
         fontWeight: "bold",
     },
     events: {
-        flex: 1,
-        justifyContent: "flex-end",
+        marginTop: 40,
         alignItems: "center",
-        paddingBottom: 20,
     },
-
     eventSection: {
         marginVertical: 10,
         padding: 15,
@@ -161,23 +197,42 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
+    eventSection2: {
+        marginVertical: 10,
+        padding: 15,
+        backgroundColor: "#fff",
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: "#4e0464",
+        width: "90%",
+        alignSelf: "center",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
     eventTitle: {
         fontSize: 16,
         fontWeight: "bold",
-        marginBottom: 5,
+        marginBottom: 8,
+        textAlign: "center",
     },
     eventDate: {
         fontSize: 14,
         color: "#666",
-        marginBottom: 5,
+        marginBottom: 4,
+        textAlign: "center",
     },
     eventDescription: {
         fontSize: 14,
         color: "#999",
+        textAlign: "center",
     },
     divider: {
         height: 1,
         backgroundColor: "#ccc",
         marginVertical: 20,
+        width: "90%",
     },
 });
