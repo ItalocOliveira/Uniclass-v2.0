@@ -27,7 +27,6 @@ export default function Date() {
         [25, 26, 27, 28, 29, 30, 31],
     ];
 
-    // nomes completos dos dias da semana
     const weekdays = [
         "domingo",
         "segunda-feira",
@@ -38,9 +37,7 @@ export default function Date() {
         "sábado",
     ];
 
-    // função para formatar sem usar new Date
     const formatDate = (day: number) => {
-        // cálculo simples para simular índice do dia da semana
         const weekdayIndex = day % 7;
         const weekday = weekdays[weekdayIndex];
         return `${capitalize(weekday)}, ${day} de ${selectedMonth} de ${selectedYear}`;
@@ -51,13 +48,11 @@ export default function Date() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* Cabeçalho */}
             <View style={styles.titulo}>
                 <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
                 <IconMenu2 color="#fff" size={32} />
             </View>
 
-            {/* Dias da semana */}
             <View style={styles.weekRow}>
                 {daysOfWeek.map((day, index) => (
                     <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
@@ -66,7 +61,6 @@ export default function Date() {
                 ))}
             </View>
 
-            {/* Dias do calendário */}
             {calendarDays.map((week, i) => (
                 <View key={i} style={styles.weekRow}>
                     {week.map((day, j) => (
@@ -92,7 +86,6 @@ export default function Date() {
                 </View>
             ))}
 
-            {/* Blocos de eventos */}
             <View style={styles.events}>
                 <View style={styles.eventSection}>
                     <Text style={[styles.eventTitle, styles.fontAnta]}>
@@ -161,21 +154,21 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 20,          // deixa redondo
+        borderRadius: 20,          
         backgroundColor: "#f0f0f0",
     },
 
     selectedDayBox: {
-        backgroundColor: "#007AFF", // fundo azul quando selecionado
+        backgroundColor: "#007AFF", 
     },
 
     dayText: {
         fontSize: 14,
-        color: "#333",              // cor padrão
+        color: "#333",             
     },
 
     selectedDayText: {
-        color: "#fff",              // número branco quando selecionado
+        color: "#fff",              
         fontWeight: "bold",
     },
     events: {
