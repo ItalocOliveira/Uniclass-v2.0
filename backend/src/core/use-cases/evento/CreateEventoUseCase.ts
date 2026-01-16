@@ -1,6 +1,6 @@
 import { IEventoRepository } from 'src/core/repositories/IEventoRepository';
 import { CreateEventoDto } from 'src/core/repositories/dtos/evento/CreateEventoDto';
-import { EventoDomain } from 'src/core/repositories/dtos/evento/EventoDomain';
+import { EventoDomain } from 'src/core/entities/EventoDomain';
 
 export class CreateEventoUseCase {
     constructor(private eventoRepo: IEventoRepository) {}

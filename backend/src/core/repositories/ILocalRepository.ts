@@ -1,4 +1,4 @@
-import { LocalDomain } from './dtos/local/LocalDomain'
+import { LocalDomain } from '../entities/LocalDomain'
 import { CreateLocalDto } from './dtos/local/CreateLocalDto'
 
 export interface ILocalRepository {

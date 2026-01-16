@@ -1,5 +1,5 @@
 import { CreateInstituicaoDto } from "src/core/repositories/dtos/instituicao/CreateInstituicaoDto";
-import { InstituicaoDomain } from "src/core/repositories/dtos/instituicao/InstituicaoDomain";
+import { InstituicaoDomain } from "src/core/entities/InstituicaoDomain";
 import { IInstituicaoRepository } from "src/core/repositories/IInstituicaoRepository";
 import { Instituicao } from '../database/generated/prisma/client';
 import { PrismaService } from "../database/prisma/prisma.service";

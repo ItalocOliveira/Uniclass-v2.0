@@ -20,6 +20,9 @@ model Instituicao {
   eventos  Evento[]
   sugestoes Sugestao[]
 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
   @@map("instituicoes")
 }
 
@@ -28,10 +31,13 @@ model Local {
   instituicao_id  String   @db.Uuid
   nome            String
   tipo            localTipos
-  bloco           String?
+  bloco           String
   coordenadas     Unsupported("geometry(Point, 4326)")?
   mapa_xy         Json?
   acessivel       Boolean  @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   eventos Evento[]
@@ -44,8 +50,12 @@ model Usuario {
   instituicao_id  String   @db.Uuid
   nome            String
   email           String   
-  tipo_acesso     String?
+  senha_hash      String
+  tipo_acesso     TipoAcesso
   curso           String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   avisos Aviso[]
@@ -56,7 +66,6 @@ model Usuario {
   @@unique([email, instituicao_id]) 
 }
 
-
 model Aviso {
   aviso_id        String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
@@ -64,9 +73,11 @@ model Aviso {
   usuario_nome    String?
   titulo          String
   mensagem        String?
-  data_criacao    DateTime @default(now())
   prioridade      avisoPrioridade
   curso_alvo      String[]
+
+  created_at DateTime @default(now())
+  update_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
@@ -83,6 +94,9 @@ model Evento {
   descricao       String?
   local_id        String?  @db.Uuid
 
+  created_at DateTime @default(now())
+  update_at DateTime @updatedAt
+
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   local Local? @relation(fields: [local_id], references: [local_id])
 
@@ -96,10 +110,12 @@ model Sugestao {
   titulo          String
   descricao       String?
   tipo            sugestaoTipos
-  status          String?
+  status          String
   localizacao     Unsupported("geometry(Point, 4326)")?
   foto_url        String?
+
   created_at    DateTime @default(now())
+  update_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
@@ -107,23 +123,43 @@ model Sugestao {
   @@map("sugestoes")
 }
 
+enum TipoAcesso {
+  ADMIN
+  PROFESSOR
+  ALUNO
+}
+
 enum localTipos {
   BLOCO
   COMERCIO
   BIBLIOTECA
+  REITORIA
+  COORDENACAO
+  PRACA
+  AUDITORIO
 }
 
 enum sugestaoTipos {
-  TESTE
+  CONSERTO
+  REPOSICAO_MATERIAL
+  INSTALACAO
+  ATUALIZACAO
+  SUPORTE_TECNICO
 }
 
 enum eventoTipos {
-  TESTE
+  PALESTRA
+  FEIRA
+  MOCHILAO
+  WORKSHOP
+  SEMINARIO
+  MEETUP
+  HACKATON
 }
 
 enum avisoPrioridade {
-  TESTE
+  LEVE 
+  MODERADO 
+  IMPORTANTE 
+  URGENTE
 }
-
-
-// Cria created_at e updated_at em todos os models pfv

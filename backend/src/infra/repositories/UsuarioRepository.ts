@@ -1,5 +1,5 @@
 import { IUsuarioRepository } from 'src/core/repositories/IUsuarioRepository'
-import { UsuarioDomain } from 'src/core/repositories/dtos/usuario/UsuarioDomain'
+import { UsuarioDomain } from 'src/core/entities/UsuarioDomain'
 import { CreateUsuarioDto } from 'src/core/repositories/dtos/usuario/CreateUsuarioDto'
 import { UpdateUsuarioDto } from 'src/core/repositories/dtos/usuario/UpdateUsuarioDto'
 import { Usuario } from '../database/generated/prisma/client';

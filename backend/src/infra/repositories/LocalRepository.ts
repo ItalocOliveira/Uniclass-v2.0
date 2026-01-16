@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ILocalRepository } from 'src/core/repositories/ILocalRepository';
-import { LocalDomain } from 'src/core/repositories/dtos/local/LocalDomain';
+import { LocalDomain } from 'src/core/entities/LocalDomain';
 import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto';
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
 import { Prisma } from '../database/generated/prisma/client';

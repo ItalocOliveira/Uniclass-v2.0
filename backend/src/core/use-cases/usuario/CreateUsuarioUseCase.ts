@@ -1,5 +1,5 @@
 import { CreateUsuarioDto } from "src/core/repositories/dtos/usuario/CreateUsuarioDto";
-import { UsuarioDomain } from "src/core/repositories/dtos/usuario/UsuarioDomain";
+import { UsuarioDomain } from "src/core/entities/UsuarioDomain";
 import { IUsuarioRepository } from "src/core/repositories/IUsuarioRepository";
 
 export class CreateUsuarioUseCase {

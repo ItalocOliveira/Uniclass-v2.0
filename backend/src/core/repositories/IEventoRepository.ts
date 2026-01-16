@@ -1,4 +1,4 @@
-import { EventoDomain } from './dtos/evento/EventoDomain';
+import { EventoDomain } from '../entities/EventoDomain';
 import { CreateEventoDto } from './dtos/evento/CreateEventoDto';
 import { UpdateEventoDto } from './dtos/evento/UpdateEventoDto';
 

@@ -1,4 +1,4 @@
-import { SugestaoDomain } from './dtos/sugestao/SugestaoDomain' 
+import { SugestaoDomain } from '../entities/SugestaoDomain' 
 import { CreateSugestaoDto } from './dtos/sugestao/CreateSugestaoDto' 
 
 export interface ISugestaoRepository {

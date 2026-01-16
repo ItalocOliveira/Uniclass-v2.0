@@ -1,4 +1,4 @@
-import { GeoCoordinate, MapCoordinate } from "./LocalDomain";
+import { GeoCoordinate, MapCoordinate } from "../../../entities/LocalDomain";
 
 export interface CreateLocalDto {
     instituicaoId: string;

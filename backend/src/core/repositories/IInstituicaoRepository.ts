@@ -1,4 +1,4 @@
-import { InstituicaoDomain } from './dtos/instituicao/InstituicaoDomain'
+import { InstituicaoDomain } from '../entities/InstituicaoDomain'
 import { CreateInstituicaoDto } from './dtos/instituicao/CreateInstituicaoDto'
 
 export interface IInstituicaoRepository {

@@ -1,5 +1,5 @@
 import { IEventoRepository } from 'src/core/repositories/IEventoRepository'
-import { EventoDomain } from 'src/core/repositories/dtos/evento/EventoDomain'
+import { EventoDomain } from 'src/core/entities/EventoDomain'
 import { CreateEventoDto } from 'src/core/repositories/dtos/evento/CreateEventoDto'
 import { UpdateEventoDto } from 'src/core/repositories/dtos/evento/UpdateEventoDto'
 import { Evento } from '../database/generated/prisma/client';

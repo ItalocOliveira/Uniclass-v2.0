@@ -1,4 +1,4 @@
-import { AvisoDomain } from './dtos/aviso/AvisoDomain'
+import { AvisoDomain } from '../entities/AvisoDomain'
 import { CreateAvisoDto } from './dtos/aviso/CreateAvisoDto'
 import { UpdateAvisoDto } from './dtos/aviso/UpdateAvisoDto'
 

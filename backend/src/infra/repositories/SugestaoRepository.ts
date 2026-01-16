@@ -1,5 +1,5 @@
 import { ISugestaoRepository } from 'src/core/repositories/ISugestaoRepository' 
-import { SugestaoDomain } from 'src/core/repositories/dtos/sugestao/SugestaoDomain' 
+import { SugestaoDomain } from 'src/core/entities/SugestaoDomain' 
 import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSugestaoDto' 
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
 import { Injectable } from '@nestjs/common'

@@ -1,4 +1,4 @@
-import { UsuarioDomain } from './dtos/usuario/UsuarioDomain'
+import { UsuarioDomain } from '../entities/UsuarioDomain'
 import { CreateUsuarioDto } from "./dtos/usuario/CreateUsuarioDto"
 
 export interface IUsuarioRepository {

@@ -1,5 +1,5 @@
 import { CreateLocalDto } from "src/core/repositories/dtos/local/CreateLocalDto";
-import { LocalDomain } from "src/core/repositories/dtos/local/LocalDomain";
+import { LocalDomain } from "src/core/entities/LocalDomain";
 import { ILocalRepository } from "src/core/repositories/ILocalRepository";
 
 export class CreateLocalUseCase {
