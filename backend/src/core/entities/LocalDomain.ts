@@ -1,7 +1,4 @@
-export type GeoCoordinate = { 
-    latitude: number; 
-    longitude: number;
-};
+import { localTipos } from "src/infra/database/generated/prisma/enums";
 
 export type MapCoordinate = {
     x: number;
@@ -12,10 +9,10 @@ export interface LocalDomain{
     localId: string;
     instituicaoId: string;
     nome: string;
-    tipo?: string | null;
-    bloco?: string | null;
-
-    coordenadas?: GeoCoordinate | null;
-    mapaXY?: MapCoordinate | null;         
+    tipo: localTipos;
     acessivel: boolean;
+
+    bloco?: string | null;
+    mapaXY?: MapCoordinate | null;         
+    
 }

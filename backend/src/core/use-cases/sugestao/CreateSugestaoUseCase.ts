@@ -12,7 +12,7 @@ export class CreateSugestaoUseCase {
         * 
         * 
         */
-        
+    
         return this.sugestaoRepo.create(input);
     }
 }

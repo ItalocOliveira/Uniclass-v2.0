@@ -1,18 +1,21 @@
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
+  extensions = [postgis()]
 }
 
 
 model Instituicao {
   instituicao_id String   @id @default(uuid()) @db.Uuid
   nome           String
-  logo_url       String?
+  logo_url       String
   mapa_url       String?
+  coordenadas     Unsupported("geometry(Point, 4326)")?
 
   locais   Local[]
   usuarios Usuario[]
@@ -31,10 +34,9 @@ model Local {
   instituicao_id  String   @db.Uuid
   nome            String
   tipo            localTipos
-  bloco           String
-  coordenadas     Unsupported("geometry(Point, 4326)")?
+  bloco           String?
   mapa_xy         Json?
-  acessivel       Boolean  @default(false)
+  acessivel       Boolean?  @default(true)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -69,15 +71,15 @@ model Usuario {
 model Aviso {
   aviso_id        String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
-  usuario_id      String?  @db.Uuid
-  usuario_nome    String?
+  usuario_id      String  @db.Uuid
+  usuario_nome    String
   titulo          String
   mensagem        String?
   prioridade      avisoPrioridade
   curso_alvo      String[]
 
   created_at DateTime @default(now())
-  update_at DateTime @updatedAt
+  updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
@@ -95,7 +97,7 @@ model Evento {
   local_id        String?  @db.Uuid
 
   created_at DateTime @default(now())
-  update_at DateTime @updatedAt
+  updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   local Local? @relation(fields: [local_id], references: [local_id])
@@ -110,12 +112,12 @@ model Sugestao {
   titulo          String
   descricao       String?
   tipo            sugestaoTipos
-  status          String
-  localizacao     Unsupported("geometry(Point, 4326)")?
+  mapa_xy         Json?
+  status          sugestaoStatus
   foto_url        String?
 
   created_at    DateTime @default(now())
-  update_at DateTime @updatedAt
+  updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
@@ -145,6 +147,12 @@ enum sugestaoTipos {
   INSTALACAO
   ATUALIZACAO
   SUPORTE_TECNICO
+}
+
+enum sugestaoStatus {
+  PENDENTE
+  EM_ATENDIMENTO
+  RESOLVIDO
 }
 
 enum eventoTipos {

@@ -17,9 +17,9 @@ export class EventoRepository implements IEventoRepository {
     return eventos.map((evento) => this.mapToDomain(evento));
   }
 
-  async findById(id: string): Promise<EventoDomain | null> {
+  async findById(eventoId: string): Promise<EventoDomain | null> {
     const evento = await this.prisma.evento.findUnique({
-      where: { evento_id: id },
+      where: { evento_id: eventoId },
     })
 
     if(!evento) return null;
@@ -37,12 +37,12 @@ export class EventoRepository implements IEventoRepository {
       return this.mapToDomain(evento);
   }
 
-  async findByLocalAndData(localId: string, data: Date | string): Promise<EventoDomain | null> {
-
+  async findByLocalAndData(instituicaoId: string, localId: string, data: Date | string): Promise<EventoDomain | null> {
       const dataObj = typeof data === 'string' ? new Date(data) : data;
 
       const evento = await this.prisma.evento.findFirst({
           where: { 
+              instituicao_id: instituicaoId,
               local_id: localId, 
               data: dataObj
           }
@@ -68,9 +68,9 @@ export class EventoRepository implements IEventoRepository {
     return this.mapToDomain(evento);
   }
 
-  async updateById(id: string, data: UpdateEventoDto): Promise<EventoDomain> {
+  async updateById(instituicaoId: string, eventoId: string, data: UpdateEventoDto): Promise<EventoDomain> {
     const dataToUpdate = {
-        instituicao_id: data.instituicaoId,
+        instituicao_id: instituicaoId,
         titulo: data.titulo,
         data: data.data,
         tipo: data.tipo,
@@ -79,7 +79,10 @@ export class EventoRepository implements IEventoRepository {
     };
 
     const UpdatedEvento = await this.prisma.evento.update({
-      where: { evento_id: id },
+      where: { 
+        instituicao_id: instituicaoId,
+        evento_id: eventoId
+      },
       data: {
         ...dataToUpdate
       }
@@ -88,9 +91,12 @@ export class EventoRepository implements IEventoRepository {
     return this.mapToDomain(UpdatedEvento);
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(instituicaoId: string, eventoId: string): Promise<void> {
     await this.prisma.evento.delete({
-      where: { evento_id: id },
+      where: { 
+        instituicao_id: instituicaoId,
+        evento_id: eventoId 
+      },
     })
   }
 
@@ -104,7 +110,10 @@ export class EventoRepository implements IEventoRepository {
           data: evento.data,
           tipo: evento.tipo,
           descricao: evento.descricao,
-          localId: evento.local_id
+          localId: evento.local_id,
+          dataCriacao: evento.created_at,
+          dataAtualizacao: evento.updated_at
+
         };
     }
 }

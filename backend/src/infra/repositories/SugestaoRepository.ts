@@ -1,130 +1,108 @@
 import { ISugestaoRepository } from 'src/core/repositories/ISugestaoRepository' 
-import { SugestaoDomain } from 'src/core/entities/SugestaoDomain' 
+import { MapCoordinate, SugestaoDomain } from 'src/core/entities/SugestaoDomain' 
 import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSugestaoDto' 
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma/prisma.service'
+import { Prisma } from '../database/generated/prisma/client'
 
 @Injectable()
 export class SugestaoRepository implements ISugestaoRepository {
 
   constructor(private prisma: PrismaService){}
 
-  async findAll(): Promise<SugestaoDomain[]> {
-    const result = await this.prisma.$queryRaw<any[]>`
-      SELECT 
-        s.*,
-        ST_X(localizacao::geometry) as longitude,
-        ST_Y(localizacao::geometry) as latitude
-      FROM "sugestoes" s
-      ORDER BY s.data_criacao DESC
-    `;
-
-    return result.map((row) => {
-      const coords = (row.latitude && row.longitude) 
-        ? { latitude: row.latitude, longitude: row.longitude } 
-        : null;
-
-      return this.mapToDomain(row, coords);
+  async findAll(instituicaoId: string): Promise<SugestaoDomain[]> {
+    // 1. Prisma nativo substitui o queryRaw
+    const sugestoes = await this.prisma.sugestao.findMany({
+      where: {
+        instituicao_id: instituicaoId
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
     });
-}
 
-  async findById(id: string): Promise<SugestaoDomain | null> {
-    const result = await this.prisma.$queryRaw<any[]>`
-    SELECT 
-      s.*, 
-      ST_X(localizacao::geometry) as longitude, 
-      ST_Y(localizacao::geometry) as latitude 
-    FROM "sugestoes" s
-    WHERE s.sugestao_id = ${id}::uuid
-    LIMIT 1
-  `;
+    return sugestoes.map((sugestao) => this.mapToDomain(sugestao));
+  }
 
-    if(!result.length) return null;
-    const raw = result[0];
+  async findById(instituicaoId: string, sugestaoId: string): Promise<SugestaoDomain | null> {
+    const sugestao = await this.prisma.sugestao.findUnique({
+      where: { 
+        instituicao_id: instituicaoId,
+        sugestao_id: sugestaoId 
+      },
+    });
 
-    const coords = raw.latitude && raw.longitude ? { latitude: raw.latitude, longitude: raw.longitude }: null;
+    if (!sugestao) return null;
 
-    return this.mapToDomain(raw, coords);
+    return this.mapToDomain(sugestao);
   }
 
   async create(data: CreateSugestaoDto): Promise<SugestaoDomain> {
-    const sugestao = await this.prisma.$transaction(async (tx) => {
-      const newSugestao = await tx.sugestao.create({
-        data: {
-          instituicao_id: data.instituicaoId,
-          usuario_id: data.usuarioId,
-          titulo: data.titulo,
-          descricao: data.descricao,
-          tipo: data.tipo,
-          status: data.status ?? 'pendente',
-          foto_url: data.fotoUrl,
-        }
-      });
+    const novaSugestao = await this.prisma.sugestao.create({
+      data: {
+        instituicao_id: data.instituicaoId,
+        usuario_id: data.usuarioId,
+        titulo: data.titulo,
+        descricao: data.descricao,
+        tipo: data.tipo,
+        status: data.status, 
+        foto_url: data.fotoUrl,
 
-      if(data.localizacao) {
-        const { latitude, longitude } = data.localizacao;
-
-        await tx.$executeRaw`
-            UPDATE "sugestoes"
-            SET localizacao = ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)
-            WHERE sugestao_id = ${newSugestao.sugestao_id}::uuid
-          `;
-      }
-
-      return newSugestao;
+        mapa_xy: data.mapaXY ? (data.mapaXY as Prisma.InputJsonValue) : Prisma.JsonNull,
+      },
     });
 
-    return this.mapToDomain(sugestao, data.localizacao);
+    return this.mapToDomain(novaSugestao);
   }
 
-  async updateById(id: string, data: UpdateSugestaoDto): Promise<SugestaoDomain> {
-    const sugestaoAtualizada = await this.prisma.$transaction(async (tx) => {
-        const updated = await tx.sugestao.update({
-            where: { sugestao_id: id },
-            data: {
-                titulo: data.titulo,
-                descricao: data.descricao,
-                tipo: data.tipo,
-                status: data.status,
-                foto_url: data.fotoUrl,
-            }
-        });
-
-        if (data.localizacao) {
-            await tx.$executeRaw`
-                UPDATE "sugestoes"
-                SET localizacao = ST_SetSRID(ST_MakePoint(${data.localizacao.longitude}, ${data.localizacao.latitude}), 4326)
-                WHERE sugestao_id = ${id}::uuid
-            `;
-        }
-
-        return updated;
+  async updateById(instituicaoId: string, sugestaoId: string, data: UpdateSugestaoDto): Promise<SugestaoDomain> {
+    // 3. Update simples, sem executeRaw
+    const sugestaoAtualizada = await this.prisma.sugestao.update({
+      where: {
+        instituicao_id: instituicaoId,
+        sugestao_id: sugestaoId 
+      },
+      data: {
+        titulo: data.titulo,
+        descricao: data.descricao,
+        tipo: data.tipo,
+        status: data.status,
+        foto_url: data.fotoUrl,
+        
+        // Se undefined, o Prisma ignora. Se tiver valor, atualiza o JSON.
+        mapa_xy: data.mapaXY ? (data.mapaXY as Prisma.InputJsonValue) : undefined,
+      },
     });
 
-    return this.mapToDomain(sugestaoAtualizada, data.localizacao);
+    return this.mapToDomain(sugestaoAtualizada);
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(instituicaoId: string, sugestaoId: string): Promise<void> {
     await this.prisma.sugestao.delete({
-      where: { sugestao_id: id },
+      where: { 
+        instituicao_id: instituicaoId,
+        sugestao_id: sugestaoId 
+      },
     })
   }
 
 
-  private mapToDomain(sugestao: any, coordenadas?: {latitude: number; longitude: number} | null): SugestaoDomain{
+  private mapToDomain(raw: any): SugestaoDomain {
     return {
-      sugestaoId: sugestao.sugestao_id,
-      instituicaoId: sugestao.instituicao_id,
-      usuarioId: sugestao.usuario_id,
-      titulo: sugestao.titulo,
-      descricao: sugestao.descricao,
-      tipo: sugestao.tipo,
-      status: sugestao.status,
-      fotoUrl: sugestao.foto_url,
-      dataCriacao: sugestao.data_criacao,
-
-      localizacao: coordenadas ?? (sugestao.latitude ? { latitude: sugestao.latitude, longitude: sugestao.longitude } : null)
+      sugestaoId: raw.sugestao_id,
+      instituicaoId: raw.instituicao_id,
+      usuarioId: raw.usuario_id,
+      titulo: raw.titulo,
+      descricao: raw.descricao,
+      tipo: raw.tipo,
+      status: raw.status,
+      fotoUrl: raw.foto_url,
+      
+      dataCriacao: raw.created_at,
+      dataAtualizacao: raw.updated_at,
+      
+      mapaXY: raw.mapa_xy ? (raw.mapa_xy as MapCoordinate) : null,
     };
   }
 }

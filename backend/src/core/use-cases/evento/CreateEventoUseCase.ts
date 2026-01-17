@@ -15,7 +15,7 @@ export class CreateEventoUseCase {
 
 
         const eventoMesmoHorario = input.localId
-            ? await this.eventoRepo.findByLocalAndData(input.localId, input.data)
+            ? await this.eventoRepo.findByLocalAndData(input.instituicaoId, input.localId, input.data)
             : null;
 
         if (eventoMesmoHorario) {

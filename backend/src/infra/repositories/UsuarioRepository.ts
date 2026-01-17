@@ -17,9 +17,12 @@ export class UsuarioRepository implements IUsuarioRepository {
     return usuarios.map((usuario) => this.mapToDomain(usuario));
   }
 
-  async findById(id: string): Promise<UsuarioDomain | null> {
+  async findById(instituicaoId: string, usuarioId: string): Promise<UsuarioDomain | null> {
     const instituicao = await this.prisma.usuario.findUnique({
-      where: { usuario_id: id },
+      where: { 
+        instituicao_id: instituicaoId,
+        usuario_id: usuarioId 
+      },
     })
 
     if(!instituicao) return null;
@@ -46,6 +49,7 @@ export class UsuarioRepository implements IUsuarioRepository {
         instituicao_id: data.instituicaoId,
         nome: data.nome,
         email: data.email,
+        senha_hash: data.senha,
         tipo_acesso: data.tipoAcesso,
         curso: data.curso
       }
@@ -54,7 +58,7 @@ export class UsuarioRepository implements IUsuarioRepository {
     return this.mapToDomain(usuario);
   }
 
-  async updateById(id: string, data: UpdateUsuarioDto): Promise<UsuarioDomain> {
+  async updateById(instituicaoId: string, usuarioId: string, data: UpdateUsuarioDto): Promise<UsuarioDomain> {
     const dataToUpdate = {
       instituicao_id: data.instituicaoId,
       nome: data.nome,
@@ -64,16 +68,22 @@ export class UsuarioRepository implements IUsuarioRepository {
     };
 
     const updatedUsuario = await this.prisma.usuario.update({
-      where: { usuario_id: id },
+      where: {
+        instituicao_id: instituicaoId,
+        usuario_id: usuarioId 
+      },
       data: { ...dataToUpdate}
     });
 
     return this.mapToDomain(updatedUsuario);
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(instituicaoId: string, usuarioId: string): Promise<void> {
     await this.prisma.usuario.delete({
-      where: { usuario_id: id },
+      where: { 
+        instituicao_id: instituicaoId,
+        usuario_id: usuarioId
+      },
     })
   }
 
@@ -85,7 +95,9 @@ export class UsuarioRepository implements IUsuarioRepository {
       nome: usuario.nome,
       email: usuario.email,
       tipoAcesso: usuario.tipo_acesso,
-      curso: usuario.curso
+      curso: usuario.curso,
+      dataCriacao: usuario.created_at,
+      dataAtualizacao: usuario.updated_at
     }
   }
 }

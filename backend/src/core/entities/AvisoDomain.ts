@@ -1,15 +1,18 @@
+import { avisoPrioridade } from "src/infra/database/generated/prisma/enums";
+
 export interface AvisoDomain {
-    titulo: string | null;
+    titulo: string;
 
     avisoId: string;     
     instituicaoId: string;
     
     cursoAlvo: string[];
 
-    usuarioId?: string | null;
-    usuarioNome?: string | null;
+    usuarioId: string;
+    usuarioNome: string;
     mensagem?: string | null;
-    prioridade?: string | null;
+    prioridade: avisoPrioridade;
 
     dataCriacao: Date;
+    dataAtualizacao: Date;
 }

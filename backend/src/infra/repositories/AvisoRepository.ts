@@ -11,17 +11,21 @@ export class AvisoRepository implements IAvisoRepository {
 
     constructor(private prisma: PrismaService){}
 
-    async findAll(): Promise<AvisoDomain[]> {
+    async findAll(instituicaoId: string): Promise<AvisoDomain[]> {
         const avisos = await this.prisma.aviso.findMany({
-            orderBy: {data_criacao: 'asc'},
+            where: { instituicao_id: instituicaoId},
+            orderBy: {created_at: 'asc'},
         });
 
         return avisos.map((aviso) => this.mapToDomain(aviso));
     }
 
-    async findById(id: string): Promise<AvisoDomain | null> {
+    async findById(instituicaoId: string, avisoId: string): Promise<AvisoDomain | null> {
         const aviso = await this.prisma.aviso.findUnique({
-            where: { aviso_id: id },
+            where: { 
+                instituicao_id: instituicaoId,
+                aviso_id: avisoId
+            },
         })
 
         if(!aviso) return null;
@@ -59,9 +63,9 @@ export class AvisoRepository implements IAvisoRepository {
         return this.mapToDomain(aviso);
     }
 
-    async updateById(id: string, data: UpdateAvisoDto): Promise<AvisoDomain> {
+    async updateById(instituicaoId: string, avisoId: string, data: UpdateAvisoDto): Promise<AvisoDomain> {
         const dataToUpdate = {
-            instituicao_id: data.instituicaoId,
+            instituicao_id: instituicaoId,
             usuario_id: data.usuarioId,
             titulo: data.titulo,
             curso_alvo: data.cursoAlvo,
@@ -71,7 +75,10 @@ export class AvisoRepository implements IAvisoRepository {
         }
 
         const updatedAviso = await this.prisma.aviso.update({
-            where: { aviso_id: id },
+            where: { 
+                instituicao_id: instituicaoId,
+                aviso_id: avisoId 
+            },
             data: {
                 ...dataToUpdate
             }
@@ -96,7 +103,8 @@ export class AvisoRepository implements IAvisoRepository {
             usuarioNome: aviso.usuario_nome,
             titulo: aviso.titulo,
             mensagem: aviso.mensagem,
-            dataCriacao: aviso.data_criacao,
+            dataCriacao: aviso.created_at,
+            dataAtualizacao: aviso.updated_at,
             prioridade: aviso.prioridade,
             cursoAlvo: aviso.curso_alvo,
         };
