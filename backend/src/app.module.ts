@@ -7,15 +7,18 @@ import { LocaisController } from './presentation/nest-modules/locais/locais.cont
 import { LocaisModule } from './presentation/nest-modules/locais/locais.module';
 import { AuthController } from './presentation/nest-modules/auth/auth.controller';
 import { AuthModule } from './presentation/nest-modules/auth/auth.module';
+import { UsuariosModule } from './presentation/nest-modules/usuarios/usuarios.module';
+import { UsuariosController } from './presentation/nest-modules/usuarios/usuarios.controller';
 
 @Module({
     imports: [
         ConfigModule.forRoot({isGlobal: true,}), 
         DatabaseModule, 
         AuthModule, 
-        LocaisModule,
+        LocaisModule, 
+        UsuariosModule,
     ],
-    controllers: [AuthController, LocaisController],
+    controllers: [AuthController, LocaisController, UsuariosController],
     providers: [PrismaService, AuthService],
 })
 export class AppModule {}

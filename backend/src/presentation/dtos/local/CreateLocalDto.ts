@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { localTipos } from "src/infra/database/generated/prisma/enums";
 
 export class CreateLocalDto {
@@ -8,6 +8,7 @@ export class CreateLocalDto {
     nome: string;
 
     @IsNotEmpty()
+    @IsEnum(localTipos, {message: "Tipo de local inválido."})
     tipo: localTipos;
 
     @IsString()

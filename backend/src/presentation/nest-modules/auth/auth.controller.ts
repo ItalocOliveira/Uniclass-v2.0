@@ -7,8 +7,8 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('login')
-    async login(@Body() req: LoginDto) {
-        const usuario = await this.authService.validateUser(req.instituicaoId, req.email, req.senha);
+    async login(@Body() body: LoginDto) {
+        const usuario = await this.authService.validateUser(body.instituicaoId, body.email, body.senha);
 
         if (!usuario) throw new UnauthorizedException('Credenciais inválidas ou instituição incorreta.');
 
