@@ -42,7 +42,7 @@ export default function Home() {
 
                 <View style={styles.container}>
                     <Text style={styles.header}>Eventos</Text>
-                    <Carousel loop width={320} height={220} autoPlay={true} data={catalogo} renderItem={({ item }) => (
+                    <Carousel loop width={320} height={220} autoPlay={true} autoPlayInterval={3000} data={catalogo} renderItem={({ item }) => (
                         <View style={styles.card}>
                             <Image source={item.image} style={styles.image} />
                             <Text style={styles.text}>{item.title}</Text>
