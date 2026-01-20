@@ -16,13 +16,21 @@ export default function Home() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
 
     if (!fontsLoaded) return null;
-    
+
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
 
             <View style={styles.titulo}>
                 <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
                 <IconMenu2 color="#fff" size={32} />
+            </View>
+
+            <View style={styles.container_two}>
+                Teste
+            </View>
+
+            <View style={styles.container_two}>
+                Teste
             </View>
 
         </ScrollView>
@@ -30,6 +38,9 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     titulo: {
         flexDirection: "row",
         justifyContent: "space-between",
