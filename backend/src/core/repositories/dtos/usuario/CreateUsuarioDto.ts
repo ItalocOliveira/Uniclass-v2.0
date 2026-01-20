@@ -1,4 +1,4 @@
-import { TipoAcesso } from "src/infra/database/generated/prisma/enums";
+import { TipoAcesso } from "@prisma/client";
 
 export interface CreateUsuarioDto {
   instituicaoId: string;

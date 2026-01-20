@@ -1,4 +1,4 @@
-import { avisoPrioridade } from "src/infra/database/generated/prisma/enums";
+import { avisoPrioridade } from "@prisma/client";
 
 export interface CreateAvisoDto {
     instituicaoId: string;

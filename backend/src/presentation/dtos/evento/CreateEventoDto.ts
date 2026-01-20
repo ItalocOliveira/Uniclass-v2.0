@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
-import { eventoTipos } from "src/infra/database/generated/prisma/enums";
+import { eventoTipos } from "@prisma/client";
 
 export class CreateEventoDto {
     @IsString()

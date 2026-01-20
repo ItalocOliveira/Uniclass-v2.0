@@ -4,7 +4,7 @@ import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSug
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma/prisma.service'
-import { Prisma } from '../database/generated/prisma/client'
+import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class SugestaoRepository implements ISugestaoRepository {

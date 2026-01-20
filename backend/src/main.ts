@@ -6,16 +6,18 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     app.useGlobalPipes(new ValidationPipe({
-        whitelist: true,            // Remove campos que não estão no DTO (segurança)
-        forbidNonWhitelisted: true, // Dá erro se o front mandar campos que não existem
-        transform: true,            // Transforma Strings em Números/Datas automaticamente (@Type)
+        // Remove campos que não estão no DTO
+        whitelist: true,       
+        // Dá erro se o front mandar campos que não existem     
+        forbidNonWhitelisted: true,
+        // Transforma string em números/datas @Type 
+        transform: true,            
     }));
 
-    // Habilita CORS (Essencial para seu App Mobile conectar no Backend)
+    // Habilita o CORS (Para o app mobile conectar no Backend)
     app.enableCors();
 
-    // Define a porta (padrão 3000 ou o que estiver no .env)
-    await app.listen(process.env.PORT || 3000);
-    console.log(`🚀 Application is running on: ${await app.getUrl()}`);
+    await app.listen(process.env.PORT || 3000, '0.0.0.0');
+    console.log(`Essa aplicação está rodando em: ${await app.getUrl()}`);
 }
 bootstrap();

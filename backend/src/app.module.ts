@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './infra/database/database.module';
-import { PrismaService } from './infra/database/prisma/prisma.service';
-import { AuthService } from './infra/auth/auth.service';
-import { LocaisController } from './presentation/nest-modules/locais/locais.controller';
 import { LocaisModule } from './presentation/nest-modules/locais/locais.module';
-import { AuthController } from './presentation/nest-modules/auth/auth.controller';
 import { AuthModule } from './presentation/nest-modules/auth/auth.module';
 import { UsuariosModule } from './presentation/nest-modules/usuarios/usuarios.module';
-import { UsuariosController } from './presentation/nest-modules/usuarios/usuarios.controller';
+
+import { InstituicoesModule } from './presentation/nest-modules/instituicoes/instituicoes.module';
 
 @Module({
     imports: [
@@ -16,9 +13,8 @@ import { UsuariosController } from './presentation/nest-modules/usuarios/usuario
         DatabaseModule, 
         AuthModule, 
         LocaisModule, 
-        UsuariosModule,
+        UsuariosModule, 
+        InstituicoesModule,
     ],
-    controllers: [AuthController, LocaisController, UsuariosController],
-    providers: [PrismaService, AuthService],
 })
 export class AppModule {}

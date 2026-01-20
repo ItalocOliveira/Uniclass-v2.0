@@ -2,7 +2,7 @@ import { IEventoRepository } from 'src/core/repositories/IEventoRepository'
 import { EventoDomain } from 'src/core/entities/EventoDomain'
 import { CreateEventoDto } from 'src/core/repositories/dtos/evento/CreateEventoDto'
 import { UpdateEventoDto } from 'src/core/repositories/dtos/evento/UpdateEventoDto'
-import { Evento } from '../database/generated/prisma/client';
+import { Evento } from '@prisma/client'
 import { PrismaService } from '../database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common';
 

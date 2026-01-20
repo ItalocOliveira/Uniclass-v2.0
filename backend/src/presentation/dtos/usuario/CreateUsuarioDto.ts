@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
-import { TipoAcesso } from "src/infra/database/generated/prisma/client";
+import { TipoAcesso } from "@prisma/client";
 
 export class CreateUsuarioDto {
     @IsString()

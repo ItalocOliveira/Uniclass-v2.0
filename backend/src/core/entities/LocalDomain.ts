@@ -1,4 +1,4 @@
-import { localTipos } from "src/infra/database/generated/prisma/enums";
+import { localTipos } from "@prisma/client";
 
 export type MapCoordinate = {
     x: number;

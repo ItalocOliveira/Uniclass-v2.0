@@ -1,4 +1,4 @@
-import { eventoTipos } from "src/infra/database/generated/prisma/enums";
+import { eventoTipos } from "@prisma/client";
 
 export interface EventoDomain {
     eventoId: string;

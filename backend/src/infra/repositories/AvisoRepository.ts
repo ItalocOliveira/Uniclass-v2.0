@@ -2,7 +2,7 @@ import { IAvisoRepository } from 'src/core/repositories/IAvisoRepository';
 import { AvisoDomain } from 'src/core/entities/AvisoDomain';
 import { CreateAvisoDto } from 'src/core/repositories/dtos/aviso/CreateAvisoDto';
 import { UpdateAvisoDto } from 'src/core/repositories/dtos/aviso/UpdateAvisoDto';
-import { Aviso } from '../database/generated/prisma/client';
+import { Aviso } from '@prisma/client';
 import { PrismaService } from '../database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 

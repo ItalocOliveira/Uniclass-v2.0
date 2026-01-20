@@ -1,5 +1,5 @@
 import { MapCoordinate } from 'src/core/entities/SugestaoDomain';
-import { sugestaoTipos, sugestaoStatus } from 'src/infra/database/generated/prisma/enums';
+import { sugestaoTipos, sugestaoStatus } from '@prisma/client'
 
 export interface CreateSugestaoDto {
   instituicaoId: string

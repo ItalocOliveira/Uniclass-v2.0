@@ -3,7 +3,7 @@ import { ILocalRepository } from 'src/core/repositories/ILocalRepository';
 import { LocalDomain, MapCoordinate } from 'src/core/entities/LocalDomain';
 import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto';
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
-import { Prisma } from '../database/generated/prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../database/prisma/prisma.service';
 
 @Injectable()

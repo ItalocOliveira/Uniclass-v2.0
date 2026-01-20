@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { avisoPrioridade } from "src/infra/database/generated/prisma/enums";
+import { avisoPrioridade } from "@prisma/client";
 
 export class CreateAvisoDto {
     @IsString()
