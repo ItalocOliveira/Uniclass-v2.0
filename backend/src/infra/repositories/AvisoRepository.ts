@@ -23,8 +23,10 @@ export class AvisoRepository implements IAvisoRepository {
     async findById(instituicaoId: string, avisoId: string): Promise<AvisoDomain | null> {
         const aviso = await this.prisma.aviso.findUnique({
             where: { 
-                instituicao_id: instituicaoId,
-                aviso_id: avisoId
+                aviso_id_instituicao_id: {
+                    aviso_id: avisoId,
+                    instituicao_id: instituicaoId
+                }
             },
         })
 
@@ -46,6 +48,20 @@ export class AvisoRepository implements IAvisoRepository {
         return this.mapToDomain(aviso);
     }
 
+    async findAllByCurso(instituicaoId: string, curso: string): Promise<AvisoDomain[]> {
+        const avisos = await this.prisma.aviso.findMany({
+            where: { 
+                instituicao_id: instituicaoId, 
+                OR: [
+                    { curso_alvo: { has: curso } },
+                    { curso_alvo: { has: 'TODOS' } }
+                ]
+            },
+            orderBy: { created_at: 'desc' }
+            });
+        return avisos.map(aviso => this.mapToDomain(aviso));
+    }
+
     async create(data: CreateAvisoDto): Promise<AvisoDomain> {
         const aviso = await this.prisma.aviso.create({
             data: {
@@ -64,35 +80,35 @@ export class AvisoRepository implements IAvisoRepository {
     }
 
     async updateById(instituicaoId: string, avisoId: string, data: UpdateAvisoDto): Promise<AvisoDomain> {
-        const dataToUpdate = {
-            instituicao_id: instituicaoId,
-            usuario_id: data.usuarioId,
-            titulo: data.titulo,
-            curso_alvo: data.cursoAlvo,
-            usuario_nome: data.usuarioNome,
-            mensagem: data.mensagem,
-            prioridade: data.prioridade,
-        }
-
         const updatedAviso = await this.prisma.aviso.update({
             where: { 
-                instituicao_id: instituicaoId,
-                aviso_id: avisoId 
+                aviso_id_instituicao_id: {
+                    aviso_id: avisoId,
+                    instituicao_id: instituicaoId 
+                }
             },
             data: {
-                ...dataToUpdate
+                titulo: data.titulo,
+                curso_alvo: data.cursoAlvo,
+                usuario_id: data.usuarioId,
+                usuario_nome: data.usuarioNome,
+                mensagem: data.mensagem,
+                prioridade: data.prioridade,
             }
         });
-
         return this.mapToDomain(updatedAviso);
     }
 
-    async deleteById(id: string): Promise<void> {
-        await this.prisma.aviso.delete({
-            where: { aviso_id: id },
-        });
-    }
-
+    async deleteById(instituicaoId: string, avisoId: string): Promise<void> {
+    await this.prisma.aviso.delete({
+        where: { 
+            aviso_id_instituicao_id: {
+                aviso_id: avisoId,
+                instituicao_id: instituicaoId
+            }
+        },
+    });
+}
 
     // Helper para garantir o output correto
     private mapToDomain(aviso: Aviso): AvisoDomain {

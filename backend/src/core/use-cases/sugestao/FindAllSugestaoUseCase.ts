@@ -2,10 +2,10 @@ import { CreateSugestaoDto } from "src/core/repositories/dtos/sugestao/CreateSug
 import { SugestaoDomain } from "src/core/entities/SugestaoDomain";
 import { ISugestaoRepository } from "src/core/repositories/ISugestaoRepository";
 
-export class CreateSugestaoUseCase {
+export class FindAllSugestaoUseCase {
     constructor(private sugestaoRepo: ISugestaoRepository){}
 
-    async execute(input: CreateSugestaoDto): Promise<SugestaoDomain>{
+    async execute(instituicaoId: string): Promise<SugestaoDomain[]>{
 
         /*
         *  
@@ -13,6 +13,6 @@ export class CreateSugestaoUseCase {
         * 
         */
     
-        return this.sugestaoRepo.create(input);
+        return this.sugestaoRepo.findAll(instituicaoId);
     }   
 }

@@ -6,6 +6,11 @@ import { AuthModule } from './presentation/nest-modules/auth/auth.module';
 import { UsuariosModule } from './presentation/nest-modules/usuarios/usuarios.module';
 
 import { InstituicoesModule } from './presentation/nest-modules/instituicoes/instituicoes.module';
+import { EventosController } from './presentation/nest-modules/eventos/eventos.controller';
+import { EventosModule } from './presentation/nest-modules/eventos/eventos.module';
+import { AvisosModule } from './presentation/nest-modules/avisos/avisos.module';
+import { SugestoesController } from './presentation/nest-modules/sugestoes/sugestoes.controller';
+import { SugestoesModule } from './presentation/nest-modules/sugestoes/sugestoes.module';
 
 @Module({
     imports: [
@@ -14,7 +19,9 @@ import { InstituicoesModule } from './presentation/nest-modules/instituicoes/ins
         AuthModule, 
         LocaisModule, 
         UsuariosModule, 
-        InstituicoesModule,
+        InstituicoesModule, 
+        EventosModule, 
+        AvisosModule, SugestoesModule,
     ],
 })
 export class AppModule {}

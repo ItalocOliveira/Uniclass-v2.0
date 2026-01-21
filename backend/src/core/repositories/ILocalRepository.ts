@@ -9,7 +9,8 @@ export interface ILocalRepository {
     deleteById(instituicaoId: string, LocalId: string): Promise<void>
 
     //UseCase
-    findByName(instituicaoId: string, name: string): Promise<LocalDomain | null>;
+    findByNome(instituicaoId: string, name: string): Promise<LocalDomain | null>;
+    findAllByInstituicao(instituicaoId: string): Promise<LocalDomain[]>;
 
 
 }

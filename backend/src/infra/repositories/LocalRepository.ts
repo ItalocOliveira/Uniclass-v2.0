@@ -3,7 +3,6 @@ import { ILocalRepository } from 'src/core/repositories/ILocalRepository';
 import { LocalDomain, MapCoordinate } from 'src/core/entities/LocalDomain';
 import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto';
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '../database/prisma/prisma.service';
 
 @Injectable()
@@ -25,8 +24,10 @@ export class LocalRepository implements ILocalRepository {
   async findById(instituicaoId: string, localId: string): Promise<LocalDomain | null> {
     const local = await this.prisma.local.findUnique({
       where: { 
-        instituicao_id: instituicaoId,
-        local_id: localId
+        local_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          local_id: localId
+        }
       }
     });
     
@@ -35,7 +36,7 @@ export class LocalRepository implements ILocalRepository {
     return this.mapToDomain(local);
   }
 
-  async findByName(instituicaoId: string, name: string): Promise<LocalDomain | null> {
+  async findByNome(instituicaoId: string, name: string): Promise<LocalDomain | null> {
       const local = await this.prisma.local.findFirst({
         where: { 
           instituicao_id: instituicaoId,
@@ -48,6 +49,14 @@ export class LocalRepository implements ILocalRepository {
       return this.mapToDomain(local);
   }
 
+  async findAllByInstituicao(instituicaoId: string): Promise<LocalDomain[]> {
+    const locais = await this.prisma.local.findMany({
+      where: { instituicao_id: instituicaoId}
+    });
+
+    return locais.map((local) => this.mapToDomain(local));
+  }
+
   async create(data: CreateLocalDto): Promise<LocalDomain> {
     const local = await this.prisma.local.create({
       data: {
@@ -57,7 +66,7 @@ export class LocalRepository implements ILocalRepository {
         bloco: data.bloco ?? null,
         acessivel: data.acessivel, 
 
-        mapa_xy: data.mapaXY ? (data.mapaXY as Prisma.InputJsonValue) : Prisma.JsonNull,
+        mapa_xy: data.mapaXY as any,
       },
     });
 
@@ -75,12 +84,14 @@ export class LocalRepository implements ILocalRepository {
 
     const updatedLocal = await this.prisma.local.update({
       where: { 
-        instituicao_id: instituicaoId,
-        local_id: localId
+        local_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          local_id: localId
+        }
       },
       data: {
         ...dataToUpdate,
-
+        ...(data.mapaXY && { mapa_xy: data.mapaXY as any }),
       }
     });
 
@@ -90,8 +101,10 @@ export class LocalRepository implements ILocalRepository {
   async deleteById(instituicaoId: string, localId: string): Promise<void> {
     await this.prisma.local.delete({
       where: { 
-        instituicao_id: instituicaoId,
-        local_id: localId,
+        local_id_instituicao_id: {
+          local_id: localId,
+          instituicao_id: instituicaoId
+        }
       },
     });
   }
@@ -105,7 +118,7 @@ export class LocalRepository implements ILocalRepository {
       bloco: local.bloco,
       acessivel: local.acessivel ?? false,
       
-      mapaXY: local.mapa_xy ? (local.mapa_xy as MapCoordinate) : null,
+      mapaXY: local.mapa_xy as MapCoordinate,
     };
   }
 }

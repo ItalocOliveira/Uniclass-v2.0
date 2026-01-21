@@ -11,15 +11,24 @@ export class EventoRepository implements IEventoRepository {
 
   constructor(private prisma: PrismaService){}
 
-  async findAll(): Promise<EventoDomain[]> {
-    const eventos = await this.prisma.evento.findMany();
+  async findAll(instituicaoId: string): Promise<EventoDomain[]> {
+    const eventos = await this.prisma.evento.findMany({
+      where: { instituicao_id: instituicaoId },
+      include: { local: true }
+    });
 
     return eventos.map((evento) => this.mapToDomain(evento));
   }
 
-  async findById(eventoId: string): Promise<EventoDomain | null> {
+  async findById(instituicaoId: string, eventoId: string): Promise<EventoDomain | null> {
     const evento = await this.prisma.evento.findUnique({
-      where: { evento_id: eventoId },
+      where: { 
+        evento_id_instituicao_id: {
+          evento_id: eventoId,
+          instituicao_id: instituicaoId
+        }
+      },
+      include: {local: true}
     })
 
     if(!evento) return null;
@@ -52,6 +61,19 @@ export class EventoRepository implements IEventoRepository {
       return this.mapToDomain(evento);
   }
 
+  async findAllUpcoming(instituicaoId: string): Promise<EventoDomain[]> {
+    const eventos = await this.prisma.evento.findMany({
+      where: {
+        instituicao_id: instituicaoId,
+        data: { gte: new Date() },
+      },
+      orderBy: { data: 'asc' },
+      include: { local: true },
+    });
+
+    return eventos.map((evento) => this.mapToDomain(evento));
+  }
+
   async create(data: CreateEventoDto): Promise<EventoDomain> {
 
     const evento = await this.prisma.evento.create({ 
@@ -69,8 +91,13 @@ export class EventoRepository implements IEventoRepository {
   }
 
   async updateById(instituicaoId: string, eventoId: string, data: UpdateEventoDto): Promise<EventoDomain> {
+    const eventoExiste = await this.prisma.evento.findFirst({
+      where: { evento_id: eventoId, instituicao_id: instituicaoId }
+    });
+
+    if (!eventoExiste) throw new Error('Evento não encontrado ou acesso negado');
+    
     const dataToUpdate = {
-        instituicao_id: instituicaoId,
         titulo: data.titulo,
         data: data.data,
         tipo: data.tipo,
@@ -80,8 +107,10 @@ export class EventoRepository implements IEventoRepository {
 
     const UpdatedEvento = await this.prisma.evento.update({
       where: { 
-        instituicao_id: instituicaoId,
-        evento_id: eventoId
+        evento_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          evento_id: eventoId
+        }
       },
       data: {
         ...dataToUpdate
@@ -93,27 +122,29 @@ export class EventoRepository implements IEventoRepository {
 
   async deleteById(instituicaoId: string, eventoId: string): Promise<void> {
     await this.prisma.evento.delete({
-      where: { 
-        instituicao_id: instituicaoId,
-        evento_id: eventoId 
+      where: {
+        evento_id_instituicao_id: {
+          evento_id: eventoId,
+          instituicao_id: instituicaoId,
+        },
       },
-    })
+    });
   }
 
-
   // Helper para garantir o output correto
-    private mapToDomain(evento: Evento): EventoDomain {
-        return {
-          eventoId: evento.evento_id,
-          instituicaoId: evento.instituicao_id,
-          titulo: evento.titulo,
-          data: evento.data,
-          tipo: evento.tipo,
-          descricao: evento.descricao,
-          localId: evento.local_id,
-          dataCriacao: evento.created_at,
-          dataAtualizacao: evento.updated_at
+  private mapToDomain(evento: any): EventoDomain {
+      return {
+        eventoId: evento.evento_id,
+        instituicaoId: evento.instituicao_id,
+        titulo: evento.titulo,
+        data: evento.data,
+        tipo: evento.tipo,
+        descricao: evento.descricao,
+        localId: evento.local_id,
+        localNome: evento.local?.nome,
+        dataCriacao: evento.created_at,
+        dataAtualizacao: evento.updated_at
 
-        };
-    }
+      };
+  }
 }

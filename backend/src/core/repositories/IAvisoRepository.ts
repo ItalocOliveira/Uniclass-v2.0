@@ -11,4 +11,5 @@ export interface IAvisoRepository {
 
   // UseCase
   findByTitulo(instituicaoId: string, title: string): Promise<AvisoDomain | null>
+  findAllByCurso(instituicaoId: string, curso: string): Promise<AvisoDomain[]>
 }

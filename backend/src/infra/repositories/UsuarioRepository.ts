@@ -20,10 +20,12 @@ export class UsuarioRepository implements IUsuarioRepository {
   async findById(instituicaoId: string, usuarioId: string): Promise<UsuarioDomain | null> {
     const instituicao = await this.prisma.usuario.findUnique({
       where: { 
-        instituicao_id: instituicaoId,
-        usuario_id: usuarioId 
+        usuario_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          usuario_id: usuarioId
+        }
       },
-    })
+    });
 
     if(!instituicao) return null;
 
@@ -69,10 +71,15 @@ export class UsuarioRepository implements IUsuarioRepository {
 
     const updatedUsuario = await this.prisma.usuario.update({
       where: {
-        instituicao_id: instituicaoId,
-        usuario_id: usuarioId 
+        usuario_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          usuario_id: usuarioId 
+        }
       },
-      data: { ...dataToUpdate}
+      data: { 
+        ...dataToUpdate,
+        ...(data.senha && { senha_hash: data.senha })
+      }
     });
 
     return this.mapToDomain(updatedUsuario);
@@ -80,11 +87,13 @@ export class UsuarioRepository implements IUsuarioRepository {
 
   async deleteById(instituicaoId: string, usuarioId: string): Promise<void> {
     await this.prisma.usuario.delete({
-      where: { 
-        instituicao_id: instituicaoId,
-        usuario_id: usuarioId
+      where: {
+        usuario_id_instituicao_id: {
+          usuario_id: usuarioId,
+          instituicao_id: instituicaoId,
+        },
       },
-    })
+    });
   }
 
 
@@ -94,7 +103,7 @@ export class UsuarioRepository implements IUsuarioRepository {
       instituicaoId: usuario.instituicao_id,
       nome: usuario.nome,
       email: usuario.email,
-      tipoAcesso: usuario.tipo_acesso,
+      tipoAcesso: usuario.tipo_acesso as any,
       curso: usuario.curso,
       dataCriacao: usuario.created_at,
       dataAtualizacao: usuario.updated_at

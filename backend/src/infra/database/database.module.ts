@@ -3,6 +3,9 @@ import { PrismaService } from './prisma/prisma.service';
 import { LocalRepository } from '../repositories/LocalRepository';
 import { UsuarioRepository } from '../repositories/UsuarioRepository';
 import { InstituicaoRepository } from '../repositories/InstituicaoRepository';
+import { EventoRepository } from '../repositories/EventoRepository';
+import { SugestaoRepository } from '../repositories/SugestaoRepository';
+import { AvisoRepository } from '../repositories/AvisoRepository';
 
 @Global()
 @Module({
@@ -19,13 +22,28 @@ import { InstituicaoRepository } from '../repositories/InstituicaoRepository';
         {
             provide: 'IInstituicaoRepository',
             useClass: InstituicaoRepository, 
-        }
+        },
+        {
+            provide: 'IEventoRepository',
+            useClass: EventoRepository, 
+        },
+        {
+            provide: 'ISugestaoRepository',
+            useClass: SugestaoRepository, 
+        },
+        {
+            provide: 'IAvisoRepository',
+            useClass: AvisoRepository, 
+        },
     ],
     exports: [
         PrismaService,
         'ILocalRepository',
         'IUsuarioRepository',
-        'IInstituicaoRepository'
+        'IInstituicaoRepository',
+        'IEventoRepository',
+        'ISugestaoRepository',
+        'IAvisoRepository',
     ],
 })
 export class DatabaseModule {}

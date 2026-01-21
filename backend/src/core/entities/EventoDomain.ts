@@ -7,8 +7,9 @@ export interface EventoDomain {
     data: Date;
 
     tipo: eventoTipos;
-    descricao?:string | null;
-    localId?:string | null;
+    descricao?: string | null;
+    localId?: string | null;
+    localNome?: string | null;
 
     dataCriacao: Date;
     dataAtualizacao: Date;

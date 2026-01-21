@@ -14,7 +14,7 @@ model Instituicao {
   nome           String
   logo_url       String
   mapa_url       String?
-  coordenadas     Unsupported("geometry(Point, 4326)")?
+  coordenadas    Json?
 
   locais   Local[]
   usuarios Usuario[]
@@ -43,6 +43,7 @@ model Local {
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   eventos Evento[]
 
+  @@unique([local_id, instituicao_id])
   @@map("locais")
 }
 
@@ -64,7 +65,7 @@ model Usuario {
 
   @@map("usuarios")
 
-  @@unique([email, instituicao_id]) 
+  @@unique([usuario_id, instituicao_id]) 
 }
 
 model Aviso {
@@ -83,6 +84,7 @@ model Aviso {
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
 
+  @@unique([aviso_id, instituicao_id])
   @@map("avisos")
 }
 
@@ -101,6 +103,7 @@ model Evento {
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   local Local? @relation(fields: [local_id], references: [local_id])
 
+  @@unique([evento_id, instituicao_id])
   @@map("eventos")
 }
 
@@ -121,6 +124,7 @@ model Sugestao {
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
   usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
 
+  @@unique([sugestao_id, instituicao_id])
   @@map("sugestoes")
 }
 

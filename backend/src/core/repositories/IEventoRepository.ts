@@ -12,4 +12,5 @@ export interface IEventoRepository {
 
   findByTitulo(instituicaoId: string, titulo: string): Promise<EventoDomain | null>;
   findByLocalAndData(instituicaoId: string, localId: string, data: Date | string): Promise<EventoDomain | null>;
+  findAllUpcoming(instituicaoId: string): Promise<EventoDomain[]>
 }

@@ -4,7 +4,7 @@ import { CreateSugestaoDto } from 'src/core/repositories/dtos/sugestao/CreateSug
 import { UpdateSugestaoDto } from 'src/core/repositories/dtos/sugestao/UpdateSugestaoDto'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../database/prisma/prisma.service'
-import { Prisma } from '@prisma/client'
+import { Sugestao } from '@prisma/client'
 
 @Injectable()
 export class SugestaoRepository implements ISugestaoRepository {
@@ -12,30 +12,23 @@ export class SugestaoRepository implements ISugestaoRepository {
   constructor(private prisma: PrismaService){}
 
   async findAll(instituicaoId: string): Promise<SugestaoDomain[]> {
-    // 1. Prisma nativo substitui o queryRaw
     const sugestoes = await this.prisma.sugestao.findMany({
-      where: {
-        instituicao_id: instituicaoId
-      },
-      orderBy: {
-        created_at: 'desc',
-      },
+      where: { instituicao_id: instituicaoId },
+      orderBy: { created_at: 'desc' },
     });
-
     return sugestoes.map((sugestao) => this.mapToDomain(sugestao));
   }
 
   async findById(instituicaoId: string, sugestaoId: string): Promise<SugestaoDomain | null> {
     const sugestao = await this.prisma.sugestao.findUnique({
-      where: { 
-        instituicao_id: instituicaoId,
-        sugestao_id: sugestaoId 
+      where: {
+        sugestao_id_instituicao_id: {
+          sugestao_id: sugestaoId,
+          instituicao_id: instituicaoId,
+        },
       },
     });
-
-    if (!sugestao) return null;
-
-    return this.mapToDomain(sugestao);
+    return sugestao ? this.mapToDomain(sugestao) : null;
   }
 
   async create(data: CreateSugestaoDto): Promise<SugestaoDomain> {
@@ -46,22 +39,21 @@ export class SugestaoRepository implements ISugestaoRepository {
         titulo: data.titulo,
         descricao: data.descricao,
         tipo: data.tipo,
-        status: data.status, 
+        status: data.status,
         foto_url: data.fotoUrl,
-
-        mapa_xy: data.mapaXY ? (data.mapaXY as Prisma.InputJsonValue) : Prisma.JsonNull,
+        mapa_xy: data.mapaXY as any,
       },
     });
-
     return this.mapToDomain(novaSugestao);
   }
 
   async updateById(instituicaoId: string, sugestaoId: string, data: UpdateSugestaoDto): Promise<SugestaoDomain> {
-    // 3. Update simples, sem executeRaw
     const sugestaoAtualizada = await this.prisma.sugestao.update({
       where: {
-        instituicao_id: instituicaoId,
-        sugestao_id: sugestaoId 
+        sugestao_id_instituicao_id: {
+          sugestao_id: sugestaoId,
+          instituicao_id: instituicaoId,
+        },
       },
       data: {
         titulo: data.titulo,
@@ -70,8 +62,7 @@ export class SugestaoRepository implements ISugestaoRepository {
         status: data.status,
         foto_url: data.fotoUrl,
         
-        // Se undefined, o Prisma ignora. Se tiver valor, atualiza o JSON.
-        mapa_xy: data.mapaXY ? (data.mapaXY as Prisma.InputJsonValue) : undefined,
+        ...(data.mapaXY && { mapa_xy: data.mapaXY as any }),
       },
     });
 
@@ -80,29 +71,30 @@ export class SugestaoRepository implements ISugestaoRepository {
 
   async deleteById(instituicaoId: string, sugestaoId: string): Promise<void> {
     await this.prisma.sugestao.delete({
-      where: { 
-        instituicao_id: instituicaoId,
-        sugestao_id: sugestaoId 
+      where: {
+        sugestao_id_instituicao_id: {
+          sugestao_id: sugestaoId,
+          instituicao_id: instituicaoId,
+        },
       },
-    })
+    });
   }
 
-
-  private mapToDomain(raw: any): SugestaoDomain {
+  private mapToDomain(sugestao: Sugestao): SugestaoDomain {
     return {
-      sugestaoId: raw.sugestao_id,
-      instituicaoId: raw.instituicao_id,
-      usuarioId: raw.usuario_id,
-      titulo: raw.titulo,
-      descricao: raw.descricao,
-      tipo: raw.tipo,
-      status: raw.status,
-      fotoUrl: raw.foto_url,
+      sugestaoId: sugestao.sugestao_id,
+      instituicaoId: sugestao.instituicao_id,
+      usuarioId: sugestao.usuario_id,
+      titulo: sugestao.titulo,
+      descricao: sugestao.descricao,
+      tipo: sugestao.tipo,
+      status: sugestao.status,
+      fotoUrl: sugestao.foto_url,
       
-      dataCriacao: raw.created_at,
-      dataAtualizacao: raw.updated_at,
+      dataCriacao: sugestao.created_at,
+      dataAtualizacao: sugestao.updated_at,
       
-      mapaXY: raw.mapa_xy ? (raw.mapa_xy as MapCoordinate) : null,
+      mapaXY: sugestao.mapa_xy as MapCoordinate
     };
   }
 }

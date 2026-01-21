@@ -11,6 +11,9 @@ CREATE TYPE "localTipos" AS ENUM ('BLOCO', 'COMERCIO', 'BIBLIOTECA', 'REITORIA',
 CREATE TYPE "sugestaoTipos" AS ENUM ('CONSERTO', 'REPOSICAO_MATERIAL', 'INSTALACAO', 'ATUALIZACAO', 'SUPORTE_TECNICO');
 
 -- CreateEnum
+CREATE TYPE "sugestaoStatus" AS ENUM ('PENDENTE', 'EM_ATENDIMENTO', 'RESOLVIDO');
+
+-- CreateEnum
 CREATE TYPE "eventoTipos" AS ENUM ('PALESTRA', 'FEIRA', 'MOCHILAO', 'WORKSHOP', 'SEMINARIO', 'MEETUP', 'HACKATON');
 
 -- CreateEnum
@@ -20,8 +23,9 @@ CREATE TYPE "avisoPrioridade" AS ENUM ('LEVE', 'MODERADO', 'IMPORTANTE', 'URGENT
 CREATE TABLE "instituicoes" (
     "instituicao_id" UUID NOT NULL,
     "nome" TEXT NOT NULL,
-    "logo_url" TEXT,
+    "logo_url" TEXT NOT NULL,
     "mapa_url" TEXT,
+    "coordenadas" JSONB,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -35,9 +39,8 @@ CREATE TABLE "locais" (
     "nome" TEXT NOT NULL,
     "tipo" "localTipos" NOT NULL,
     "bloco" TEXT,
-    "coordenadas" geometry(Point, 4326),
     "mapa_xy" JSONB,
-    "acessivel" BOOLEAN NOT NULL DEFAULT false,
+    "acessivel" BOOLEAN DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -63,14 +66,14 @@ CREATE TABLE "usuarios" (
 CREATE TABLE "avisos" (
     "aviso_id" UUID NOT NULL,
     "instituicao_id" UUID NOT NULL,
-    "usuario_id" UUID,
-    "usuario_nome" TEXT,
+    "usuario_id" UUID NOT NULL,
+    "usuario_nome" TEXT NOT NULL,
     "titulo" TEXT NOT NULL,
     "mensagem" TEXT,
     "prioridade" "avisoPrioridade" NOT NULL,
     "curso_alvo" TEXT[],
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "update_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "avisos_pkey" PRIMARY KEY ("aviso_id")
 );
@@ -85,7 +88,7 @@ CREATE TABLE "eventos" (
     "descricao" TEXT,
     "local_id" UUID,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "update_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "eventos_pkey" PRIMARY KEY ("evento_id")
 );
@@ -98,17 +101,29 @@ CREATE TABLE "sugestoes" (
     "titulo" TEXT NOT NULL,
     "descricao" TEXT,
     "tipo" "sugestaoTipos" NOT NULL,
-    "status" TEXT NOT NULL,
-    "localizacao" geometry(Point, 4326),
+    "mapa_xy" JSONB,
+    "status" "sugestaoStatus" NOT NULL,
     "foto_url" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "update_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "sugestoes_pkey" PRIMARY KEY ("sugestao_id")
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "locais_local_id_instituicao_id_key" ON "locais"("local_id", "instituicao_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "usuarios_email_instituicao_id_key" ON "usuarios"("email", "instituicao_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "avisos_aviso_id_instituicao_id_key" ON "avisos"("aviso_id", "instituicao_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "eventos_evento_id_instituicao_id_key" ON "eventos"("evento_id", "instituicao_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "sugestoes_sugestao_id_instituicao_id_key" ON "sugestoes"("sugestao_id", "instituicao_id");
 
 -- AddForeignKey
 ALTER TABLE "locais" ADD CONSTRAINT "locais_instituicao_id_fkey" FOREIGN KEY ("instituicao_id") REFERENCES "instituicoes"("instituicao_id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -120,7 +135,7 @@ ALTER TABLE "usuarios" ADD CONSTRAINT "usuarios_instituicao_id_fkey" FOREIGN KEY
 ALTER TABLE "avisos" ADD CONSTRAINT "avisos_instituicao_id_fkey" FOREIGN KEY ("instituicao_id") REFERENCES "instituicoes"("instituicao_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "avisos" ADD CONSTRAINT "avisos_usuario_id_fkey" FOREIGN KEY ("usuario_id") REFERENCES "usuarios"("usuario_id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "avisos" ADD CONSTRAINT "avisos_usuario_id_fkey" FOREIGN KEY ("usuario_id") REFERENCES "usuarios"("usuario_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "eventos" ADD CONSTRAINT "eventos_instituicao_id_fkey" FOREIGN KEY ("instituicao_id") REFERENCES "instituicoes"("instituicao_id") ON DELETE RESTRICT ON UPDATE CASCADE;

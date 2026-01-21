@@ -14,7 +14,7 @@ export class CreateLocalUseCase {
         */
 
         // 1 - Nome
-        const localMesmoNome = await this.localRepo.findByName(input.instituicaoId, input.nome);
+        const localMesmoNome = await this.localRepo.findByNome(input.instituicaoId, input.nome);
         if (localMesmoNome) {
             throw new Error("Já existe um local com esse nome nesta instituição.");
         }

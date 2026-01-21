@@ -9,15 +9,17 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
     const ID_INSTITUICAO = 'd290f1ee-6c54-4b01-90e6-d701748f0851';
+    const ID_ADMIN = 'b335f2a0-cebf-4bc8-991f-4d4d47d28611';
 
     const instituicao = await prisma.instituicao.upsert({
-        where: {instituicao_id: ID_INSTITUICAO},
+        where: { instituicao_id: ID_INSTITUICAO },
         update: {},
         create: {
             instituicao_id: ID_INSTITUICAO,
             nome: 'Universidade Uniclass (DEV)',
             logo_url: 'https://via.placeholder.com/150',
             mapa_url: 'https://via.placeholder.com/500',
+            coordenadas: { latitude: -23.5505, longitude: -46.6333 }
         }
     });
     console.log(`🏫 Instituição garantida: ${instituicao.nome}`);
@@ -27,9 +29,17 @@ async function main() {
     const senhaHash = await bcrypt.hash(senhaPlana, 10);
 
     const admin = await prisma.usuario.upsert({
-        where: { email_instituicao_id: {email: emailAdmin, instituicao_id: ID_INSTITUICAO}},
-        update: {},
+        where: { 
+            usuario_id_instituicao_id: {
+                usuario_id: ID_ADMIN,
+                instituicao_id: ID_INSTITUICAO
+            }
+        },
+        update: {
+            senha_hash: senhaHash
+        },
         create: {
+            usuario_id: ID_ADMIN,
             instituicao_id: ID_INSTITUICAO,
             nome: 'Admin Supremo',
             email: emailAdmin,
@@ -39,8 +49,6 @@ async function main() {
         },
     });
     console.log(`👤 Admin garantido: ${admin.email} | Senha: ${senhaPlana}`);
-
-
 }
 
 main()
