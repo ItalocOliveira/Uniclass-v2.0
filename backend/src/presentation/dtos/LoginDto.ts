@@ -3,13 +3,13 @@ import { IsEmail, IsNotEmpty, IsString, IsUUID } from "class-validator";
 export class LoginDto {
     @IsEmail()
     @IsNotEmpty()
-    email: string;
+    email: string= '';
 
     @IsString()
     @IsNotEmpty()
-    senha: string;
+    senha: string= '';
 
     @IsUUID()
     @IsNotEmpty()
-    instituicaoId: string;
+    instituicaoId: string= '';
 }

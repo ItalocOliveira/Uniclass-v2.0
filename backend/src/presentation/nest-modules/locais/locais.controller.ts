@@ -14,7 +14,7 @@ export class LocaisController {
 
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.PROFESSOR, Role.ALUNO, Role.ADMIN)
+    @Roles(Role.ADMIN)
     async create(@Body() body: CreateLocalDto, @CurrentUser() usuario: UserPayload){
         return this.createLocalUseCase.execute({
             ...body,

@@ -15,8 +15,18 @@ export class RolesGuard implements CanActivate {
 
         if(!requiredRoles) return true;
 
-        const { usuario } = context.switchToHttp().getRequest();
+        const request = context.switchToHttp().getRequest();
+        const usuario = request.user;
+        if (!usuario) {
+            console.error('RolesGuard: Usuário não encontrado na requisição. Verifique se o @UseGuards(JwtAuthGuard) está antes do RolesGuard.');
+            return false;
+        }  
 
-        return requiredRoles.some((role) => usuario.role === role);
+        const hasPermission = requiredRoles.some((role) => usuario.role === role);
+        if (!hasPermission) {
+            console.warn(`Acesso Negado: Usuário ${usuario.email} com role '${usuario.role}' tentou acessar rota que exige [${requiredRoles}]`);
+        }
+
+        return hasPermission;
     }
 }

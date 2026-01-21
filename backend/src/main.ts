@@ -1,15 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     app.useGlobalPipes(new ValidationPipe({
         // Remove campos que não estão no DTO
         whitelist: true,       
         // Dá erro se o front mandar campos que não existem     
-        forbidNonWhitelisted: true,
+        forbidNonWhitelisted: false,
         // Transforma string em números/datas @Type 
         transform: true,            
     }));
