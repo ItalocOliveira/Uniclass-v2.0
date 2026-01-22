@@ -1,0 +1,114 @@
+============================================================
+           ARQUIVO TEMPORARIO
+============================================================
+
+INFO IMPORTANTE PARA O FRONTEND:
+------------------------------------------------------------
+1. MULTI-TENANCY: O sistema é isolado por instituição.
+2. AUTOMATIZAÇÃO: O 'instituicaoId' e o 'usuarioId' são 
+   extraídos AUTOMATICAMENTE do Token JWT pelo Backend.
+   -> NÃO enviar esses campos no corpo (Body) das requisições.
+3. AUTH: Todas as rotas (exceto Login e Instituições) 
+   exigem o Header: Authorization: Bearer <TOKEN>
+------------------------------------------------------------
+
+
+
+
+
+
+============================================================
+--- 1. AUTENTICAÇÃO ---
+============================================================
+POST /auth/login
+  Body: { "email": "", "senha": "", "instituicaoId": "" }
+  Retorno: { "access_token": "..." }
+
+
+
+
+============================================================
+--- 2. INSTITUIÇÕES ---
+============================================================
+
+GET /instituicoes
+  Retorno: Array de Instituições (id, nome, logoUrl, mapaUrl, coordenadas)
+
+GET /instituicoes/:id
+  Retorno: Objeto único da instituição.
+
+--- 3. USUÁRIOS ---
+
+GET /usuarios
+  (Apenas Admin da própria instituição)
+
+POST /usuarios
+  Body: { "nome": "", "email": "", "senha": "", "tipoAcesso": "", "curso": "" }
+  * O instituicaoId é pego do contexto.
+
+--- 4. LOCAIS (Mapa) ---
+
+GET /locais
+  Retorno: Lista de locais da instituição do usuário.
+
+POST /locais
+  Body: { 
+    "nome": "Auditório A", 
+    "tipo": "BLOCO", 
+    "bloco": "A", 
+    "acessivel": true, 
+    "mapaXY": { "x": 10.5, "y": 20.1 } 
+  }
+
+GET /locais/:id
+  Retorno: Detalhes do local (incluindo coordenadas mapaXY).
+
+
+
+
+
+============================================================
+--- 5. SUGESTÕES (Feedback/Problemas no Mapa) ---
+============================================================
+POST /sugestoes
+  Body: { 
+    "titulo": "Lâmpada queimada", 
+    "tipo": "CONSERTO", 
+    "status": "PENDENTE", 
+    "descricao": "...", 
+    "mapaXY": { "x": 12.3, "y": -45.6 } 
+  }
+  * O usuarioId (quem enviou) é gravado automaticamente via JWT.
+
+GET /sugestoes
+  (Apenas Admin) - Lista todas as sugestões da instituição.
+
+GET /sugestoes/:id
+  (Admin/Aluno/Professor) - Ver detalhes de uma sugestão específica.
+
+
+
+
+
+============================================================
+--- 6. EVENTOS (Próximas implementações) ---
+============================================================
+
+GET /eventos/upcoming
+  Retorno: Eventos da data atual em diante.
+
+POST /eventos
+  Body: { "titulo": "", "data": "ISOString", "descricao": "", "localId": "" }
+
+
+
+
+
+
+
+============================================================
+--- 7. AVISOS ---
+============================================================
+
+GET /avisos
+  Retorno: Avisos gerais + avisos específicos do curso do usuário logado.
