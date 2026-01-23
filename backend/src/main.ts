@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -14,6 +15,24 @@ async function bootstrap() {
         // Transforma string em números/datas @Type 
         transform: true,            
     }));
+
+    // Configurações do Swagger
+    const config = new DocumentBuilder()
+        .setTitle('Uniclass - API')
+        .setDescription('Endopoints do Uniclass - Unipê')
+        .setVersion('1.0')
+        .addBearerAuth()
+        .addTag('Auth')
+        .addTag('Locais')
+        .addTag('Avisos')
+        .addTag('Eventos')
+        .addTag('Usuarios')
+        .addTag('Sugestoes')
+        .addTag('Instituicoes')
+        .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
 
     // Habilita o CORS (Para o app mobile conectar no Backend)
     app.enableCors();
