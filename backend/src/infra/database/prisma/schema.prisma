@@ -81,8 +81,8 @@ model Aviso {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
+  usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id], onDelete: Cascade)
 
   @@unique([aviso_id, instituicao_id])
   @@map("avisos")
@@ -100,7 +100,7 @@ model Evento {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
   local Local? @relation(fields: [local_id], references: [local_id], onDelete: SetNull)
 
   @@unique([evento_id, instituicao_id])
@@ -121,8 +121,8 @@ model Sugestao {
   created_at    DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuario_id], references: [usuario_id], onDelete: Cascade)
 
   @@unique([sugestao_id, instituicao_id])
   @@map("sugestoes")
