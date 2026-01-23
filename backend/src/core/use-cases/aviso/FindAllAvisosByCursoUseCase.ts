@@ -1,6 +1,6 @@
 import { IAvisoRepository } from "src/core/repositories/IAvisoRepository";
 
-export class FindAvisosByCursoUseCase {
+export class FindAllAvisosByCursoUseCase {
     constructor(private avisoRepository: IAvisoRepository){}
 
     async execute(instituicaoId: string, curso: string){

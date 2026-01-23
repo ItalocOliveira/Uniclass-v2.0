@@ -56,13 +56,7 @@ export class SugestaoRepository implements ISugestaoRepository {
         },
       },
       data: {
-        titulo: data.titulo,
-        descricao: data.descricao,
-        tipo: data.tipo,
         status: data.status,
-        foto_url: data.fotoUrl,
-        
-        ...(data.mapaXY && { mapa_xy: data.mapaXY as any }),
       },
     });
 

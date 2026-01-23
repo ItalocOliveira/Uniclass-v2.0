@@ -1,6 +1,7 @@
 import { CreateLocalDto } from "src/core/repositories/dtos/local/CreateLocalDto";
 import { LocalDomain } from "src/core/entities/LocalDomain";
 import { ILocalRepository } from "src/core/repositories/ILocalRepository";
+import { ConflictException } from "@nestjs/common";
 
 export class CreateLocalUseCase {
     constructor(private localRepo: ILocalRepository) {}
@@ -16,7 +17,7 @@ export class CreateLocalUseCase {
         // 1 - Nome
         const localMesmoNome = await this.localRepo.findByNome(input.instituicaoId, input.nome);
         if (localMesmoNome) {
-            throw new Error("Já existe um local com esse nome nesta instituição.");
+            throw new ConflictException('Já existe um local com esse nome nesta instituição.');
         }
 
         return this.localRepo.create(input);

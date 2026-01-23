@@ -40,7 +40,7 @@ model Local {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
   eventos Evento[]
 
   @@unique([local_id, instituicao_id])
@@ -59,7 +59,7 @@ model Usuario {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
   avisos Aviso[]
   sugestoes Sugestao[]
 
@@ -101,7 +101,7 @@ model Evento {
   updated_at DateTime @updatedAt
 
   instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  local Local? @relation(fields: [local_id], references: [local_id])
+  local Local? @relation(fields: [local_id], references: [local_id], onDelete: SetNull)
 
   @@unique([evento_id, instituicao_id])
   @@map("eventos")
