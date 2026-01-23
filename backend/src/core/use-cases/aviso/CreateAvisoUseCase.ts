@@ -1,4 +1,4 @@
-import { AvisoDomain } from "src/core/repositories/dtos/aviso/AvisoDomain";
+import { AvisoDomain } from "src/core/entities/AvisoDomain";
 import { CreateAvisoDto } from "src/core/repositories/dtos/aviso/CreateAvisoDto";
 import { IAvisoRepository } from "src/core/repositories/IAvisoRepository";
 

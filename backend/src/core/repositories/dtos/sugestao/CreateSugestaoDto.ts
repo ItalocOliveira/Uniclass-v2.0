@@ -1,15 +1,16 @@
+import { MapCoordinate } from 'src/core/entities/SugestaoDomain';
+import { sugestaoTipos, sugestaoStatus } from '@prisma/client'
+
 export interface CreateSugestaoDto {
   instituicaoId: string
   usuarioId: string
   titulo: string
+  tipo: sugestaoTipos;
+  status: sugestaoStatus;
 
   descricao?: string | null
-  tipo?: string | null
-  status?: string | null
   fotoUrl?: string | null
 
-  localizacao?: {
-    latitude: number;
-    longitude: number;
-  } | null;
+  mapaXY?: MapCoordinate | null;  
 }
+

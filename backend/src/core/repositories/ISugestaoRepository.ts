@@ -1,10 +1,11 @@
-import { SugestaoDomain } from './dtos/sugestao/SugestaoDomain' 
+import { SugestaoDomain } from '../entities/SugestaoDomain' 
 import { CreateSugestaoDto } from './dtos/sugestao/CreateSugestaoDto' 
+import { UpdateSugestaoDto } from './dtos/sugestao/UpdateSugestaoDto'
 
 export interface ISugestaoRepository {
-  findAll(): Promise<SugestaoDomain[]>
-  findById(id: string): Promise<SugestaoDomain | null>
+  findAll(instituicaoId: string): Promise<SugestaoDomain[]>
+  findById(instituicaoId: string, sugestaoId: string): Promise<SugestaoDomain | null>
   create(data: CreateSugestaoDto): Promise<SugestaoDomain>
-  updateById(id: string, data: SugestaoDomain): Promise<SugestaoDomain>
-  deleteById(id: string): Promise<void>
+  updateById(instituicaoId: string, sugestaoId: string, data: UpdateSugestaoDto): Promise<SugestaoDomain>
+  deleteById(instituicaoId: string, sugestaoId: string): Promise<void>
 }

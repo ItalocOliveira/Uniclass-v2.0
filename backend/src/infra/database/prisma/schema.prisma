@@ -1,24 +1,29 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
+  extensions = [postgis()]
 }
 
 
 model Instituicao {
   instituicao_id String   @id @default(uuid()) @db.Uuid
   nome           String
-  logo_url       String?
+  logo_url       String
   mapa_url       String?
+  coordenadas    Json?
 
   locais   Local[]
   usuarios Usuario[]
   avisos   Aviso[]
   eventos  Evento[]
   sugestoes Sugestao[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("instituicoes")
 }
@@ -29,13 +34,16 @@ model Local {
   nome            String
   tipo            localTipos
   bloco           String?
-  coordenadas     Unsupported("geometry(Point, 4326)")?
   mapa_xy         Json?
-  acessivel       Boolean  @default(false)
+  acessivel       Boolean?  @default(true)
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
   eventos Evento[]
 
+  @@unique([local_id, instituicao_id])
   @@map("locais")
 }
 
@@ -44,33 +52,39 @@ model Usuario {
   instituicao_id  String   @db.Uuid
   nome            String
   email           String   
-  tipo_acesso     String?
+  senha_hash      String
+  tipo_acesso     TipoAcesso
   curso           String?
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
   avisos Aviso[]
   sugestoes Sugestao[]
 
   @@map("usuarios")
 
-  @@unique([email, instituicao_id]) 
+  @@unique([usuario_id, instituicao_id]) 
 }
-
 
 model Aviso {
   aviso_id        String   @id @default(uuid()) @db.Uuid
   instituicao_id  String   @db.Uuid
-  usuario_id      String?  @db.Uuid
-  usuario_nome    String?
+  usuario_id      String  @db.Uuid
+  usuario_nome    String
   titulo          String
   mensagem        String?
-  data_criacao    DateTime @default(now())
   prioridade      avisoPrioridade
   curso_alvo      String[]
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
+  usuario Usuario? @relation(fields: [usuario_id], references: [usuario_id], onDelete: Cascade)
+
+  @@unique([aviso_id, instituicao_id])
   @@map("avisos")
 }
 
@@ -83,9 +97,13 @@ model Evento {
   descricao       String?
   local_id        String?  @db.Uuid
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  local Local? @relation(fields: [local_id], references: [local_id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
+  local Local? @relation(fields: [local_id], references: [local_id], onDelete: SetNull)
+
+  @@unique([evento_id, instituicao_id])
   @@map("eventos")
 }
 
@@ -96,34 +114,63 @@ model Sugestao {
   titulo          String
   descricao       String?
   tipo            sugestaoTipos
-  status          String?
-  localizacao     Unsupported("geometry(Point, 4326)")?
+  mapa_xy         Json?
+  status          sugestaoStatus
   foto_url        String?
+
   created_at    DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id])
-  usuario Usuario @relation(fields: [usuario_id], references: [usuario_id])
+  instituicao Instituicao @relation(fields: [instituicao_id], references: [instituicao_id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuario_id], references: [usuario_id], onDelete: Cascade)
 
+  @@unique([sugestao_id, instituicao_id])
   @@map("sugestoes")
+}
+
+enum TipoAcesso {
+  ADMIN
+  PROFESSOR
+  ALUNO
 }
 
 enum localTipos {
   BLOCO
   COMERCIO
   BIBLIOTECA
+  REITORIA
+  COORDENACAO
+  PRACA
+  AUDITORIO
 }
 
 enum sugestaoTipos {
-  TESTE
+  CONSERTO
+  REPOSICAO_MATERIAL
+  INSTALACAO
+  ATUALIZACAO
+  SUPORTE_TECNICO
+}
+
+enum sugestaoStatus {
+  PENDENTE
+  EM_ATENDIMENTO
+  RESOLVIDO
 }
 
 enum eventoTipos {
-  TESTE
+  PALESTRA
+  FEIRA
+  MOCHILAO
+  WORKSHOP
+  SEMINARIO
+  MEETUP
+  HACKATON
 }
 
 enum avisoPrioridade {
-  TESTE
+  LEVE 
+  MODERADO 
+  IMPORTANTE 
+  URGENTE
 }
-
-
-// Cria created_at e updated_at em todos os models pfv
