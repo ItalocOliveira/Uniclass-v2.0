@@ -2,38 +2,55 @@ import { useRef, useState } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 
-
-export function Camerapermiss() {
+export function Camerapermiss2() {
   const cameraRef = useRef<CameraView>(null);
   const [foto, setFoto] = useState<string | null>(null);
-  const [camera, setCamera] = useState<CameraType>("back");
+  const [camera] = useState<CameraType>("back");
   const [permissao, solicitarPermission] = useCameraPermissions();
-   
-    //Bloco  de Permissão
-  if (!permissao)
-    return (<View />
-    );
 
+  // Enquanto carrega permissões
+  if (!permissao) {
+    return <View />;
+  }
+
+  // Se NÃO tem permissão
   if (!permissao.granted) {
     return (
-      <View >
-        <Text style={styles.texto}>Precisamos da permissão da câmera!</Text>
+      <View style={styles.container}>
+        <Text style={styles.texto}>
+          Precisamos da permissão da câmera!
+        </Text>
+
+        <Pressable
+          style={styles.botao}
+          onPress={async () => {
+            await solicitarPermission();
+          }}
+        >
+          <Text style={styles.textoBotao}>Permitir câmera</Text>
+        </Pressable>
       </View>
     );
   }
 
-  //Bloco onde tira a foto  e verifica se a foto existe com uri 
+  // Tirar foto (COM VERIFICAÇÃO)
   const tirarFoto = async () => {
-    const dadosDaFoto = await cameraRef.current?.takePictureAsync();
-    if (dadosDaFoto?.uri) {
-      setFoto(dadosDaFoto.uri);
+    if (!cameraRef.current) return;
+
+    const photo = await cameraRef.current.takePictureAsync({
+      quality: 1,
+      skipProcessing: true,
+    });
+
+    if (photo?.uri) {
+      setFoto(photo.uri);
     }
   };
 
-  // Se já tirou foto, mostra a imagem e troca de camera para imagem
+  // 👉 PRÉ-VISUALIZAÇÃO
   if (foto) {
     return (
-      <View>
+      <View style={styles.container}>
         <Image source={{ uri: foto }} style={styles.image} />
 
         <Pressable style={styles.botao} onPress={() => setFoto(null)}>
@@ -43,51 +60,59 @@ export function Camerapermiss() {
     );
   }
 
-  //  Senão, mostra a câmera
+  // 👉 CÂMERA
   return (
     <View style={{ flex: 1 }}>
       <CameraView
         ref={cameraRef}
         style={{ flex: 1 }}
         facing={camera}
+        mode="picture"   // 🔥 ISSO É O PONTO CHAVE
       />
 
-      <Pressable style={styles.botao} onPress={tirarFoto}>
+      <Pressable style={styles.botaoCamera} onPress={tirarFoto}>
         <Text style={styles.textoBotao}>Tirar foto</Text>
       </Pressable>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 50, 
+    padding: 20,
   },
 
   texto: {
     textAlign: "center",
-    marginTop: 20,
+    marginBottom: 20,
     color: "red",
+    fontSize: 16,
   },
 
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    marginTop:20,
-    marginLeft:35,
+    width: 250,
+    height: 250,
+    borderRadius: 12,
+    marginBottom: 20,
   },
 
   botao: {
-    marginTop: 30, 
-    alignSelf: "center",
     backgroundColor: "#000",
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 25,
+  },
+
+  botaoCamera: {
+    position: "absolute",
+    bottom: 30,
+    alignSelf: "center",
+    backgroundColor: "#000",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 30,
   },
 
   textoBotao: {
@@ -95,4 +120,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

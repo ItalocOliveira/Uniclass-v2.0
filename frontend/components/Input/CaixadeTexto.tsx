@@ -5,7 +5,7 @@ import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 export function CaixadeTexto() {
     
     const [texto, setTexto] = useState<string>("Defeito na placa e computador");
-     const [fontsLoaded] = useFonts({ Anta_400Regular });
+    const [fontsLoaded] = useFonts({ Anta_400Regular });
    
     const mudarTexto = (novoTexto: string) => {
         setTexto(novoTexto);
@@ -15,7 +15,8 @@ export function CaixadeTexto() {
         <View style={styles.container}>
 
             <Text style={styles.textoPrincipal}>Título da sugestão</Text>
-            <TextInput style={styles.input} multiline numberOfLines={2} textAlignVertical="top" value={texto} onChangeText={mudarTexto} placeholder="Descreva o problema..."/>
+            <TextInput style={styles.input} multiline numberOfLines={2} textAlignVertical="top" value={texto}
+             onChangeText={mudarTexto} placeholder="Descreva o problema"/>
             
         </View>
     );
