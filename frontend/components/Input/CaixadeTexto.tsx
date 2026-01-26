@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         fontFamily: "Anta_400Regular",
         marginTop: 30,
         marginBottom: 8, 
+        textAlign:"auto",
     },
     input: {
         borderWidth: 1,
@@ -42,5 +43,6 @@ const styles = StyleSheet.create({
         padding: 12,
         fontSize: 16,
         color: "#000",
+        width:360,
     }
 });

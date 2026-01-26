@@ -1,122 +1,128 @@
-import { useRef, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 
-export function Camerapermiss2() {
+export function Test() {
   const cameraRef = useRef<CameraView>(null);
   const [foto, setFoto] = useState<string | null>(null);
-  const [camera] = useState<CameraType>("back");
+  const [camera, setCamera] = useState<CameraType>("back");
   const [permissao, solicitarPermission] = useCameraPermissions();
 
-  // Enquanto carrega permissões
+  // Bloco de Permissão
   if (!permissao) {
-    return <View />;
+    return <View style={styles.container} />;
   }
 
-  // Se NÃO tem permissão
   if (!permissao.granted) {
     return (
       <View style={styles.container}>
-        <Text style={styles.texto}>
-          Precisamos da permissão da câmera!
-        </Text>
-
-        <Pressable
-          style={styles.botao}
-          onPress={async () => {
-            await solicitarPermission();
-          }}
-        >
-          <Text style={styles.textoBotao}>Permitir câmera</Text>
-        </Pressable>
+        <Text style={styles.texto}>Precisamos da permissão da câmera!</Text>
+        <TouchableOpacity style={styles.botao} onPress={solicitarPermission}>
+          <Text style={styles.textoBotao}>Conceder Permissão</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
-  // Tirar foto (COM VERIFICAÇÃO)
+  // Função para tirar foto
   const tirarFoto = async () => {
-    if (!cameraRef.current) return;
-
-    const photo = await cameraRef.current.takePictureAsync({
-      quality: 1,
-      skipProcessing: true,
-    });
-
-    if (photo?.uri) {
-      setFoto(photo.uri);
+    if (cameraRef.current) {
+      const dadosDaFoto = await cameraRef.current.takePictureAsync();
+      if (dadosDaFoto?.uri) {
+        setFoto(dadosDaFoto.uri);
+      }
     }
   };
 
-  // 👉 PRÉ-VISUALIZAÇÃO
+  // Se já tirou foto, mostra a imagem
   if (foto) {
     return (
       <View style={styles.container}>
-        <Image source={{ uri: foto }} style={styles.image} />
-
-        <Pressable style={styles.botao} onPress={() => setFoto(null)}>
-          <Text style={styles.textoBotao}>Tirar outra foto</Text>
-        </Pressable>
+        <Image source={{ uri: foto }} style={styles.fullImage} />
+        <View style={styles.overlayBotoes}>
+          <Pressable style={styles.botao} onPress={() => setFoto(null)}>
+            <Text style={styles.textoBotao}>Tirar outra foto</Text>
+          </Pressable>
+        </View>
       </View>
     );
   }
 
-  // 👉 CÂMERA
+  // Layout da Câmera (Aqui você verá o que está filmando)
   return (
-    <View style={{ flex: 1 }}>
-      <CameraView
-        ref={cameraRef}
-        style={{ flex: 1 }}
+    <View style={styles.container}>
+      <CameraView 
+        ref={cameraRef} 
+        style={styles.camera} 
         facing={camera}
-        mode="picture"   // 🔥 ISSO É O PONTO CHAVE
-      />
-
-      <Pressable style={styles.botaoCamera} onPress={tirarFoto}>
-        <Text style={styles.textoBotao}>Tirar foto</Text>
-      </Pressable>
+      >
+        {/* Camada por cima da câmera para os controles */}
+        <View style={styles.cameraContent}>
+          <Pressable style={styles.botaoTirar} onPress={tirarFoto}>
+            <View style={styles.circuloInterno} />
+          </Pressable>
+        </View>
+      </CameraView>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+    backgroundColor: "#000",
   },
-
+  camera: {
+    flex: 1,
+  },
+  cameraContent: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 40,
+    alignItems: "flex-end",
+  },
   texto: {
     textAlign: "center",
-    marginBottom: 20,
-    color: "red",
-    fontSize: 16,
-  },
-
-  image: {
-    width: 250,
-    height: 250,
-    borderRadius: 12,
+    color: "#fff",
     marginBottom: 20,
   },
-
+  fullImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
+  overlayBotoes: {
+    position: "absolute",
+    bottom: 40,
+    width: "100%",
+    alignItems: "center",
+  },
   botao: {
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 25,
   },
-
-  botaoCamera: {
-    position: "absolute",
-    bottom: 30,
-    alignSelf: "center",
-    backgroundColor: "#000",
-    paddingVertical: 14,
-    paddingHorizontal: 28,
-    borderRadius: 30,
-  },
-
   textoBotao: {
-    color: "#fff",
+    color: "#000",
     fontSize: 16,
+    fontWeight: "bold",
+  },
+  botaoTirar: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 5,
+    borderColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.2)",
+  },
+  circuloInterno: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#fff",
   },
 });

@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image,TouchableOpacity } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 
 
 export function Camerapermiss() {
   const cameraRef = useRef<CameraView>(null);
-  const [foto, setFoto] = useState<string | null>(null);
+  const [fotoUrl, setFotoUrl] = useState<string | null>(null);
   const [camera, setCamera] = useState<CameraType>("back");
   const [permissao, solicitarPermission] = useCameraPermissions();
-   
+     
     //Bloco  de Permissão
   if (!permissao)
     return (<View />
@@ -18,6 +18,9 @@ export function Camerapermiss() {
     return (
       <View >
         <Text style={styles.texto}>Precisamos da permissão da câmera!</Text>
+        <Pressable onPress={solicitarPermission}>
+          <Text>Permissão</Text>
+        </Pressable>
       </View>
     );
   }
@@ -26,17 +29,17 @@ export function Camerapermiss() {
   const tirarFoto = async () => {
     const dadosDaFoto = await cameraRef.current?.takePictureAsync();
     if (dadosDaFoto?.uri) {
-      setFoto(dadosDaFoto.uri);
+      setFotoUrl(dadosDaFoto.uri);
     }
   };
 
   // Se já tirou foto, mostra a imagem e troca de camera para imagem
-  if (foto) {
+  if (fotoUrl) {
     return (
       <View>
-        <Image source={{ uri: foto }} style={styles.image} />
+        <Image source={{ uri: fotoUrl }} style={styles.image} />
 
-        <Pressable style={styles.botao} onPress={() => setFoto(null)}>
+        <Pressable style={styles.botaoTiraFoto} onPress={() => setFotoUrl(null)}>
           <Text style={styles.textoBotao}>Tirar outra foto</Text>
         </Pressable>
       </View>
@@ -45,16 +48,12 @@ export function Camerapermiss() {
 
   //  Senão, mostra a câmera
   return (
-    <View style={{ flex: 1 }}>
-      <CameraView
-        ref={cameraRef}
-        style={{ flex: 1 }}
-        facing={camera}
-      />
-
-      <Pressable style={styles.botao} onPress={tirarFoto}>
+    <View style={{flex:1}}>
+      <CameraView ref={cameraRef} style={{ flex: 1}} facing={camera}/>
+       <Pressable style={styles.botaoTiraFoto} onPress={tirarFoto}>
         <Text style={styles.textoBotao}>Tirar foto</Text>
       </Pressable>
+   
     </View>
   );
 }
@@ -74,22 +73,24 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    marginTop:20,
-    marginLeft:35,
+    width: 300,
+    height: 300,
+    borderRadius:2,
+    
   },
+ 
 
-  botao: {
-    marginTop: 30, 
+  botaoTiraFoto: {
+    position: "absolute",
+    marginTop:250,
     alignSelf: "center",
-    backgroundColor: "#000",
+    backgroundColor: "#ffffff45",
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 25,
+    borderRadius: 25
+    
   },
-
+  
   textoBotao: {
     color: "#fff",
     fontSize: 16,

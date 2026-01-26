@@ -34,6 +34,7 @@ const style = StyleSheet.create({
       
     },
      input: {
+        width:360,
         borderWidth: 1,
         borderColor: "rgba(82, 82, 91, 1)",
         borderRadius: 8,
@@ -48,6 +49,7 @@ const style = StyleSheet.create({
             display:"flex",
             alignItems:"center",
             justifyContent:"center",
+            textAlign:"center",
             fontFamily:"Anta_400Regular"
          
     },
