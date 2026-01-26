@@ -6,7 +6,7 @@ import {
     ScrollView,
     TouchableOpacity,
 } from "react-native";
-import { IconMenu2 } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 
 export default function Date() {
@@ -20,7 +20,7 @@ export default function Date() {
 
     const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
     const calendarDays = [
-        ["28", "29", "30", "31", 1, 2, 3],
+        [28, 29, 30, 31, 1, 2, 3],
         [4, 5, 6, 7, 8, 9, 10],
         [11, 12, 13, 14, 15, 16, 17],
         [18, 19, 20, 21, 22, 23, 24],
@@ -48,9 +48,22 @@ export default function Date() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+
             <View style={styles.titulo}>
                 <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
                 <IconMenu2 color="#fff" size={32} />
+            </View>
+
+            <View style={styles.container2}>
+                <TouchableOpacity style={styles.button}>
+                    <IconChevronLeft stroke={2} color="#FFFFFF" />
+                </TouchableOpacity>
+
+                <Text style={styles.monthText}>JANEIRO 2026</Text>
+
+                <TouchableOpacity style={styles.button}>
+                    <IconChevronRight stroke={2} color="#FFFFFF" />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.weekRow}>
@@ -61,30 +74,32 @@ export default function Date() {
                 ))}
             </View>
 
-            {calendarDays.map((week, i) => (
-                <View key={i} style={styles.weekRow}>
-                    {week.map((day, j) => (
-                        <TouchableOpacity
-                            key={j}
-                            onPress={() => setSelectedDay(day)}
-                            style={[
-                                styles.dayBox,
-                                day === selectedDay && styles.selectedDayBox,
-                            ]}
-                        >
-                            <Text
+            {
+                calendarDays.map((week, i) => (
+                    <View key={i} style={styles.weekRow}>
+                        {week.map((day, j) => (
+                            <TouchableOpacity
+                                key={j}
+                                onPress={() => setSelectedDay(day)}
                                 style={[
-                                    styles.dayText,
-                                    styles.fontAnta,
-                                    day === selectedDay && styles.selectedDayText,
+                                    styles.dayBox,
+                                    day === selectedDay && styles.selectedDayBox,
                                 ]}
                             >
-                                {day}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            ))}
+                                <Text
+                                    style={[
+                                        styles.dayText,
+                                        styles.fontAnta,
+                                        day === selectedDay && styles.selectedDayText,
+                                    ]}
+                                >
+                                    {day}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                ))
+            }
 
             <View style={styles.events}>
                 <View style={styles.eventSection}>
@@ -113,7 +128,7 @@ export default function Date() {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </ScrollView >
     );
 }
 
@@ -154,21 +169,21 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 20,          
+        borderRadius: 20,
         backgroundColor: "#f0f0f0",
     },
 
     selectedDayBox: {
-        backgroundColor: "#007AFF", 
+        backgroundColor: "#007AFF",
     },
 
     dayText: {
         fontSize: 14,
-        color: "#333",             
+        color: "#333",
     },
 
     selectedDayText: {
-        color: "#fff",              
+        color: "#fff",
         fontWeight: "bold",
     },
     events: {
@@ -227,5 +242,28 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
         marginVertical: 20,
         width: "90%",
+    },
+    container2: {
+        backgroundColor: '#03366A',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderBottomLeftRadius: 16,
+        borderBottomRightRadius: 16,
+    },
+    button: {
+        backgroundColor: '#0c4883',
+        borderRadius: 20,
+        padding: 8,
+    },
+    monthText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+
+        flex: 1,
     },
 });
