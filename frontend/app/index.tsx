@@ -2,10 +2,18 @@ import { View, StyleSheet, ScrollView } from "react-native"
 import { CaixadeTexto } from "@/components/Input/CaixadeTexto"
 import { Descricao } from "@/components/Input/Descricao"
 import { Camerapermiss } from "@/components/ImgUpload/CameraScreen"
-import { Button } from "@/components/button/Button"
+import { Butao } from "@/components/button/Butao"
 
 
-export default function Sugestao () {
+
+
+export default function Sugestao() {
+    const enviar = () => {
+        console.log("Enviando");
+    };
+    const cancelar = () => {
+        console.log("Cancelar");
+    };
     return (
         <ScrollView >
             <View style={styles.container1}>
@@ -17,8 +25,22 @@ export default function Sugestao () {
                 </View>
                 <View style={styles.caixa2}>
                     <Descricao />
-                    <Button />
                 </View>
+                <View style={styles.botaos}>
+                    <Butao
+                        titulo="Enviar"
+                        corTexto="rgba(3, 54, 106, 1)"
+                        cor="rgba(221, 226, 239, 1)"
+                        onPress={cancelar}
+                    />
+                    <Butao
+                        titulo="cancelar"
+                        corTexto="#ffffff"
+                        cor="rgba(3, 54, 106, 1)"
+                        onPress={enviar}
+                    />
+                </View>
+
             </View>
         </ScrollView>
     )
@@ -45,7 +67,13 @@ const styles = StyleSheet.create({
     caixa2: {
         marginTop: 20,
 
-
+    },
+    botaos: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,     
+            
     },
 
 });  
