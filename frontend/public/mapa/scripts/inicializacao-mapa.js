@@ -15,7 +15,7 @@ var map = L.map('map', {
 });
 
 // Adiciona imagem base do mapa (Tiles locais)
-L.tileLayer('tiles/png/{z}/{x}/{y}.png', {
+L.tileLayer('scripts/tiles/{z}/{x}/{y}.png', {
     minZoom: 17,
     maxZoom: 20,
     tms: false,
