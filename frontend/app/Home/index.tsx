@@ -75,11 +75,10 @@ export default function Home() {
           {Platform.OS === "web" ? (
             <iframe
               title="Mapa do Campus"
-              src="/"
+              src="/mapa/index.html"
               width="100%"
               height="400"
               style={{ border: 0 }}
-              allowFullScreen
               loading="lazy"
             />
 
