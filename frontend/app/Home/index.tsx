@@ -4,14 +4,10 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
   Image,
+  Platform,
 } from "react-native";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconMenu2,
-} from "@tabler/icons-react";
+import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
 
@@ -23,10 +19,10 @@ const catalogo = [
   },
   {
     id: 2,
-    title: "Evento Tuor",
+    title: "Evento de Autista",
     image: require("../image/Captura de tela 2026-01-20 110232.png"),
   },
-  { id: 3, title: "Oi", image: require("../image/oi.png") },
+  { id: 3, title: "Evento Tour", image: require("../image/oi.png") },
 ];
 
 export default function Home() {
@@ -44,35 +40,55 @@ export default function Home() {
       <View style={styles.gap} />
 
       <View style={styles.navBar}>
-        <TouchableOpacity style={styles.chevron}>
-          <IconChevronLeft stroke={1.5} color="#999" />
-        </TouchableOpacity>
+        <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
+        <Text style={[styles.bodyText, styles.fontAnta]}>
+          Todos os Eventos mais Recentes
+        </Text>
 
-        <View style={styles.container}>
-          <Text style={styles.header}>Eventos</Text>
-          <Carousel
-            loop
-            width={320}
-            height={220}
-            autoPlay={true}
-            autoPlayInterval={3000}
-            data={catalogo}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Image source={item.image} style={styles.image} />
-                <Text style={styles.text}>{item.title}</Text>
-              </View>
-            )}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.chevron}>
-          <IconChevronRight stroke={1.5} color="#999" />
-        </TouchableOpacity>
+        <Carousel
+          loop
+          width={390}
+          height={220}
+          autoPlay
+          autoPlayInterval={5000}
+          scrollAnimationDuration={1000}
+          data={catalogo}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Image source={item.image} style={styles.image} />
+              <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
+            </View>
+          )}
+        />
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionText}>Teste</Text>
+      <View style={styles.gap} />
+
+      <View style={styles.maps}>
+        <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
+        <Text style={[styles.bodyText, styles.fontAnta]}>
+          Explore o Mapa do Campus Abaixo
+        </Text>
+
+        <View style={styles.mapCard}>
+          {Platform.OS === "web" ? (
+            <iframe
+              title="Mapa do Campus"
+              src="/mapa/index.html"
+              style={{
+                width: "100%",
+                height: 250,
+                border: "none",
+                borderRadius: 8,
+              }}
+              loading="lazy"
+            />
+          ) : (
+            <Text style={{ textAlign: "center" }}>
+              Mapa disponível apenas na versão web.
+            </Text>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
@@ -90,10 +106,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#03366A",
     padding: 15,
   },
+  fontAnta: {
+    fontFamily: "Anta_400Regular",
+  },
+  uniclass: {
+    color: "#fff",
+    fontSize: 20,
+  },
+  gap: {
+    height: 30,
+  },
+  navBar: {
+    backgroundColor: "#ddd",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 20,
+    borderRadius: 8,
+  },
   header: {
     fontSize: 22,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
+    marginBottom: 10,
+  },
+  bodyText: {
+    textAlign: "left",
     marginBottom: 20,
   },
   card: {
@@ -115,37 +152,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  fontAnta: {
-    fontFamily: "Anta_400Regular",
-  },
-  uniclass: {
-    color: "#fff",
-    fontSize: 20,
-  },
-  gap: {
-    height: 20,
-  },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  maps: {
+    backgroundColor: "#ddd",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#f0f0f0",
     marginBottom: 20,
     borderRadius: 8,
   },
-  chevron: {
-    padding: 8,
-  },
-  section: {
-    backgroundColor: "#ddd",
-    padding: 20,
-    marginHorizontal: 20,
+  mapCard: {
+    backgroundColor: "#03366A",
+    borderWidth: 1,
+    borderColor: "#03366A",
     borderRadius: 8,
-    marginBottom: 80,
-  },
-  sectionText: {
-    fontSize: 16,
-    color: "#333",
+    padding: 10,
+    marginBottom: 20,
   },
 });
