@@ -1,4 +1,3 @@
-// frontend/app/Home/index.tsx
 import React from "react";
 import {
   View,
@@ -71,30 +70,36 @@ export default function Home() {
           Explore o Mapa do Campus Abaixo
         </Text>
 
-        <View style={styles.map}>
+        <View style={styles.mapCard}>
           {Platform.OS === "web" ? (
             <iframe
               title="Mapa do Campus"
               src="/mapa/index.html"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
+              style={{
+                width: "100%",
+                height: 250,
+                border: "none",
+                borderRadius: 8,
+              }}
               loading="lazy"
             />
-
           ) : (
             <Text style={{ textAlign: "center" }}>
               Mapa disponível apenas na versão web.
             </Text>
           )}
         </View>
+
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
   titulo: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -102,9 +107,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#03366A",
     padding: 15,
   },
-  fontAnta: { fontFamily: "Anta_400Regular" },
-  uniclass: { color: "#fff", fontSize: 20 },
-  gap: { height: 30 },
+  fontAnta: {
+    fontFamily:
+      "Anta_400Regular"
+  },
+  uniclass: {
+    color: "#fff",
+    fontSize: 20
+  },
+  gap: {
+    height: 30
+
+  },
   navBar: {
     backgroundColor: "#ddd",
     paddingHorizontal: 20,
@@ -118,7 +132,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 10,
   },
-  bodyText: { textAlign: "left", marginBottom: 20 },
+  bodyText: {
+    textAlign: "left",
+    marginBottom: 20
+  },
   card: {
     flex: 1,
     borderRadius: 10,
@@ -133,12 +150,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
   },
-  text: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  text: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
+  },
   maps: {
+    backgroundColor: "#ddd",
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginBottom: 20,
     borderRadius: 8,
   },
-  map: { marginVertical: 15 },
+  mapCard: {
+    backgroundColor: "#03366A",
+    borderWidth: 1,
+    borderColor: "#03366A",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 20,
+  },
+
 });
