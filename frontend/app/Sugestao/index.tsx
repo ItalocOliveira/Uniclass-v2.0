@@ -2,7 +2,6 @@ import { View } from "react-native";
 import { CaixadeTexto } from "@/components/Input/CaixadeTexto";
 import { Descricao } from "@/components/Input/Descricao";
 import { Camerapermiss } from "@/components/ImgUpload/CameraPermiss";
-import { Footer } from "../../components/footer";
 
 export default function Sugestao() {
   return (
@@ -16,7 +15,6 @@ export default function Sugestao() {
       <View>
         <Descricao />
       </View>
-      <Footer />
     </View>
   );
 }

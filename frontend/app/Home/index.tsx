@@ -14,7 +14,6 @@ import {
 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
-import { Footer } from "../../components/footer";
 
 const catalogo = [
   {
@@ -75,8 +74,6 @@ export default function Home() {
       <View style={styles.section}>
         <Text style={styles.sectionText}>Teste</Text>
       </View>
-
-      <Footer />
     </ScrollView>
   );
 }
