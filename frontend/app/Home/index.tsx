@@ -89,7 +89,6 @@ export default function Home() {
             </Text>
           )}
         </View>
-
       </View>
     </ScrollView>
   );
@@ -98,7 +97,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   titulo: {
     flexDirection: "row",
@@ -108,16 +107,14 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   fontAnta: {
-    fontFamily:
-      "Anta_400Regular"
+    fontFamily: "Anta_400Regular",
   },
   uniclass: {
     color: "#fff",
-    fontSize: 20
+    fontSize: 20,
   },
   gap: {
-    height: 30
-
+    height: 30,
   },
   navBar: {
     backgroundColor: "#ddd",
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     textAlign: "left",
-    marginBottom: 20
+    marginBottom: 20,
   },
   card: {
     flex: 1,
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   maps: {
     backgroundColor: "#ddd",
@@ -170,5 +167,4 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
-
 });
