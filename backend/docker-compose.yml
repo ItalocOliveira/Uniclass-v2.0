@@ -1,6 +1,6 @@
 services:
   # ------------------------------------------------------------
-  # PostgreSQL 17 + PostGIS
+  # PostgreSQL 17 + PostGIS (Obrigatório para o Uniclass)
   # ------------------------------------------------------------
   database:
     image: postgis/postgis:17-3.5
@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-uniclass123}
       POSTGRES_DB: ${DB_NAME:-uniclass_v2}
     ports:
+      # Mapeia a porta 5432 do container para a 5433 do seu PC
       - "5433:5432"
     volumes:
       - ./docker/postgres_data:/var/lib/postgresql/data
@@ -23,7 +24,7 @@ services:
       retries: 5
 
   # ------------------------------------------------------------
-  # Redis
+  # Redis (Para filas e cache de autenticação)
   # ------------------------------------------------------------
   cache:
     image: redis:7-alpine
@@ -38,7 +39,7 @@ services:
       - uniclass-network
 
 # ------------------------------------------------------------
-# Definição da Rede (O erro estava na falta disso aqui)
+# Definição da Rede
 # ------------------------------------------------------------
 networks:
   uniclass-network:

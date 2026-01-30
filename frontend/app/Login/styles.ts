@@ -1,0 +1,81 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 32,
+  },
+  image: {
+    width: "100%",
+    height: 330,
+    resizeMode: "contain",
+    marginTop: 62,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 32,
+    width: "100%",
+  },
+  subtitle: {
+    fontSize: 16,
+    textAlign: "left",
+    marginLeft: 8,
+    width: "100%",
+  },
+  boxInput: {
+    width: "100%",
+    height: 60,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 40,
+    marginTop: 10,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    backgroundColor: "#efefef",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.17,
+    shadowRadius: 3.05,
+    elevation: 4,
+  },
+  input: {
+    width: "90%",
+    height: "100%",
+    borderRadius: 40,
+  },
+  boxButton: {
+    width: "100%",
+    height: 60,
+    marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    width: 250,
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#044484",
+    borderRadius: 40,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.17,
+    shadowRadius: 3.05,
+    elevation: 4,
+  },
+  textButton: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});

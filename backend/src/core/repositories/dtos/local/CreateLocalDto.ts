@@ -1,12 +1,12 @@
-import { GeoCoordinate, MapCoordinate } from "./LocalDomain";
+import { localTipos } from "@prisma/client";
+import {MapCoordinate } from "../../../entities/LocalDomain";
 
 export interface CreateLocalDto {
     instituicaoId: string;
     nome: string;
-    tipo?: string | null;
+    tipo: localTipos;
     bloco?: string | null;
 
-    coordenadas?: GeoCoordinate | null;
     mapaXY?: MapCoordinate | null;         
-    acessivel: boolean;
+    acessivel?: boolean;
 }

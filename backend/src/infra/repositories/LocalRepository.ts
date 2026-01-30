@@ -1,57 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { ILocalRepository } from 'src/core/repositories/ILocalRepository';
-import { LocalDomain } from 'src/core/repositories/dtos/local/LocalDomain';
+import { LocalDomain, MapCoordinate } from 'src/core/entities/LocalDomain';
 import { CreateLocalDto } from 'src/core/repositories/dtos/local/CreateLocalDto';
 import { UpdateLocalDto } from 'src/core/repositories/dtos/local/UpdateLocalDto';
-import { Prisma } from '../database/generated/prisma/client';
 import { PrismaService } from '../database/prisma/prisma.service';
 
 @Injectable()
-export class PrismaLocalRepository implements ILocalRepository {
+export class LocalRepository implements ILocalRepository {
 
   constructor(private prisma: PrismaService){}
 
-  async findAll(): Promise<LocalDomain[]> {
-    const result = await this.prisma.$queryRaw<any[]>`
-      SELECT 
-        l.*,
-        ST_X(coordenadas::geometry) as longitude,
-        ST_Y(coordenadas::geometry) as latitude
-      FROM "locais" l
-      ORDER BY l.nome ASC
-    `;
-
-    return result.map((row) => {
-      const coords = (row.latitude && row.longitude) 
-        ? { latitude: row.latitude, longitude: row.longitude } 
-        : null;
-
-      return this.mapToDomain(row, coords);
+  async findAll(instituicaoId: string): Promise<LocalDomain[]> {
+    const locais = await this.prisma.local.findMany({
+      where: {instituicao_id: instituicaoId},
+      orderBy: {
+        nome: "asc",
+      }
     });
+
+    return locais.map((local) => this.mapToDomain(local));
   }
 
-  async findById(id: string): Promise<LocalDomain | null> {
-    const result = await this.prisma.$queryRaw<any[]>`
-      SELECT 
-        l.*,
-        ST_X(coordenadas::geometry) as longitude,
-        ST_Y(coordenadas::geometry) as latitude
-      FROM "locais" l
-      WHERE l.local_id = ${id}::uuid
-      LIMIT 1
-    `;
+  async findById(instituicaoId: string, localId: string): Promise<LocalDomain | null> {
+    const local = await this.prisma.local.findUnique({
+      where: { 
+        local_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          local_id: localId
+        }
+      }
+    });
+    
+    if(!local) return null;
 
-    if (!result.length) return null;
-    const raw = result[0];
-
-    const coords = (raw.latitude && raw.longitude)
-      ? { latitude: raw.latitude, longitude: raw.longitude }
-      : null;
-
-    return this.mapToDomain(raw, coords);
+    return this.mapToDomain(local);
   }
 
-  async findByName(instituicaoId: string, name: string): Promise<LocalDomain | null> {
+  async findByNome(instituicaoId: string, name: string): Promise<LocalDomain | null> {
       const local = await this.prisma.local.findFirst({
         where: { 
           instituicao_id: instituicaoId,
@@ -64,81 +49,76 @@ export class PrismaLocalRepository implements ILocalRepository {
       return this.mapToDomain(local);
   }
 
+  async findAllByInstituicao(instituicaoId: string): Promise<LocalDomain[]> {
+    const locais = await this.prisma.local.findMany({
+      where: { instituicao_id: instituicaoId}
+    });
+
+    return locais.map((local) => this.mapToDomain(local));
+  }
+
   async create(data: CreateLocalDto): Promise<LocalDomain> {
-    const localCriado = await this.prisma.$transaction(async (tx) => {
-      const novoLocal = await tx.local.create({
-        data: {
-          instituicao_id: data.instituicaoId,
-          nome: data.nome,
-          tipo: data.tipo ?? null,
-          bloco: data.bloco ?? null,
-          acessivel: data.acessivel ?? false,
+    const local = await this.prisma.local.create({
+      data: {
+        instituicao_id: data.instituicaoId,
+        nome: data.nome,
+        tipo: data.tipo, 
+        bloco: data.bloco ?? null,
+        acessivel: data.acessivel, 
 
-          mapa_xy: data.mapaXY ? (data.mapaXY as any) : Prisma.JsonNull, 
-          
-        },
-      });
-
-      if (data.coordenadas) {
-        const { latitude, longitude } = data.coordenadas;
-        await tx.$executeRaw`
-          UPDATE "locais"
-          SET coordenadas = ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)
-          WHERE local_id = ${novoLocal.local_id}::uuid
-        `;
-      }
-
-      return novoLocal;
+        mapa_xy: data.mapaXY as any,
+      },
     });
 
-    return this.mapToDomain(localCriado, data.coordenadas);
+    return this.mapToDomain(local);
   }
 
-  async updateById(id: string, data: UpdateLocalDto): Promise<LocalDomain> {
-    const localAtualizado = await this.prisma.$transaction(async (tx) => {
-      const updated = await tx.local.update({
-        where: { local_id: id },
-        data: {
-          nome: data.nome,
-          tipo: data.tipo,
-          bloco: data.bloco,
-          acessivel: data.acessivel,
-          mapa_xy: data.mapaXY ? (data.mapaXY as any) : undefined,
-        },
-      });
+  async updateById(instituicaoId: string, localId: string, data: UpdateLocalDto): Promise<LocalDomain> {
+    const dataToUpdate = {
+      nome: data.nome,
+      tipo: data.tipo,
+      bloco: data.bloco,
+      mapaXY: data.mapaXY,
+      acessivel: data.acessivel
+    };
 
-      if (data.coordenadas) {
-        await tx.$executeRaw`
-          UPDATE "locais"
-          SET coordenadas = ST_SetSRID(ST_MakePoint(${data.coordenadas.longitude}, ${data.coordenadas.latitude}), 4326)
-          WHERE local_id = ${id}::uuid
-        `;
+    const updatedLocal = await this.prisma.local.update({
+      where: { 
+        local_id_instituicao_id: {
+          instituicao_id: instituicaoId,
+          local_id: localId
+        }
+      },
+      data: {
+        ...dataToUpdate,
+        ...(data.mapaXY && { mapa_xy: data.mapaXY as any }),
       }
-
-      return updated;
     });
 
-    return this.mapToDomain(localAtualizado, data.coordenadas);
+    return this.mapToDomain(updatedLocal);
   }
 
-  async deleteById(id: string): Promise<void> {
+  async deleteById(instituicaoId: string, localId: string): Promise<void> {
     await this.prisma.local.delete({
-      where: { local_id: id },
+      where: { 
+        local_id_instituicao_id: {
+          local_id: localId,
+          instituicao_id: instituicaoId
+        }
+      },
     });
   }
 
-  private mapToDomain(local: any, coordenadasOverride?: {latitude: number; longitude: number} | null): LocalDomain {
+  private mapToDomain(local: any): LocalDomain {
     return {
       localId: local.local_id,
       instituicaoId: local.instituicao_id,
       nome: local.nome,
       tipo: local.tipo,
       bloco: local.bloco,
-      acessivel: local.acessivel,
+      acessivel: local.acessivel ?? false,
       
-      mapaXY: local.mapa_xy, 
-
-      coordenadas: coordenadasOverride ?? (local.latitude ? { latitude: local.latitude, longitude: local.longitude } : null)
+      mapaXY: local.mapa_xy as MapCoordinate,
     };
   }
 }
