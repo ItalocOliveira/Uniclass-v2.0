@@ -1,7 +1,7 @@
 import { View, StyleSheet, ScrollView } from "react-native"
 import { CaixadeTexto } from "@/components/Input/CaixadeTexto"
 import { Descricao } from "@/components/Input/Descricao"
-import { Camerapermiss } from "@/components/ImgUpload/CameraScreen"
+import { Camerapermiss } from "@/components/cameraUploud/CameraScreen"
 import { Butao } from "@/components/button/Butao"
 
 
