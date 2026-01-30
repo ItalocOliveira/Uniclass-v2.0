@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { sugestaoStatus, sugestaoTipos } from "@prisma/client";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 
 class MapCoordinate {
@@ -64,5 +64,6 @@ export class CreateSugestaoDto {
     @IsOptional()
     @ValidateNested()
     @Type(() => MapCoordinate)
+    @Transform(({ value }) => typeof value === 'string' ? JSON.parse(value) : value)
     mapaXY?: MapCoordinate;
 }

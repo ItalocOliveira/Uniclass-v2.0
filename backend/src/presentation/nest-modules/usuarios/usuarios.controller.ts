@@ -9,7 +9,7 @@ import { JwtAuthGuard } from 'src/infra/auth/guards/JwtAuthGuard';
 import { RolesGuard } from 'src/infra/auth/guards/RolesGuard';
 import { CreateUsuarioDto } from 'src/presentation/dtos/usuario/CreateUsuarioDto';
 
-@ApiTags('Usuários')
+@ApiTags('Usuarios')
 @ApiBearerAuth()
 @Controller('usuarios')
 export class UsuariosController {

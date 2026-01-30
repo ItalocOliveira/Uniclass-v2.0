@@ -22,6 +22,7 @@ export class LocalRepository implements ILocalRepository {
   }
 
   async findById(instituicaoId: string, localId: string): Promise<LocalDomain | null> {
+    if (!localId || localId === 'undefined') return null;
     const local = await this.prisma.local.findUnique({
       where: { 
         local_id_instituicao_id: {

@@ -9,6 +9,7 @@ import { InstituicoesModule } from './presentation/nest-modules/instituicoes/ins
 import { EventosModule } from './presentation/nest-modules/eventos/eventos.module';
 import { AvisosModule } from './presentation/nest-modules/avisos/avisos.module';
 import { SugestoesModule } from './presentation/nest-modules/sugestoes/sugestoes.module';
+import { CloudinaryModule } from './infra/storage/cloudinary.module';
 
 @Module({
     imports: [
@@ -20,7 +21,8 @@ import { SugestoesModule } from './presentation/nest-modules/sugestoes/sugestoes
         InstituicoesModule, 
         EventosModule, 
         AvisosModule, 
-        SugestoesModule,
+        SugestoesModule, 
+        CloudinaryModule,
     ],
 })
 export class AppModule {}
