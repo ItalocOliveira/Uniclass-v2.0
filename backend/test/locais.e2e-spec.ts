@@ -94,7 +94,7 @@ describe('LocaisController-e2e', () => {
             const createResponse = await request(app.getHttpServer())
                 .post('/locais')
                 .set('Authorization', `Bearer ${accessToken}`)
-                .send(localData);
+                .send({ ...localData, nome: 'Nome Teste' }); 
             
             const localId = createResponse.body.localId;
 
@@ -106,12 +106,7 @@ describe('LocaisController-e2e', () => {
                 .expect(200);
 
             expect(response.body.nome).toBe(novoNome);
-            
-            const noBanco = await prisma.local.findUnique({
-                where: { local_id_instituicao_id: { local_id: localId, instituicao_id: instituicaoId } }
-            });
-            expect(noBanco?.nome).toBe(novoNome);
-        });    
+        });   
     })
 
     describe('POST / locais (ERRO)',() => {

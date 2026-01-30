@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { sugestaoStatus, sugestaoTipos } from '@prisma/client';
 import { CreateSugestaoUseCase } from 'src/core/use-cases/sugestao/CreateSugestaoUseCase';
 import { DeleteSugestaoUseCase } from 'src/core/use-cases/sugestao/DeleteSugestaoUseCase';
 import { FindAllSugestaoUseCase } from 'src/core/use-cases/sugestao/FindAllSugestaoUseCase';
@@ -11,10 +13,11 @@ import { Roles } from 'src/infra/auth/decorators/RolesDecorator';
 import { Role } from 'src/infra/auth/enums/RoleEnum';
 import { JwtAuthGuard } from 'src/infra/auth/guards/JwtAuthGuard';
 import { RolesGuard } from 'src/infra/auth/guards/RolesGuard';
+import { CloudinaryService } from 'src/infra/storage/cloudinary.service';
 import { CreateSugestaoDto } from 'src/presentation/dtos/sugestao/CreateSugestaoDto';
 import { EditSugestaoDto } from 'src/presentation/dtos/sugestao/EditSugestaoDto';
 
-@ApiTags('Sugestões')
+@ApiTags('Sugestoes')
 @ApiBearerAuth()
 @Controller('sugestoes')
 export class SugestoesController {
@@ -24,20 +27,44 @@ export class SugestoesController {
         private readonly findSugestaoUseCase: FindSugestaoUseCase,
         private readonly updateSugestaoUseCase: UpdateSugestaoUseCase,
         private readonly deleteSugestaoUseCase: DeleteSugestaoUseCase,
+        private readonly cloudinaryService: CloudinaryService,
     ){}
 
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ADMIN, Role.ALUNO, Role.PROFESSOR)
+    @ApiConsumes('multipart/form-data')
     @ApiOperation({ 
         summary: 'Envia uma nova sugestão ou feedback', 
-        description: 'Qualquer usuário autenticado pode enviar uma sugestão vinculada à sua instituição.' 
+        description: 'Envia uma sugestão com coordenadas e imagem opcional.'
     })
     @ApiResponse({ status: 201, description: 'Sugestão enviada com sucesso.' })
-    @ApiResponse({ status: 401, description: 'Não autenticado.' })
-    async create(@Body() body: CreateSugestaoDto, @CurrentUser() usuario: UserPayload){
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                titulo: { type: 'string' },
+                tipo: { type: 'string', enum: Object.values(sugestaoTipos) },
+                status: { type: 'string', enum: Object.values(sugestaoStatus) },
+                descricao: { type: 'string' },
+                mapaXY: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' } } },
+                foto: { 
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    })
+    @UseInterceptors(FileInterceptor('foto'))
+    async create(@UploadedFile() file: Express.Multer.File, @Body() body: CreateSugestaoDto, @CurrentUser() usuario: UserPayload){
+        let fotoUrl: string | null = null;
+        if (file) {
+            fotoUrl = await this.cloudinaryService.uploadImage(file);
+        }
+
         return this.createSugestaoUseCase.execute({
             ...body,
+            fotoUrl,
             instituicaoId: usuario.instituicaoId,
             usuarioId: usuario.userId,
         });

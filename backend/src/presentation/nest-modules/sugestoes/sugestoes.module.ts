@@ -7,11 +7,14 @@ import { FindAllSugestaoUseCase } from 'src/core/use-cases/sugestao/FindAllSuges
 import { FindSugestaoUseCase } from 'src/core/use-cases/sugestao/FindSugestaoUseCase';
 import { UpdateSugestaoUseCase } from 'src/core/use-cases/sugestao/UpdateSugestaoUseCase';
 import { DeleteSugestaoUseCase } from 'src/core/use-cases/sugestao/DeleteSugestaoUseCase';
+import { CloudinaryModule } from 'src/infra/storage/cloudinary.module';
+import { CloudinaryService } from 'src/infra/storage/cloudinary.service';
 
 @Module({
-    imports: [DatabaseModule, AuthModule],
+    imports: [DatabaseModule, AuthModule, CloudinaryModule],
     controllers: [SugestoesController],
     providers: [
+        CloudinaryService,
         {
             provide: CreateSugestaoUseCase,
             useFactory: (repository) => new CreateSugestaoUseCase(repository),
