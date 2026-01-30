@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 
-export function Camerapermiss() {
+export function CameraPer() {
   const cameraRef = useRef<CameraView>(null);
   const [fotoUrl, setFotoUrl] = useState<string | null>(null);
   const [camera, setCamera] = useState<CameraType>("back");
