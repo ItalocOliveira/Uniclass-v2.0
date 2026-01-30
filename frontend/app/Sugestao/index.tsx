@@ -1,8 +1,19 @@
+<<<<<<< HEAD
 import { View, StyleSheet, ScrollView } from "react-native";
 import { CaixadeTexto } from "@/components/Input/CaixadeTexto";
 import { Descricao } from "@/components/Input/Descricao";
 import { Camerapermiss } from "@/components/ImgUpload/CameraScreen";
 import { Butao } from "@/components/button/Butao";
+=======
+import { View, StyleSheet, ScrollView } from "react-native"
+import { CaixadeTexto } from "@/components/Input/CaixadeTexto"
+import { Descricao } from "@/components/Input/Descricao"
+import { Camerapermiss } from "@/components/cameraUploud/CameraScreen"
+import { Butao } from "@/components/button/Butao"
+
+
+
+>>>>>>> Tela-de-Evento-
 
 export default function Sugestao() {
   const enviar = () => {
