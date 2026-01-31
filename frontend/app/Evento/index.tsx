@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView, StyleSheet, } from "react-native"
-import { Galeria } from "@/components/galeriaUploud/Galeria";
-import { Butao } from "@/components/button/Butao"
+import { Galeria } from "../../components/galeriaUploud/Galeria";
+import { Botao } from "../../components/button/Botao";
 
 export default function Evento() {
     const enviar = () => {
@@ -17,13 +17,13 @@ export default function Evento() {
 
             </View>
             <View style={styles.botaos}>
-                <Butao
+                <Botao
                     titulo="Enviar"
                     corTexto="rgba(3, 54, 106, 1)"
                     cor="rgba(221, 226, 239, 1)"
                     onPress={cancelar}
                 />
-                <Butao
+                <Botao
                     titulo="cancelar"
                     corTexto="#ffffff"
                     cor="rgba(3, 54, 106, 1)"

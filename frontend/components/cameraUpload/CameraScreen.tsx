@@ -1,7 +1,7 @@
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import { Image, Pressable, StyleSheet, Text, View, } from "react-native";
 
 export function CameraPer() {
   const cameraRef = useRef<CameraView>(null);

@@ -1,31 +1,27 @@
-import { useState } from "react";
 import { Text, View, TextInput, StyleSheet } from "react-native";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 
-export function Descricao() {
+interface DescricaoProps {
+    valor: string;
+    onChange: (texto: string) => void;
+}
 
-    const [texto, setTexto] = useState<string>("");
-    const [fontsLoaded] = useFonts({ Anta_400Regular });
-
-    const mudarTexto = (novoTexto: string) => {
-        setTexto(novoTexto);
-    };
-
+export function Descricao({ valor, onChange }: DescricaoProps) {
     return (
-        <View >
-                
+        <View>
             <Text style={style.descricao}> Descrição da sugestão </Text>
-
             <View style={style.container}>
-                
-                <TextInput style={style.input}
-                    multiline numberOfLines={5}
+                <TextInput 
+                    style={style.input}
+                    multiline 
+                    numberOfLines={5}
                     textAlignVertical="top"
-                    value={texto} onChangeText={mudarTexto} />
+                    value={valor} 
+                    onChangeText={onChange} 
+                    placeholder="Dê mais detalhes sobre o problema..."
+                />
             </View>
-
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({

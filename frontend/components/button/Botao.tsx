@@ -1,9 +1,9 @@
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
 import React from "react";
-import { Pressable, Text, StyleSheet } from "react-native";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 
-type ButaoProps = {
+type BotaoProps = {
 
     titulo: string;
     cor?: string;
@@ -12,11 +12,11 @@ type ButaoProps = {
 
 
 };
-export function Butao({
+export function Botao({
     titulo,
     onPress,
     corTexto = "#ffffff",
-    cor = "#13096c" }: ButaoProps) {
+    cor = "#13096c" }: BotaoProps) {
 
     const [fontsLoaded] = useFonts({ Anta_400Regular });
 
