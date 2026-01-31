@@ -1,14 +1,14 @@
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
+import { IconMenu2 } from "@tabler/icons-react";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   Image,
   Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { IconMenu2 } from "@tabler/icons-react";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
 
 const catalogo = [
@@ -19,7 +19,7 @@ const catalogo = [
   },
   {
     id: 2,
-    title: "Evento de Autista",
+    title: "Evento",
     image: require("../image/Captura de tela 2026-01-20 110232.png"),
   },
   { id: 3, title: "Evento Tour", image: require("../image/oi.png") },
