@@ -1,8 +1,8 @@
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
 import { useState } from "react";
-import { Text, View, TextInput, StyleSheet} from "react-native";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
-export function CaixadeTexto() {
+export function CaixaDeTexto() {
 
     const [texto, setTexto] = useState<string>("Defeito na placa e computador");
     const [fontsLoaded] = useFonts({ Anta_400Regular });
@@ -10,7 +10,6 @@ export function CaixadeTexto() {
     const mudarTexto = (novoTexto: string) => {
         setTexto(novoTexto);
     };
-   
 
     return (
         <View style={styles.container}>

@@ -1,19 +1,8 @@
-<<<<<<< HEAD
-import { View, StyleSheet, ScrollView } from "react-native";
-import { CaixadeTexto } from "@/components/Input/CaixadeTexto";
-import { Descricao } from "@/components/Input/Descricao";
-import { Camerapermiss } from "@/components/ImgUpload/CameraScreen";
-import { Butao } from "@/components/button/Butao";
-=======
-import { View, StyleSheet, ScrollView } from "react-native"
-import { CaixadeTexto } from "@/components/Input/CaixadeTexto"
-import { Descricao } from "@/components/Input/Descricao"
-import { Camerapermiss } from "@/components/cameraUploud/CameraScreen"
-import { Butao } from "@/components/button/Butao"
-
-
-
->>>>>>> Tela-de-Evento-
+import { ScrollView, StyleSheet, View } from "react-native";
+import { CaixaDeTexto } from "../../components/Input/CaixaDeTexto";
+import { Descricao } from "../../components/Input/Descricao";
+import { Botao } from "../../components/button/Botao";
+import { Camerapermiss } from "../../components/cameraUpload/CameraScreen";
 
 export default function Sugestao() {
   const enviar = () => {
@@ -26,7 +15,7 @@ export default function Sugestao() {
     <ScrollView>
       <View style={styles.container1}>
         <View style={styles.caixa}>
-          <CaixadeTexto />
+          <CaixaDeTexto />
         </View>
         <View style={styles.container}>
           <Camerapermiss />
@@ -34,14 +23,14 @@ export default function Sugestao() {
         <View style={styles.caixa2}>
           <Descricao />
         </View>
-        <View style={styles.botaos}>
-          <Butao
+        <View style={styles.botoes}>
+          <Botao
             titulo="Enviar"
             corTexto="rgba(3, 54, 106, 1)"
             cor="rgba(221, 226, 239, 1)"
             onPress={cancelar}
           />
-          <Butao
+          <Botao
             titulo="cancelar"
             corTexto="#ffffff"
             cor="rgba(3, 54, 106, 1)"
@@ -71,7 +60,7 @@ const styles = StyleSheet.create({
   caixa2: {
     marginTop: 20,
   },
-  botaos: {
+  botoes: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
