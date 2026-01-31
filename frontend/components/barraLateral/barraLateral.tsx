@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "expo-router";
 import {
   IconUser,
   IconBulb,
@@ -14,7 +15,16 @@ type SideMenuProps = {
   onClose: () => void;
 };
 
+type RouteType = "/Home" | "/Evento" | "/Date";
+
 export default function SideMenu({ open, onClose }: SideMenuProps) {
+  const router = useRouter();
+
+  function goTo(route: RouteType) {
+    onClose();
+    router.push(route);
+  }
+
   return (
     <>
       {open && (
@@ -28,6 +38,7 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
           }}
         />
       )}
+
       <aside
         style={{
           position: "fixed",
@@ -53,20 +64,36 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
           </button>
         </div>
 
-        <MenuItem icon={<IconUser size={22} />} label="Perfil" />
-        <MenuItem icon={<IconBulb size={22} />} label="Sugestão" />
-        <MenuItem icon={<IconCalendar size={22} />} label="Calendário" />
-        <MenuItem icon={<IconMapPin size={22} />} label="Maps" />
-        <MenuItem icon={<IconCalendarEvent size={22} />} label="Eventos" />
-        <MenuItem icon={<IconLogout size={22} />} label="Sair" />
+        <MenuItem icon={<IconUser size={22} />} label="Home" onClick={() => goTo("/Home")} />
+        <MenuItem icon={<IconCalendarEvent size={22} />} label="Eventos" onClick={() => goTo("/Evento")} />
+        <MenuItem icon={<IconCalendar size={22} />} label="Datas" onClick={() => goTo("/Date")} />
+        <MenuItem
+          icon={<IconMapPin size={22} />}
+          label="Maps"
+          onClick={() => {
+            onClose();
+            window.open("/mapa/index.html", "_self");
+          }}
+        />
+
+        <MenuItem icon={<IconLogout size={22} />} label="Sair" onClick={() => alert("/Login")} />
       </aside>
     </>
   );
 }
 
-function MenuItem({ icon, label }: { icon: React.ReactNode; label: string }) {
+function MenuItem({
+  icon,
+  label,
+  onClick
+}: {
+  icon: React.ReactNode;
+  label: string;
+  onClick?: () => void;
+}) {
   return (
     <button
+      onClick={onClick}
       style={{
         display: "flex",
         alignItems: "center",
