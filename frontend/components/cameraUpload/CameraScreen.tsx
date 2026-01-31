@@ -3,7 +3,7 @@ import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View, } from "react-native";
 
-export function Camerapermiss() {
+export function CameraPer() {
   const cameraRef = useRef<CameraView>(null);
   const [fotoUrl, setFotoUrl] = useState<string | null>(null);
   const [camera, setCamera] = useState<CameraType>("back");

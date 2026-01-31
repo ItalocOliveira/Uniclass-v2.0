@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, Text, StyleSheet, } from "react-native"
+import { View, ScrollView, StyleSheet, } from "react-native"
 import { Galeria } from "@/components/galeriaUploud/Galeria";
 import { Butao } from "@/components/button/Butao"
 
