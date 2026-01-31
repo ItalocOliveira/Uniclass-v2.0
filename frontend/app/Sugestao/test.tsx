@@ -1,52 +1,29 @@
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+
+import { View, StyleSheet, ScrollView } from "react-native";
 import { CaixadeTexto } from "@/components/Input/CaixadeTexto";
 import { Descricao } from "@/components/Input/Descricao";
-import { CameraPer } from "@/components/cameraUploud/CameraScreen";
+import { CameraPer } from "@/components/cameraUploud/CameraScreen"
 import { Butao } from "@/components/button/Butao";
 
 export default function Sugestao() {
-
-  const enviar = async () => {
-    try {
-      const response = await fetch("http://10.0.2.2:3000/sugestao", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mensagem: "Sugestão enviada pelo app",
-        }),
-      });
-
-      const data = await response.json();
-
-      console.log("Resposta:", data);
-      Alert.alert("Sucesso", "Sugestão enviada!");
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Erro", "Não foi possível enviar");
-    }
+  const enviar = () => {
+    console.log("Enviando");
   };
-
   const cancelar = () => {
     console.log("Cancelar");
   };
-
   return (
     <ScrollView>
       <View style={styles.container1}>
         <View style={styles.caixa}>
           <CaixadeTexto />
         </View>
-
         <View style={styles.container}>
-          <CameraPer />
+          <CameraPer/>
         </View>
-
         <View style={styles.caixa2}>
           <Descricao />
         </View>
-
         <View style={styles.botaos}>
           <Butao
             titulo="Cancelar"
