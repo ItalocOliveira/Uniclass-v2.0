@@ -1,78 +1,161 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa do Campus - Navegação</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <link rel="stylesheet" href="./css/style-map.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa do Campus - Navegação</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <link rel="stylesheet" href="./css/style-map.css">
 </head>
+
 <body>
-    
-    <div id="painel-distancia">
-        Restam: <span id="distancia-texto"></span>
+
+  <div id="painel-distancia">
+    Restam: <span id="distancia-texto"></span>
+  </div>
+  <div id="painel-chegada" style="display: none;">
+    <div>
+      <span style="font-size: 24px;"></span><br>
+      <strong>Você chegou!</strong>
     </div>
-    <div id="painel-chegada" style="display: none;">
-        <div>
-            <span style="font-size: 24px;"></span><br>
-            <strong>Você chegou!</strong>
-        </div>
-        <button id="painel-chegada-button" onclick="encerrarNavegacao()" style="margin-top:10px; padding:5px 10px; cursor:pointer;">
-            Encerrar navegação
-        </button>
+    <button id="painel-chegada-button" onclick="encerrarNavegacao()"
+      style="margin-top:10px; padding:5px 10px; cursor:pointer;">
+      Encerrar navegação
+    </button>
+  </div>
+
+  <div style="
+    position: absolute; 
+    top: 12px; 
+    left: 50px; 
+    z-index: 2000; 
+    background: white; 
+    padding: 16px; 
+    border-radius: 16px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    width: 280px;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+">
+
+    <h4 style="
+        margin: 0 0 12px 0; 
+        font-size: 17px; 
+        font-weight: 700; 
+        display: flex; 
+        align-items: center; 
+        gap: 6px;
+    ">
+     Navegação
+    </h4>
+
+    <label style="font-size: 13px; color: #555; display:block; margin-bottom: 6px;">
+      Destino
+    </label>
+
+    <div style="display: flex; gap: 8px;">
+      <select id="seletorLocais" style="
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+        ">
+        <option value="">Selecione um destino</option>
+      </select>
+
+      <button onclick="irParaSelecionado()" style="
+            padding: 10px 14px; 
+            background: #2563eb; 
+            color: white; 
+            border: none; 
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s ease;
+        " onmouseover="this.style.background='#1e4ed8'" onmouseout="this.style.background='#2563eb'">
+        IR
+      </button>
     </div>
 
-    <div style="position: absolute; top: 10px; left: 50px; z-index: 2000; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
-        <h4 style="margin: 0 0 5px 0;">Navegação - TESTE</h4>
-        
-        <select id="seletorLocais" style="padding: 5px; width: 200px;">
-            <option value="">Selecione um destino</option>
-        </select>
-        
-        <button onclick="irParaSelecionado()" style="padding: 5px; background: #3553C1; color: white; border: none; cursor: pointer;">IR</button>
-        
-        <hr style="margin: 10px 0;">
-        
-        <small>Camadas:</small><br>
-        <button onclick="mudarAndar(0)">Térreo</button>
-        <button onclick="mudarAndar(1)">1º Andar</button>
-        <button onclick="mudarAndar(2)">2º Andar</button>
+    <hr style="margin: 14px 0; border: none; border-top: 1px solid #eee;">
+
+    <small style="font-size: 13px; color: #666;">Andar</small>
+
+    <div style="display: flex; gap: 8px; margin-top: 8px;">
+      <button onclick="mudarAndar(0)" style="
+            flex: 1;
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: #2563eb;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        ">Térreo</button>
+
+      <button onclick="mudarAndar(1)" style="
+            flex: 1;
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: #f7f7f7;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        ">1º Andar</button>
+
+      <button onclick="mudarAndar(2)" style="
+            flex: 1;
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: #f7f7f7;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        ">2º Andar</button>
     </div>
 
-    <script>
-        setTimeout(() => {
-            const select = document.getElementById('seletorLocais');
-            
-            if(typeof locais !== 'undefined' && locais.length > 0) {
-                locais.forEach(local => {
-                    const option = document.createElement('option');
-                    option.value = local.properties.nome;
-                    option.text = `${local.properties.nome} (Lvl ${local.properties.level})`;
-                    select.appendChild(option);
-                });
-            } else {
-                console.warn("Ainda não carregou os locais ou variável 'locais' não existe.");
-            }
-        }, 1000);
+  </div>
 
-        function irParaSelecionado() {
-            const nomeSala = document.getElementById('seletorLocais').value;
-            if(nomeSala) {
-                selecionarLocal(nomeSala);
-            } else {
-                alert("Selecione alguma sala na lista!");
-            }
-        }
-    </script>
+  <script>
+    setTimeout(() => {
+      const select = document.getElementById('seletorLocais');
 
-    <div id="map"></div>
+      if (typeof locais !== 'undefined' && locais.length > 0) {
+        locais.forEach(local => {
+          const option = document.createElement('option');
+          option.value = local.properties.nome;
+          option.text = `${local.properties.nome} (Lvl ${local.properties.level})`;
+          select.appendChild(option);
+        });
+      } else {
+        console.warn("Ainda não carregou os locais ou variável 'locais' não existe.");
+      }
+    }, 1000);
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    function irParaSelecionado() {
+      const nomeSala = document.getElementById('seletorLocais').value;
+      if (nomeSala) {
+        selecionarLocal(nomeSala);
+      } else {
+        alert("Selecione alguma sala na lista!");
+      }
+    }
+  </script>
 
-    <script src="./scripts/inicializacao.js"></script>
-    <script src="./scripts/navegacao.js"></script>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="./scripts/inicializacao.js"></script>
+  <script src="./scripts/navegacao.js"></script>
 
 </body>
+
 </html>
