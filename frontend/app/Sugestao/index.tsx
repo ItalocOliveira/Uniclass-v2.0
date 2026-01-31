@@ -1,5 +1,5 @@
 import { View, StyleSheet, ScrollView, Alert } from "react-native";
-import { CaixaDeTexto } from "../../components/Input/CaixaDeTexto";
+import { CaixaDeTexto } from "../../components/Input/CaixadeTexto";
 import { Descricao } from "../../components/Input/Descricao";
 import { CameraPer } from "../../components/cameraUpload/CameraScreen";
 import { Botao } from "../../components/button/Botao";
