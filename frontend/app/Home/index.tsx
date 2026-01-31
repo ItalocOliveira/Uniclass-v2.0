@@ -10,7 +10,8 @@ import {
 import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
-import SideMenu from "@/components/barraLateral/barraLateral";
+import SideMenu from "../../components/barraLateral/barraLateral";
+import { Footer } from "../../components/footer";
 
 const catalogo = [
   {
@@ -111,6 +112,7 @@ export default function Home() {
           </View>
         </View>
       </ScrollView>
+      <Footer /> 
     </View>
   );
 }
