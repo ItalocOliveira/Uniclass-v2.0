@@ -2,22 +2,24 @@ import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-export function CaixaDeTexto() {
+interface CaixaDeTextoProps {
+    valor: string;
+    onChange: (texto: string) => void;
+}
 
-    const [texto, setTexto] = useState<string>("Defeito na placa e computador");
-    const [fontsLoaded] = useFonts({ Anta_400Regular });
-
-    const mudarTexto = (novoTexto: string) => {
-        setTexto(novoTexto);
-    };
+export function CaixaDeTexto({ valor, onChange }: CaixaDeTextoProps) {
 
     return (
         <View style={styles.container}>
-
             <Text style={styles.textoPrincipal}>Título da sugestão</Text>
-            <TextInput style={styles.input} multiline numberOfLines={2} textAlignVertical="top" value={texto}
-                onChangeText={mudarTexto} placeholder="Descreva o problema" />
-
+            <TextInput 
+                style={styles.input} 
+                value={valor}        
+                onChangeText={onChange}  
+                placeholder="Descreva o problema" 
+                multiline 
+                numberOfLines={2} 
+            />
         </View>
     );
 }

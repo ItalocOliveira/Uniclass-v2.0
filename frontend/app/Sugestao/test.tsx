@@ -1,9 +1,9 @@
 
 import { View, StyleSheet, ScrollView } from "react-native";
-import { CaixadeTexto } from "@/components/Input/CaixadeTexto";
-import { Descricao } from "@/components/Input/Descricao";
-import { CameraPer } from "@/components/cameraUploud/CameraScreen"
-import { Butao } from "@/components/button/Butao";
+import { CaixaDeTexto } from "../../components/Input/CaixaDeTexto";
+import { Descricao } from "../../components/Input/Descricao";
+import { CameraPer } from "../../components/cameraUpload/CameraScreen";
+import { Botao } from "../../components/button/Botao";
 
 export default function Sugestao() {
   const enviar = () => {
@@ -16,7 +16,7 @@ export default function Sugestao() {
     <ScrollView>
       <View style={styles.container1}>
         <View style={styles.caixa}>
-          <CaixadeTexto />
+          <CaixaDeTexto />
         </View>
         <View style={styles.container}>
           <CameraPer/>
@@ -25,13 +25,13 @@ export default function Sugestao() {
           <Descricao />
         </View>
         <View style={styles.botaos}>
-          <Butao
+          <Botao
             titulo="Cancelar"
             corTexto="rgba(3, 54, 106, 1)"
             cor="rgba(221, 226, 239, 1)"
             onPress={cancelar}
           />
-          <Butao
+          <Botao
             titulo="Enviar"
             corTexto="#ffffff"
             cor="rgba(3, 54, 106, 1)"
