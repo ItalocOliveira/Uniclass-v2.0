@@ -3,6 +3,77 @@
     width: 100%; 
 }
 
+/* Estilo do conteúdo do Popup */
+.popup-comercio {
+    text-align: center;
+    width: 200px; /* Largura fixa para o balão */
+}
+
+.popup-comercio h3 {
+    margin: 0 0 5px 0;
+    color: #3553C1;
+    font-size: 16px;
+}
+
+.popup-comercio img {
+    width: 100%;       /* Ocupa toda a largura do container */
+    height: 120px;     /* Altura fixa para padronizar */
+    object-fit: cover; /* Corta a imagem para não esticar */
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+}
+
+.label-tooltip {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #999;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 2px 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.label-sala {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    /* Garante que o conteúdo interno possa ser centralizado */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: flex-end; /* Alinha tudo na parte de baixo */
+    white-space: nowrap; /* Impede que o texto quebre linha */
+}
+
+/* O texto do rótulo */
+.label-texto {
+    color: #333;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    /* Borda branca para destacar o texto do fundo */
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    margin-bottom: 2px; /* Espaço entre o texto e a bolinha */
+}
+
+/* A bolinha indicadora */
+.ponto-interesse {
+    width: 8px;  /* Um pouco maior para melhor visualização */
+    height: 8px;
+    background-color: #333;
+    border: 2px solid #fff; /* Borda branca para destacar */
+    border-radius: 50%;
+    box-sizing: border-box; /* Garante que a borda não aumente o tamanho total */
+}
+
+.popup-comercio p {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    line-height: 1.4;
+}
+
 /* Estilização geral dos paineis*/
 #painel-distancia, #painel-chegada {
     position: fixed;
