@@ -20,7 +20,7 @@ const catalogo = [
   },
   {
     id: 2,
-    title: "Evento de Autista",
+    title: "Evento",
     image: require("../image/Captura de tela 2026-01-20 110232.png"),
   },
   { id: 3, title: "Evento Tour", image: require("../image/oi.png") },
