@@ -81,7 +81,7 @@ export default function Home() {
                 src="/mapa/index.html"
                 style={{
                   width: "100%",
-                  height: 250,
+                  height: 320,
                   border: "none",
                   borderRadius: 8,
                 }}
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   gap: {
-    height: 30,
+    height: 10,
   },
   navBar: {
     backgroundColor: "#ddd",
