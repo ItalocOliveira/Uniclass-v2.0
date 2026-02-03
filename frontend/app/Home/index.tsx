@@ -11,6 +11,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
 import SideMenu from "../../components/barraLateral/barraLateral";
+import Header from "../../components/Header/Header";
 import { Footer } from "../../components/footer";
 
 const catalogo = [
@@ -37,26 +38,8 @@ export default function Home() {
     <View style={{ flex: 1 }}>
       <SideMenu open={open} onClose={() => setOpen(false)} />
       <ScrollView style={styles.container}>
-        <View style={styles.titulo}>
-          <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-          <View>
-            <button
-              onClick={() => setOpen(true)}
-              style={{
-                justifyContent: "center",
-                background: "#0c3c78",
-                color: "white",
-                border: "none",
-                borderRadius: 12,
-                padding: 10,
-                cursor: "pointer",
 
-              }}
-            >
-              <IconMenu2 size={24} />
-            </button>
-          </View>
-        </View>
+        <Header />
 
         <View style={styles.gap} />
 
@@ -112,7 +95,7 @@ export default function Home() {
           </View>
         </View>
       </ScrollView>
-      <Footer /> 
+      <Footer />
     </View>
   );
 }
