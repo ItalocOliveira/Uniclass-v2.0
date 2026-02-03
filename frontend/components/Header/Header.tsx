@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { IconMenu2 } from "@tabler/icons-react";
-import SideMenu from "../barraLateral/barraLateral";
+
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import SideMenu from "@/components/barraLateral/barraLateral";
 
 export  function Header() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });

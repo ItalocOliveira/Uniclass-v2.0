@@ -1,7 +1,7 @@
+import { Botao } from "@/components/button/Botao";
+import { Galeria } from "@/components/galeriaUploud/Galeria";
 import React from "react";
 import { View, ScrollView, StyleSheet, } from "react-native"
-import { Galeria } from "../../components/galeriaUploud/Galeria";
-import { Botao } from "../../components/button/Botao";
 
 export default function Evento() {
     const enviar = () => {

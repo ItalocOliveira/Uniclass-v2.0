@@ -1,11 +1,11 @@
 import { View, StyleSheet, ScrollView, Alert } from "react-native";
-import { CaixaDeTexto } from "../../components/Input/CaixadeTexto";
-import { Descricao } from "../../components/Input/Descricao";
-import { CameraPer } from "../../components/cameraUpload/CameraScreen";
-import { Botao } from "../../components/button/Botao";
-import { Footer } from "../../components/footer";
 import { useState } from "react";
-import { Header } from "../../components/Header/Header";
+import { Header } from "@/components/Header/Header";
+import { CaixaDeTexto } from "@/components/Input/CaixadeTexto";
+import { CameraPer } from "@/components/cameraUpload/CameraScreen";
+import { Descricao } from "@/components/Input/Descricao";
+import { Botao } from "@/components/button/Botao";
+import { Footer } from "@/components/footer";
 
 export default function Sugestao() {
   const [titulo, setTitulo] = useState("");
