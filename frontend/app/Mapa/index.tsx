@@ -1,7 +1,8 @@
-import { Footer } from "@/components/footer";
-import Header from "@/components/Header/Header";
+import { Footer } from "../../components/footer";
+
 import React from "react";
 import { View, Text, Platform, StyleSheet } from "react-native";
+import { Header } from "../../components/Header/Header";
 
 export default function Maps() {
   return (

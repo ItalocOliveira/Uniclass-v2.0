@@ -3,8 +3,9 @@ import { CaixaDeTexto } from "../../components/Input/CaixadeTexto";
 import { Descricao } from "../../components/Input/Descricao";
 import { CameraPer } from "../../components/cameraUpload/CameraScreen";
 import { Botao } from "../../components/button/Botao";
-import { Footer } from "../../components/footer/index";
+import { Footer } from "../../components/footer";
 import { useState } from "react";
+import { Header } from "../../components/Header/Header";
 
 export default function Sugestao() {
   const [titulo, setTitulo] = useState("");
@@ -50,6 +51,9 @@ export default function Sugestao() {
 
   return (
     <View style={styles.screen}>
+      <View style={styles.header}>
+        <Header />
+      </View>
       {/* CONTEÚDO QUE ROLA */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.container2}>
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    paddingBottom: 90, // espaço para não esconder conteúdo atrás do footer
+    paddingBottom: 150, // espaço para não esconder conteúdo atrás do footer
   },
 
   container2: {
@@ -132,5 +136,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  header: {
+    zIndex: 10, // Garante que o header fique visualmente acima de qualquer outro elemento
+    elevation: 5, // Sombra para Android para destacar a prioridade
   },
 });
