@@ -35,7 +35,7 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../image/logo_uniclass.png")}
+        source={require("./image/logo_uniclass.png")}
         style={styles.image}
       />
       <View>
