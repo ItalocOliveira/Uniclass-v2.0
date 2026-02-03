@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,9 @@ import {
 import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
+import SideMenu from "@/components/barraLateral/barraLateral";
+import Header from "@/components/Header/Header";
+import { Footer } from "@/components/footer";
 
 const catalogo = [
   {
@@ -19,7 +22,7 @@ const catalogo = [
   },
   {
     id: 2,
-    title: "Evento de Autista",
+    title: "Evento",
     image: require("../image/Captura de tela 2026-01-20 110232.png"),
   },
   { id: 3, title: "Evento Tour", image: require("../image/oi.png") },
@@ -27,70 +30,73 @@ const catalogo = [
 
 export default function Home() {
   const [fontsLoaded] = useFonts({ Anta_400Regular });
+  const [open, setOpen] = useState(false);
 
   if (!fontsLoaded) return null;
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.titulo}>
-        <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-        <IconMenu2 color="#fff" size={32} />
-      </View>
+    <View style={{ flex: 1 }}>
+      <SideMenu open={open} onClose={() => setOpen(false)} />
+      <ScrollView style={styles.container}>
 
-      <View style={styles.gap} />
+        <Header />
 
-      <View style={styles.navBar}>
-        <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
-        <Text style={[styles.bodyText, styles.fontAnta]}>
-          Todos os Eventos mais Recentes
-        </Text>
+        <View style={styles.gap} />
 
-        <Carousel
-          loop
-          width={390}
-          height={220}
-          autoPlay
-          autoPlayInterval={5000}
-          scrollAnimationDuration={1000}
-          data={catalogo}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Image source={item.image} style={styles.image} />
-              <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
-            </View>
-          )}
-        />
-      </View>
+        <View style={styles.navBar}>
+          <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
+          <Text style={[styles.bodyText, styles.fontAnta]}>
+            Todos os Eventos mais Recentes
+          </Text>
 
-      <View style={styles.gap} />
-
-      <View style={styles.maps}>
-        <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
-        <Text style={[styles.bodyText, styles.fontAnta]}>
-          Explore o Mapa do Campus Abaixo
-        </Text>
-
-        <View style={styles.mapCard}>
-          {Platform.OS === "web" ? (
-            <iframe
-              title="Mapa do Campus"
-              src="/mapa/index.html"
-              style={{
-                width: "100%",
-                height: 250,
-                border: "none",
-                borderRadius: 8,
-              }}
-              loading="lazy"
-            />
-          ) : (
-            <Text style={{ textAlign: "center" }}>
-              Mapa disponível apenas na versão web.
-            </Text>
-          )}
+          <Carousel
+            loop
+            width={390}
+            height={220}
+            autoPlay
+            autoPlayInterval={5000}
+            scrollAnimationDuration={1000}
+            data={catalogo}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Image source={item.image} style={styles.image} />
+                <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
+              </View>
+            )}
+          />
         </View>
-      </View>
-    </ScrollView>
+
+        <View style={styles.gap} />
+
+        <View style={styles.maps}>
+          <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
+          <Text style={[styles.bodyText, styles.fontAnta]}>
+            Explore o Mapa do Campus Abaixo
+          </Text>
+
+          <View style={styles.mapCard}>
+            {Platform.OS === "web" ? (
+              <iframe
+                title="Mapa do Campus"
+                src="/mapa/index.html"
+                style={{
+                  width: "100%",
+                  height: 320,
+                  border: "none",
+                  borderRadius: 8,
+                }}
+                loading="lazy"
+              />
+            ) : (
+              <Text style={{ textAlign: "center" }}>
+                Mapa disponível apenas na versão web.
+              </Text>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+      <Footer />
+    </View>
   );
 }
 
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   gap: {
-    height: 30,
+    height: 10,
   },
   navBar: {
     backgroundColor: "#ddd",
