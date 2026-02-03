@@ -10,8 +10,10 @@ import { IconChevronLeft, IconChevronRight, IconMenu2 } from "@tabler/icons-reac
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import SideMenu from "../../components/barraLateral/barraLateral";
 
-import { Footer } from "../../components/footer";
-import { Header } from "../../components/Header/Header";
+
+
+
+
 
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
