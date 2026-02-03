@@ -15,7 +15,7 @@ type SideMenuProps = {
   onClose: () => void;
 };
 
-type RouteType = "/Home" | "/Evento" | "/Date";
+type RouteType = "/Home" | "/Sugestao" | "/Date";
 
 export default function SideMenu({ open, onClose }: SideMenuProps) {
   const router = useRouter();
@@ -65,7 +65,7 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
         </div>
 
         <MenuItem icon={<IconUser size={22} />} label="Home" onClick={() => goTo("/Home")} />
-        <MenuItem icon={<IconCalendarEvent size={22} />} label="Eventos" onClick={() => goTo("/Evento")} />
+        <MenuItem icon={<IconCalendarEvent size={22} />} label="Sugestão" onClick={() => goTo("/Sugestao")} />
         <MenuItem icon={<IconCalendar size={22} />} label="Datas" onClick={() => goTo("/Date")} />
         <MenuItem
           icon={<IconMapPin size={22} />}

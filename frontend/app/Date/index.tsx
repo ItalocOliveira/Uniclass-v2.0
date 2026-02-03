@@ -9,6 +9,8 @@ import {
 import { IconChevronLeft, IconChevronRight, IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import SideMenu from "@/components/barraLateral/barraLateral";
+import Header from "@/components/Header/Header";
+import { Footer } from "@/components/footer";
 
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
@@ -53,15 +55,9 @@ export default function Date() {
             <SideMenu open={open} onClose={() => setOpen(false)} />
 
             <ScrollView contentContainerStyle={styles.container}>
-
-                <View style={styles.titulo}>
-                    <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-
-                    <TouchableOpacity onPress={() => setOpen(true)}>
-                        <IconMenu2 color="#fff" size={32} />
-                    </TouchableOpacity>
-                </View>
-
+                
+                    <Header />
+                
                 <View style={styles.container2}>
                     <TouchableOpacity style={styles.button}>
                         <IconChevronLeft stroke={2} color="#FFFFFF" />
@@ -135,6 +131,7 @@ export default function Date() {
                     </View>
                 </View>
             </ScrollView>
+            <Footer />
         </View>
     );
 }
