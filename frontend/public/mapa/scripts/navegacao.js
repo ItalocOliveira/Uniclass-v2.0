@@ -130,8 +130,6 @@ function selecionarLocal(termoBusca){
 
     if (posicaoUsuario) {
         calcularRota(posicaoUsuario, posicaoDestino);
-    } else {
-        alert("Aguardando localização GPS...");
     }
 }
 

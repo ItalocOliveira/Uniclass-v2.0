@@ -133,7 +133,61 @@
       </button>
     </div>
 
-    <hr style="margin: 14px 0; border: none; border-top: 1px solid #eee;">
+    <div style="
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around; 
+    align-items: center; 
+    background-color: #f7f7f7; 
+    border: 1px solid #ddd; 
+    border-radius: 8px;
+    " id="transportModes">
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+          <path d="M7 21l3 -4" />
+          <path d="M16 21l-2 -4l-3 -3l1 -6" />
+          <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+        </svg>
+      </section>
+
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" />
+        </svg>
+      </section>
+
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M2 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M16 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M7.5 14h5l4 -4h-10.5m1.5 4l4 -4" />
+          <path d="M13 6h2l1.5 3l2 4" />
+        </svg>
+      </section>
+    </div>
+
+    <script>
+      function selectMode(el) {
+        document.querySelectorAll("#transportModes section").forEach(s => {
+          s.style.backgroundColor = "";
+          s.style.color = "";
+        });
+        el.style.backgroundColor = "#2563eb";
+        el.style.color = "white";
+      }
+    </script>
 
     <small style="font-size: 13px; color: #666;">Andar</small>
 
