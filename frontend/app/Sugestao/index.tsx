@@ -1,11 +1,13 @@
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, StyleSheet, ScrollView, Alert, Text } from "react-native";
 import { useState } from "react";
 import { Header } from "@/components/Header/Header";
-import { CaixaDeTexto } from "@/components/Input/CaixadeTexto";
 import { CameraPer } from "@/components/cameraUpload/CameraScreen";
 import { Descricao } from "@/components/Input/Descricao";
 import { Botao } from "@/components/button/Botao";
 import { Footer } from "@/components/footer";
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
+import { Seletor } from "@/components/seletorTopicos/SeletorTopico";
+
 
 export default function Sugestao() {
   const [titulo, setTitulo] = useState("");
@@ -51,15 +53,20 @@ export default function Sugestao() {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.header}>
-        <Header />
-      </View>
+
       {/* CONTEÚDO QUE ROLA */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Header />
+        </View>
         <View style={styles.container2}>
-          <View style={styles.caixa}>
-            <CaixaDeTexto valor={titulo} onChange={setTitulo} />
+            <View style={styles.tituloEsquerdo}>
+            <Text style={styles.textoPrincipal} >Título da sugestão</Text>
+            </View>
+            <View style={styles.caixa}>
+             <Seletor />
           </View>
+         
 
           <View style={styles.container_da_foto}>
             <CameraPer />
@@ -98,14 +105,27 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  textoPrincipal: {
+    fontFamily: "Anta_400Regular",
+    color: "rgb(5, 5, 5)",
+    fontSize: 18,
+    marginTop: 30,
+    marginBottom: 8,
+ 
+  },
 
   scrollContent: {
-    paddingBottom: 150, // espaço para não esconder conteúdo atrás do footer
+    paddingBottom: 150,
   },
 
   container2: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  tituloEsquerdo:{
+    flex:1,
+    marginRight:210,
+
   },
 
   container_da_foto: {
@@ -117,11 +137,17 @@ const styles = StyleSheet.create({
   },
 
   caixa: {
-    marginBottom: 10,
+   
+    width: 376,
+    borderRadius: 10,
+    marginBottom:10,
+
   },
+ 
 
   caixa2: {
     marginTop: 20,
+
   },
 
   botaos: {
@@ -138,7 +164,10 @@ const styles = StyleSheet.create({
     right: 0,
   },
   header: {
-    zIndex: 10, // Garante que o header fique visualmente acima de qualquer outro elemento
-    elevation: 5, // Sombra para Android para destacar a prioridade
+    zIndex: 10,
+    elevation: 5,
   },
+  input: {
+
+  }
 });
