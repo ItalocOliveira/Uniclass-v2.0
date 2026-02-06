@@ -1,4 +1,4 @@
-
+/*
 import { View, StyleSheet, ScrollView } from "react-native";
 import { CaixaDeTexto } from "../../components/Input/CaixaDeTexto";
 import { Descricao } from "../../components/Input/Descricao";
@@ -68,3 +68,4 @@ const styles = StyleSheet.create({
     gap: 12,
   },
 });
+*/

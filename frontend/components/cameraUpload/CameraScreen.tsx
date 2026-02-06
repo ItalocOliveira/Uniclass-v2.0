@@ -38,7 +38,7 @@ export function CameraPer() {
   // Se já tirou foto, mostra a imagem e troca de camera para imagem
   if (fotoUrl) {
     return (
-      <View>
+      <View >
         <Image source={{ uri: fotoUrl }} style={styles.image} />
 
         <Pressable style={styles.botaoTiraFoto} onPress={() => setFotoUrl(null)}>
@@ -61,12 +61,6 @@ export function CameraPer() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 50,
-  },
 
   texto: {
     textAlign: "center",

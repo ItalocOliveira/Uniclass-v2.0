@@ -10,9 +10,10 @@ import {
 import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
-import SideMenu from "../../components/barraLateral/barraLateral";
-import Header from "../../components/Header/Header";
-import { Footer } from "../../components/footer";
+import SideMenu from "@/components/barraLateral/barraLateral";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/footer";
+
 
 const catalogo = [
   {
