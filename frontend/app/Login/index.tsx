@@ -21,47 +21,69 @@ export default function LoginScreen() {
     try {
       setLoading(true);
 
+      console.log("Iniciando login...");
+      console.log("Email:", email);
+      console.log("Senha:", password);
+
       if (!email || !password) {
-        return Alert.alert("Atenção", "Informe os campos obrigatórios!");
+        console.log("Campos vazios");
+        Alert.alert("Atenção", "Informe os campos obrigatórios!");
+        return;
       }
 
-      const response = await fetch("localhost:3000/auth/login", {
+      const url = "http://192.168.0.109:3000/auth/login";
+
+      const payload = {
+        email: email.trim(),
+        senha: password,
+        instituicaoId: "d7d8feda-e008-4a7d-ac85-d05cc0d284ac"
+      };
+
+      console.log("Payload enviado:", payload);
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: email,
-          senha: password,
-          instituicaoId: "550e8400-e29b-41d4-a716-446655440000"
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
+      console.log("Status HTTP:", response.status);
 
-      if (!response.ok) {
-        return Alert.alert("Erro", data.message || "Credenciais inválidas");
+      const rawText = await response.text();
+
+      let data: any = null;
+      try {
+        data = JSON.parse(rawText);
+        console.log("JSON parseado:", data);
+      } catch (jsonError) {
+        console.error("JSON inválido:", jsonError);
+        Alert.alert("Erro", "Resposta inválida do servidor");
+        return;
       }
 
-      const token = data.access_token;
+      if (!response.ok) {
+        console.error("Login falhou");
+        Alert.alert("Erro", data?.message || "Falha no login");
+        return;
+      }
 
-      const usuario = data.usuario;
+      console.log("Login seu certo ");
+      console.log("Token:", data.access_token);
 
-      await AsyncStorage.setItem("token", token);
-      await AsyncStorage.setItem("usuario", JSON.stringify(usuario));
+      await AsyncStorage.setItem("token", data.access_token);
 
-      Alert.alert("Login realizado com sucesso!");
-
-      console.log("TOKEN:", token);
-      console.log("USUÁRIO:", usuario);
+      Alert.alert("Sucesso", "Login realizado com sucesso!");
 
     } catch (error) {
-      console.log(error);
+      console.error("ERRO GERAL:", error);
       Alert.alert("Erro", "Falha ao conectar com o servidor");
     } finally {
       setLoading(false);
     }
   }
+
 
   return (
     <View style={styles.container}>
@@ -100,7 +122,11 @@ export default function LoginScreen() {
       </View>
 
       <View style={styles.boxButton}>
-        <TouchableOpacity style={styles.button} onPress={getLogin}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={getLogin}
+          disabled={loading}
+        >
           {loading ? (
             <ActivityIndicator color={"white"} size={"small"} />
           ) : (
