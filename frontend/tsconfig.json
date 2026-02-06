@@ -3,18 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      "@/*": [
-        "./*"
-=======
       "@/": [
         "./"
->>>>>>> Stashed changes
-=======
-      "@/": [
-        "./"
->>>>>>> Stashed changes
       ]
     }
   },
@@ -22,7 +12,6 @@
     "/*.ts",
     "/.tsx",
     ".expo/types/**/.ts",
-    "expo-env.d.ts",
-    ".expo/types/**/*.ts"
+    "expo-env.d.ts"
   ]
 }
