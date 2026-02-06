@@ -34,10 +34,11 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../image/logo_uniclass.png")}
+       <Image
+        source={require("./image/logo_uniclass.png")}
         style={styles.image}
       />
+      
       <View>
         <View style={styles.boxInput}>
           <TextInput

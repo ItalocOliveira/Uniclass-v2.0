@@ -94,28 +94,41 @@
       Destino
     </label>
 
-    <div style="display: flex; gap: 8px;">
-      <select id="seletorLocais" style="
-            flex: 1;
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            outline: none;
-        ">
-        <option value="">Selecione um destino</option>
-      </select>
+    <div style="display: flex; gap: 24px;">
+      <div style="position: relative; flex: 1;">
+        <input type="text" id="buscaLocal" placeholder="Pesquisar destino..." style="
+      width: 100%;
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 12px;
+      outline: none;
+    " oninput="filtrarLocais()">
+
+        <div id="listaResultados" style="
+      position: absolute;
+      top: 44px;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      max-height: 220px;
+      overflow-y: auto;
+      display: none;
+      z-index: 9999;
+    "></div>
+      </div>
 
       <button onclick="irParaSelecionado()" style="
-            padding: 10px 14px; 
-            background: #2563eb; 
-            color: white; 
-            border: none; 
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.15s ease;
-        " onmouseover="this.style.background='#1e4ed8'" onmouseout="this.style.background='#2563eb'">
+  padding: 10px 14px; 
+  background: #2563eb; 
+  color: white; 
+  border: none; 
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+">
         IR
       </button>
     </div>
@@ -165,27 +178,11 @@
   <div id="map"></div>
 
   <script>
-    setTimeout(() => {
-      const select = document.getElementById('seletorLocais');
-
-      if (typeof locais !== 'undefined' && locais.length > 0) {
-        locais.forEach(local => {
-          const option = document.createElement('option');
-          option.value = local.properties.nome;
-          option.text = `${local.properties.nome} (Lvl ${local.properties.level})`;
-          select.appendChild(option);
-        });
-      } else {
-        console.warn("Ainda não carregou os locais ou variável 'locais' não existe.");
-      }
-    }, 1000);
-
     function irParaSelecionado() {
-      const nomeSala = document.getElementById('seletorLocais').value;
-      if (nomeSala) {
-        selecionarLocal(nomeSala);
+      if (localSelecionado) {
+        selecionarLocal(localSelecionado);
       } else {
-        alert("Selecione alguma sala na lista!");
+        alert("Pesquise e selecione um destino!");
       }
     }
 
@@ -206,13 +203,80 @@
 
     function toggleNavPanel() {
       const panel = document.getElementById("navPanel");
-
       panel.style.display = (panel.style.display === "block") ? "none" : "block";
     }
 
     window.addEventListener("resize", controlarPainel);
     window.addEventListener("load", controlarPainel);
   </script>
+
+  <script>
+    let localSelecionado = null;
+
+    function filtrarLocais() {
+      const input = document.getElementById("buscaLocal");
+      const lista = document.getElementById("listaResultados");
+      const termo = input.value.toLowerCase();
+
+      lista.innerHTML = "";
+      localSelecionado = null;
+
+      if (!termo || !window.locais || locais.length === 0) {
+        lista.style.display = "none";
+        return;
+      }
+
+      const resultados = locais.filter(local =>
+        local.properties.nome.toLowerCase().includes(termo)
+      );
+
+      if (resultados.length === 0) {
+        lista.style.display = "none";
+        return;
+      }
+
+      resultados.forEach(local => {
+        const item = document.createElement("div");
+
+        item.innerHTML = `
+        <strong>${local.properties.nome}</strong>
+        <small style="color:#666;"> — Lvl ${local.properties.level}</small>
+      `;
+
+        item.style.cssText = `
+        padding: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+        transition: background 0.15s ease;
+      `;
+
+        item.onmouseenter = () => item.style.background = "#f3f6ff";
+        item.onmouseleave = () => item.style.background = "#fff";
+
+        item.onclick = () => {
+          input.value = local.properties.nome;
+          localSelecionado = local.properties.nome;
+          lista.style.display = "none";
+          selecionarLocal(local.properties.nome);
+        };
+
+        lista.appendChild(item);
+      });
+
+      lista.style.display = "block";
+    }
+
+    document.addEventListener("click", (e) => {
+      const input = document.getElementById("buscaLocal");
+      const lista = document.getElementById("listaResultados");
+
+      if (!input.contains(e.target) && !lista.contains(e.target)) {
+        lista.style.display = "none";
+      }
+    });
+  </script>
+
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="./scripts/inicializacao-mapa.js"></script>

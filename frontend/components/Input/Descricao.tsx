@@ -12,8 +12,7 @@ export function Descricao() {
     };
 
     return (
-        <View >
-                
+        <View style={{flex:1,}}>
             <Text style={style.descricao}> Descrição da sugestão </Text>
 
             <View style={style.container}>

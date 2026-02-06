@@ -8,6 +8,14 @@ import {
 } from "react-native";
 import { IconChevronLeft, IconChevronRight, IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import SideMenu from "../../components/barraLateral/barraLateral";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/footer";
+
+
+
+
+
 
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
@@ -47,17 +55,17 @@ export default function Date() {
         text.charAt(0).toUpperCase() + text.slice(1);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={{ flex: 1 }}>
+            <SideMenu open={open} onClose={() => setOpen(false)} />
 
-            <View style={styles.titulo}>
-                <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-                <IconMenu2 color="#fff" size={32} />
-            </View>
-
-            <View style={styles.container2}>
-                <TouchableOpacity style={styles.button}>
-                    <IconChevronLeft stroke={2} color="#FFFFFF" />
-                </TouchableOpacity>
+            <ScrollView contentContainerStyle={styles.container}>
+                
+                    <Header />
+                
+                <View style={styles.container2}>
+                    <TouchableOpacity style={styles.button}>
+                        <IconChevronLeft stroke={2} color="#FFFFFF" />
+                    </TouchableOpacity>
 
                 <Text style={styles.monthText}>JANEIRO 2026</Text>
 
@@ -116,19 +124,21 @@ export default function Date() {
 
                 <View style={styles.divider} />
 
-                <View style={styles.eventSection2}>
-                    <Text style={[styles.eventTitle, styles.fontAnta]}>
-                        Eventos Nessa Data
-                    </Text>
-                    <Text style={[styles.eventDate, styles.fontAnta]}>
-                        {formatDate(selectedDay)}
-                    </Text>
-                    <Text style={[styles.eventDescription, styles.fontAnta]}>
-                        Sem Eventos!
-                    </Text>
+                    <View style={styles.eventSection2}>
+                        <Text style={[styles.eventTitle, styles.fontAnta]}>
+                            Eventos Nessa Data
+                        </Text>
+                        <Text style={[styles.eventDate, styles.fontAnta]}>
+                            {formatDate(selectedDay)}
+                        </Text>
+                        <Text style={[styles.eventDescription, styles.fontAnta]}>
+                            Sem Eventos!
+                        </Text>
+                    </View>
                 </View>
-            </View>
-        </ScrollView >
+            </ScrollView>
+            <Footer />
+        </View>
     );
 }
 
