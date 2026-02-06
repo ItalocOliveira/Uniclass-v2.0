@@ -1,6 +1,6 @@
 import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
 import { IconMenu2 } from "@tabler/icons-react";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   Platform,
@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import SideMenu from "../../components/barraLateral/barraLateral";
 
 const catalogo = [
   {
@@ -27,70 +28,90 @@ const catalogo = [
 
 export default function Home() {
   const [fontsLoaded] = useFonts({ Anta_400Regular });
+  const [open, setOpen] = useState(false);
 
   if (!fontsLoaded) return null;
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.titulo}>
-        <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-        <IconMenu2 color="#fff" size={32} />
-      </View>
-
-      <View style={styles.gap} />
-
-      <View style={styles.navBar}>
-        <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
-        <Text style={[styles.bodyText, styles.fontAnta]}>
-          Todos os Eventos mais Recentes
-        </Text>
-
-        <Carousel
-          loop
-          width={390}
-          height={220}
-          autoPlay
-          autoPlayInterval={5000}
-          scrollAnimationDuration={1000}
-          data={catalogo}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Image source={item.image} style={styles.image} />
-              <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
-            </View>
-          )}
-        />
-      </View>
-
-      <View style={styles.gap} />
-
-      <View style={styles.maps}>
-        <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
-        <Text style={[styles.bodyText, styles.fontAnta]}>
-          Explore o Mapa do Campus Abaixo
-        </Text>
-
-        <View style={styles.mapCard}>
-          {Platform.OS === "web" ? (
-            <iframe
-              title="Mapa do Campus"
-              src="/mapa/index.html"
+    <View style={{ flex: 1 }}>
+      <SideMenu open={open} onClose={() => setOpen(false)} />
+      <ScrollView style={styles.container}>
+        <View style={styles.titulo}>
+          <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
+          <View>
+            <button
+              onClick={() => setOpen(true)}
               style={{
-                width: "100%",
-                height: 250,
+                justifyContent: "center",
+                background: "#0c3c78",
+                color: "white",
                 border: "none",
-                borderRadius: 8,
+                borderRadius: 12,
+                padding: 10,
+                cursor: "pointer",
+
               }}
-              loading="lazy"
-            />
-          ) : (
-            <Text style={{ textAlign: "center" }}>
-              Mapa disponível apenas na versão web.
-            </Text>
-          )}
+            >
+              <IconMenu2 size={24} />
+            </button>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+
+        <View style={styles.gap} />
+
+        <View style={styles.navBar}>
+          <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
+          <Text style={[styles.bodyText, styles.fontAnta]}>
+            Todos os Eventos mais Recentes
+          </Text>
+
+          <Carousel
+            loop
+            width={390}
+            height={220}
+            autoPlay
+            autoPlayInterval={5000}
+            scrollAnimationDuration={1000}
+            data={catalogo}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Image source={item.image} style={styles.image} />
+                <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
+              </View>
+            )}
+          />
+        </View>
+
+        <View style={styles.gap} />
+
+        <View style={styles.maps}>
+          <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
+          <Text style={[styles.bodyText, styles.fontAnta]}>
+            Explore o Mapa do Campus Abaixo
+          </Text>
+
+          <View style={styles.mapCard}>
+            {Platform.OS === "web" ? (
+              <iframe
+                title="Mapa do Campus"
+                src="/mapa/index.html"
+                style={{
+                  width: "100%",
+                  height: 250,
+                  border: "none",
+                  borderRadius: 8,
+                }}
+                loading="lazy"
+              />
+            ) : (
+              <Text style={{ textAlign: "center" }}>
+                Mapa disponível apenas na versão web.
+              </Text>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
