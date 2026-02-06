@@ -1,16 +1,16 @@
-import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
-import { IconMenu2 } from "@tabler/icons-react";
-import React, { useState } from "react";
+import React from "react";
 import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
   View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
 } from "react-native";
+import {
+  IconMenu2,
+} from "@tabler/icons-react";
+import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
-import SideMenu from "../../components/barraLateral/barraLateral";
 
 const catalogo = [
   {
@@ -20,7 +20,7 @@ const catalogo = [
   },
   {
     id: 2,
-    title: "Evento",
+    title: "Evento de Autista",
     image: require("../image/Captura de tela 2026-01-20 110232.png"),
   },
   { id: 3, title: "Evento Tour", image: require("../image/oi.png") },
@@ -28,38 +28,23 @@ const catalogo = [
 
 export default function Home() {
   const [fontsLoaded] = useFonts({ Anta_400Regular });
-  const [open, setOpen] = useState(false);
 
   if (!fontsLoaded) return null;
 
   return (
-    <View style={{ flex: 1 }}>
-      <SideMenu open={open} onClose={() => setOpen(false)} />
-      <ScrollView style={styles.container}>
-        <View style={styles.titulo}>
-          <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
-          <View>
-            <button
-              onClick={() => setOpen(true)}
-              style={{
-                justifyContent: "center",
-                background: "#0c3c78",
-                color: "white",
-                border: "none",
-                borderRadius: 12,
-                padding: 10,
-                cursor: "pointer",
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.titulo}>
+        <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
+        <IconMenu2 color="#fff" size={32} />
+      </View>
 
-              }}
-            >
-              <IconMenu2 size={24} />
-            </button>
-          </View>
-        </View>
+      {/* Espaçamento */}
+      <View style={styles.gap} />
 
-        <View style={styles.gap} />
-
-        <View style={styles.navBar}>
+      {/* Carrossel */}
+      <View style={styles.navBar}>
+        <View style={{ flex: 1 }}>
           <Text style={[styles.header, styles.fontAnta]}>Eventos</Text>
           <Text style={[styles.bodyText, styles.fontAnta]}>
             Todos os Eventos mais Recentes
@@ -69,7 +54,7 @@ export default function Home() {
             loop
             width={390}
             height={220}
-            autoPlay
+            autoPlay={true}
             autoPlayInterval={5000}
             scrollAnimationDuration={1000}
             data={catalogo}
@@ -81,37 +66,35 @@ export default function Home() {
             )}
           />
         </View>
+      </View>
 
-        <View style={styles.gap} />
+      {/* Espaçamento */}
+      <View style={styles.gap} />
 
-        <View style={styles.maps}>
-          <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
-          <Text style={[styles.bodyText, styles.fontAnta]}>
-            Explore o Mapa do Campus Abaixo
-          </Text>
+      {/* Mapa (versão web: iframe do Google Maps) */}
+      <View style={styles.maps}>
+        <Text style={[styles.header, styles.fontAnta]}>Mapa do Campus</Text>
+        <Text style={[styles.bodyText, styles.fontAnta]}>
+          Explore o Mapa do Campus Abaixo
+        </Text>
 
-          <View style={styles.mapCard}>
-            {Platform.OS === "web" ? (
-              <iframe
-                title="Mapa do Campus"
-                src="/mapa/index.html"
-                style={{
-                  width: "100%",
-                  height: 250,
-                  border: "none",
-                  borderRadius: 8,
-                }}
-                loading="lazy"
-              />
-            ) : (
-              <Text style={{ textAlign: "center" }}>
-                Mapa disponível apenas na versão web.
-              </Text>
-            )}
-          </View>
+        <View style={styles.map}>
+          <iframe
+            title="Mapa do Campus"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.123456789!2d-35.123!3d-7.123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQ2FtcHVz!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+            width="100%"
+            height="250"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
         </View>
-      </ScrollView>
-    </View>
+
+        <View style={styles.mapButton}>
+          <Text style={styles.mapButtonText}>Encerrar navegação</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -147,11 +130,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 22,
     fontWeight: "bold",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 10,
   },
   bodyText: {
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 20,
   },
   card: {
@@ -174,18 +157,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   maps: {
-    backgroundColor: "#ddd",
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginBottom: 20,
     borderRadius: 8,
   },
-  mapCard: {
+  map: {
+    marginVertical: 15,
+  },
+  mapButton: {
     backgroundColor: "#03366A",
-    borderWidth: 1,
-    borderColor: "#03366A",
+    padding: 12,
     borderRadius: 8,
-    padding: 10,
-    marginBottom: 20,
+    alignItems: "center",
+  },
+  mapButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

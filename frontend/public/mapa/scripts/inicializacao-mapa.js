@@ -124,22 +124,27 @@ fetch('documents/data/pontos_unipe.geojson')
 
 function gerarLabelsNoMapa(features) {
     features.forEach(local => {
-        // Extraindo dados do geojson
+        // 1. Extração de dados básicos
         var coords = local.geometry.coordinates; 
         var latLng = [coords[1], coords[0]];     
         var props = local.properties;
         var andar = props.level || 0;            
 
+        // 2. Verifica se é comércio
         var isComercio = (props.tipo && props.tipo.toLowerCase() === "comercio") || (props.layer && props.layer === "predios_comerciais");
         
         var labelMarker;
 
+        // --- CENÁRIO A: É COMÉRCIO (Ícone de Imagem + Popup Rico) ---
         if (isComercio) {
+            // Busca dados no dicionário
             var dadosExtras = detalhesComercios[props.nome];
-
+            
+            // Define padrão se não achar
             var imagemFinal = dadosExtras ? dadosExtras.img : "documents/img/sem_foto.png";
             var descFinal = dadosExtras ? dadosExtras.desc : "Sem descrição disponível.";
 
+            // Monta o HTML do Popup
             var conteudoPopup = `
                 <div class="popup-comercio">
                     <h3>${props.nome}</h3>
@@ -148,27 +153,32 @@ function gerarLabelsNoMapa(features) {
                 </div>
             `;
 
+            // Cria o marcador com ÍCONE DE IMAGEM (PNG)
             labelMarker = L.marker(latLng, {
                 icon: L.icon({
-                    iconUrl: 'documents/assets/comercio-icon.png', 
+                    iconUrl: 'documents/assets/comercio-icon.png', // Seu ícone de pino/loja
                     iconSize: [32, 32], 
-                    iconAnchor: [16, 32],
-                    popupAnchor: [0, -32]
+                    iconAnchor: [16, 32], // Ponta do pino
+                    popupAnchor: [0, -32] // Popup abre acima do pino
                 }),
                 interactive: true 
             });
 
+            // Vincula o Popup Rico
             labelMarker.bindPopup(conteudoPopup);
 
+            // Adiciona na camada global
             camadaComercios.addLayer(labelMarker);
         }
         
+        // --- CENÁRIO B: SALA DE AULA/OUTROS (Texto Flutuante) ---
         else {
             var htmlIcone = `
                 <div class="ponto-interesse"></div>
                 <div class="label-texto">${props.nome}</div>
             `;
 
+            // Cria o marcador com ÍCONE HTML (DivIcon)
             labelMarker = L.marker(latLng, {
                 icon: L.divIcon({
                     className: 'label-sala',
@@ -176,9 +186,10 @@ function gerarLabelsNoMapa(features) {
                     iconSize: [100, 40],
                     iconAnchor: [50, 10] 
                 }),
-                interactive: false 
+                interactive: false // Geralmente texto não é clicável, mas pode mudar para true se quiser
             });
 
+            // Adiciona na camada do andar
             if (camadasLabels[andar]) {
                 camadasLabels[andar].addLayer(labelMarker);
             }

@@ -1,21 +1,20 @@
-import React from "react";
-import { useRouter } from "expo-router";
 import {
-  IconUser,
-  IconBulb,
   IconCalendar,
-  IconMapPin,
   IconCalendarEvent,
   IconLogout,
+  IconMapPin,
+  IconUser,
   IconX
 } from "@tabler/icons-react";
+import { useRouter } from "expo-router";
+import React from "react";
 
 type SideMenuProps = {
   open: boolean;
   onClose: () => void;
 };
 
-type RouteType = "/Home" | "/Evento" | "/Date";
+type RouteType = "/Home" | "/Evento" | "/Date" | "/Sugestao";
 
 export default function SideMenu({ open, onClose }: SideMenuProps) {
   const router = useRouter();
@@ -67,6 +66,7 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
         <MenuItem icon={<IconUser size={22} />} label="Home" onClick={() => goTo("/Home")} />
         <MenuItem icon={<IconCalendarEvent size={22} />} label="Eventos" onClick={() => goTo("/Evento")} />
         <MenuItem icon={<IconCalendar size={22} />} label="Datas" onClick={() => goTo("/Date")} />
+        <MenuItem icon={<IconCalendar size={22} />} label="Sugestões" onClick={() => goTo("/Sugestao")} />
         <MenuItem
           icon={<IconMapPin size={22} />}
           label="Maps"

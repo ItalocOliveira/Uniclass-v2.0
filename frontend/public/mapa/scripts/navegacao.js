@@ -33,7 +33,8 @@ function desenharRota(ghaphResponse, pontoB){
     if (!ultimaPosicaoCalc) {
         map.fitBounds(desenhoRota.getBounds(), {
             padding: [50, 50],
-            maxZoom: 19
+            maxZoom: 20,
+            animate: true
         });
     }
 
@@ -44,7 +45,7 @@ function desenharRota(ghaphResponse, pontoB){
 function calcularRota(pontoA, pontoB) {
     // URL da API local do GraphHopper
     let modoAtual = 'pedestrian'
-    const baseUrl = "/graphhopper/api"
+    const baseUrl = "http://localhost:8989/route"
 
     var url =   `${baseUrl}?` +
                 `point=${pontoA.lat},${pontoA.lng}` +
@@ -135,8 +136,9 @@ function selecionarLocal(termoBusca){
     }
 }
 
-
-
+map.on('zoomend', function() {
+    mudarAndar(andarAtual);
+});
 
 // DEV - TESTES
 var definindoOrigem = true;

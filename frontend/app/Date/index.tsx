@@ -8,12 +8,10 @@ import {
 } from "react-native";
 import { IconChevronLeft, IconChevronRight, IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
-import SideMenu from "@/components/barraLateral/barraLateral";
 
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
     const [selectedDay, setSelectedDay] = useState(9);
-    const [open, setOpen] = useState(false);
 
     const selectedYear: number = 2026;
     const selectedMonth: string = "janeiro";
@@ -49,40 +47,35 @@ export default function Date() {
         text.charAt(0).toUpperCase() + text.slice(1);
 
     return (
-        <View style={{ flex: 1 }}>
-            <SideMenu open={open} onClose={() => setOpen(false)} />
+        <ScrollView contentContainerStyle={styles.container}>
 
-            <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.titulo}>
+                <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
+                <IconMenu2 color="#fff" size={32} />
+            </View>
 
-                <View style={styles.titulo}>
-                    <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
+            <View style={styles.container2}>
+                <TouchableOpacity style={styles.button}>
+                    <IconChevronLeft stroke={2} color="#FFFFFF" />
+                </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => setOpen(true)}>
-                        <IconMenu2 color="#fff" size={32} />
-                    </TouchableOpacity>
-                </View>
+                <Text style={styles.monthText}>JANEIRO 2026</Text>
 
-                <View style={styles.container2}>
-                    <TouchableOpacity style={styles.button}>
-                        <IconChevronLeft stroke={2} color="#FFFFFF" />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                    <IconChevronRight stroke={2} color="#FFFFFF" />
+                </TouchableOpacity>
+            </View>
 
-                    <Text style={styles.monthText}>JANEIRO 2026</Text>
+            <View style={styles.weekRow}>
+                {daysOfWeek.map((day, index) => (
+                    <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
+                        {day}
+                    </Text>
+                ))}
+            </View>
 
-                    <TouchableOpacity style={styles.button}>
-                        <IconChevronRight stroke={2} color="#FFFFFF" />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.weekRow}>
-                    {daysOfWeek.map((day, index) => (
-                        <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
-                            {day}
-                        </Text>
-                    ))}
-                </View>
-
-                {calendarDays.map((week, i) => (
+            {
+                calendarDays.map((week, i) => (
                     <View key={i} style={styles.weekRow}>
                         {week.map((day, j) => (
                             <TouchableOpacity
@@ -105,37 +98,37 @@ export default function Date() {
                             </TouchableOpacity>
                         ))}
                     </View>
-                ))}
+                ))
+            }
 
-                <View style={styles.events}>
-                    <View style={styles.eventSection}>
-                        <Text style={[styles.eventTitle, styles.fontAnta]}>
-                            Eventos Próximos...
-                        </Text>
-                        <Text style={[styles.eventDate, styles.fontAnta]}>
-                            {formatDate(selectedDay)}
-                        </Text>
-                        <Text style={[styles.eventDescription, styles.fontAnta]}>
-                            Sem Eventos!
-                        </Text>
-                    </View>
-
-                    <View style={styles.divider} />
-
-                    <View style={styles.eventSection2}>
-                        <Text style={[styles.eventTitle, styles.fontAnta]}>
-                            Eventos Nessa Data
-                        </Text>
-                        <Text style={[styles.eventDate, styles.fontAnta]}>
-                            {formatDate(selectedDay)}
-                        </Text>
-                        <Text style={[styles.eventDescription, styles.fontAnta]}>
-                            Sem Eventos!
-                        </Text>
-                    </View>
+            <View style={styles.events}>
+                <View style={styles.eventSection}>
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>
+                        Eventos Próximos...
+                    </Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        {formatDate(selectedDay)}
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>
+                        Sem Eventos!
+                    </Text>
                 </View>
-            </ScrollView>
-        </View>
+
+                <View style={styles.divider} />
+
+                <View style={styles.eventSection2}>
+                    <Text style={[styles.eventTitle, styles.fontAnta]}>
+                        Eventos Nessa Data
+                    </Text>
+                    <Text style={[styles.eventDate, styles.fontAnta]}>
+                        {formatDate(selectedDay)}
+                    </Text>
+                    <Text style={[styles.eventDescription, styles.fontAnta]}>
+                        Sem Eventos!
+                    </Text>
+                </View>
+            </View>
+        </ScrollView >
     );
 }
 
