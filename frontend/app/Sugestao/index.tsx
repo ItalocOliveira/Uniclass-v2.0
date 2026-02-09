@@ -61,9 +61,9 @@ export default function Sugestao() {
           <Header />
         </View>
         <View style={styles.container2}>
-            <View style={styles.tituloEsquerdo}>
+          
             <Text style={styles.textoPrincipal} >Título da sugestão</Text>
-            </View>
+  
             <View style={styles.caixa}>
              <Seletor />
           </View>
@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 30,
     marginBottom: 8,
+    marginRight:200,
+    
  
   },
 
@@ -122,11 +124,6 @@ const styles = StyleSheet.create({
   container2: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  tituloEsquerdo:{
-    flex:1,
-    marginRight:210,
-
   },
 
   container_da_foto: {
@@ -168,7 +165,5 @@ const styles = StyleSheet.create({
     zIndex: 10,
     elevation: 5,
   },
-  input: {
-
-  }
+  
 });
