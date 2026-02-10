@@ -188,7 +188,7 @@ function renderMarkers(features) {
 
             let labelMarker = L.marker(latLng, {
                 icon: L.icon({
-                    iconUrl: `documents/imgs/assets/${config.icon}`,
+                    iconUrl: `documents/imgs/assets/markers/${config.icon}`,
                     iconSize: config.size,
                     iconAnchor: config.anchor,
                     popupAnchor: [0, -32]
@@ -204,17 +204,37 @@ function renderMarkers(features) {
     if (!map.hasLayer(markers)) markers.addTo(map);
 }
 
-function indoorRenderizer(){
-    Object.keys(indoorLayers).forEach(buildingName => {
+function indoorRenderizer() {
+    const allBuildings = new Set([
+        ...Object.keys(indoorLayers), 
+        ...Object.keys(indoorIconsByBuilding)
+    ]);
+
+    allBuildings.forEach(buildingName => {
         if (activeBuildings.has(buildingName)) {
-            if (!map.hasLayer(indoorLayers[buildingName])) {
-                console.log(buildingName + " adicionado a indoorlayers" )
-                indoorLayers[buildingName].addTo(map);
+            if (indoorLayers[buildingName]) {
+                if (!map.hasLayer(indoorLayers[buildingName])) {
+                    indoorLayers[buildingName].addTo(map);
+                }
+            }
+            if (indoorIconsByBuilding[buildingName]) {
+                if (!map.hasLayer(indoorIconsByBuilding[buildingName])) {
+                    console.log(`Adicionando ícones de: ${buildingName}`);
+                    indoorIconsByBuilding[buildingName].addTo(map);
+                }
             }
         } 
         else {
-            if (map.hasLayer(indoorLayers[buildingName])) {
-                map.removeLayer(indoorLayers[buildingName]);
+            if (indoorLayers[buildingName]) {
+                if (map.hasLayer(indoorLayers[buildingName])) {
+                    map.removeLayer(indoorLayers[buildingName]);
+                }
+            }
+            if (indoorIconsByBuilding[buildingName]) {
+                if (map.hasLayer(indoorIconsByBuilding[buildingName])) {
+                    console.log(`Removendo ícones de: ${buildingName}`);
+                    map.removeLayer(indoorIconsByBuilding[buildingName]);
+                }
             }
         }
     });

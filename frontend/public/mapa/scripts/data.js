@@ -31,7 +31,7 @@ const detalhesComercios = {
     },
 
 "Tapiocabana": {
-    img: "documents/imgs/tapiocabana-icon.png",
+    img: "documents/imgs/tapiocabana.png",
     desc: `
         <ul class="popup-lista">
             <li><i class="bi bi-egg-fried"></i> Tapiocas doces e salgadas</li>

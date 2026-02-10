@@ -40,7 +40,6 @@ function drawRoute(ghaphResponse, pontoB){
 function calculateRoute(pontoA, pontoB) {
     destinationPosition = pontoB;
     // URL da API local do GraphHopper
-    let currentMode = 'pedestrian'
     const baseUrl = "http://localhost:8989/route";
 
     var url =   `${baseUrl}?` +
@@ -73,6 +72,7 @@ function calculateRoute(pontoA, pontoB) {
         .catch(err => console.error("Erro ao conectar com GraphHopper:", err));
 }
 
+// Verifica se o ponto de destino é um prédio e o renderiza
 function verifyDestination(ponto) {
     const features = getBuildingAtPosition(ponto);
     const newBuildingName = features ? features.nome : null;
@@ -93,6 +93,64 @@ function verifyDestination(ponto) {
     if (destinationBuilding) {
         enterPlace(destinationBuilding);
     } 
+}
+
+async function findNearestPoint(pointType){
+    if (!userPosition) {
+        alert("Aguardando localização GPS...");
+        return;
+    }
+
+    console.log(`Iniciando busca por: ${pointType}`);
+
+    const candidates = locais.filter(local => {
+        const type = local.properties.tipo? local.properties.tipo.toLowerCase() : "";
+        return type === pointType.toLowerCase();
+    });
+
+    if (candidates.length === 0) {
+        alert("Nenhum local do tipo '" + pointType + "' encontrado.");
+        return;
+    }
+
+    // Calcula a ditância matemática de todos os pontos encontrados
+    // em relação à posição atual do usuário
+    const orderedCandidates = candidates.map(local => {
+        const coords = local.geometry.coordinates;
+        const destinationLatLng = L.latLng(coords[1], coords[0]); 
+        
+        return {
+            feature: local,
+            latLng: destinationLatLng,
+            mathDistance: getHaversineDistance(userPosition, destinationLatLng)
+        };
+    }).sort((a, b) => a.mathDistance - b.mathDistance);
+
+    // Calcula a distância em metros dos 3 menores pontos da lista
+    const finalists = orderedCandidates.slice(0, 3);
+    finalists.forEach(f => console.log(`- ${f.feature.properties.nome}: ${Math.round(f.mathDistance)}m`));
+
+    const routePromisses = finalists.map(async (candidate) => {
+        const realDistance = await getRouteDistanceOnly(userPosition, candidate.latLng);
+        return {
+            ...candidate,
+            realDistance: realDistance
+        };
+    });
+
+    const realResults = await Promise.all(routePromisses);
+
+    const winner = realResults.sort((a,b) => a.realDistance - b.realDistance)[0];
+
+    if (winner.realDistance === Infinity) {
+        alert("Não foi possível traçar rota para nenhum ponto próximo.");
+        return;
+    }
+
+    const destinationFloor = winner.feature.properties.level || 0;
+    currentFloor = destinationFloor;
+
+    calculateRoute(userPosition, winner.latLng);
 }
 
 function finishNavigation() {

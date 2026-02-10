@@ -47,6 +47,20 @@ const indoorLayers = {
         opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
     }),
 };
+const indoorMarkers = {
+    'banheiro': {
+        url: 'documents/imgs/assets/icons/wc-icon.png',
+        sizeMeters: 5
+    },
+    'escada':{
+        url: 'documents/imgs/assets/icons/stairs-icon.png',
+        sizeMeters: 5
+    },
+    'bebedouro': {
+        url: 'documents/imgs/assets/icons/water-drinker-icon.png',
+        sizeMeters: 5
+    }
+};
 
 // Grupo de camadas para controle
 var markers = L.layerGroup();
