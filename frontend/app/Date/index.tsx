@@ -12,14 +12,10 @@ import SideMenu from "../../components/barraLateral/barraLateral";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/footer";
 
-
-
-
-
-
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
     const [selectedDay, setSelectedDay] = useState(9);
+    const [open, setOpen] = useState(false); 
 
     const selectedYear: number = 2026;
     const selectedMonth: string = "janeiro";
@@ -56,7 +52,7 @@ export default function Date() {
 
     return (
         <View style={{ flex: 1 }}>
-            <SideMenu open={open} onClose={() => setOpen(false)} />
+            <SideMenu open={open} onClose={() => setOpen(true)} />
 
             <ScrollView contentContainerStyle={styles.container}>
                 
