@@ -19,7 +19,7 @@ map.on('click', function(e) {
 
         definindoOrigem = false;
     }
-    else {
+    else { 
         // Recebe o destino do usuário por meio do click
         destinationPosition = e.latlng;
 

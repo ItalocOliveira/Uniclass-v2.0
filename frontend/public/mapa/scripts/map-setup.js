@@ -64,4 +64,4 @@ const indoorMarkers = {
 
 // Grupo de camadas para controle
 var markers = L.layerGroup();
-var routesLayer = L.layerGroup().addTo(map);
+var routesLayer = L.layerGroup().addTo(map); 

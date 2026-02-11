@@ -48,7 +48,7 @@ async function getRouteDistanceOnly(pontoA, pontoB) {
         console.error("Erro silencioso GH:", err);
         return Infinity;
     }
-}
+} 
 
 function processIndoorIcons(features) {
     features.forEach(feature => {

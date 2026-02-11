@@ -25,7 +25,7 @@ var onRoute = false;
 var currentMode = 'pedestrian';
 
 // Fecth para obter locais;
-fetch('documents/data/pontos_unipe.geojson')
+fetch('documents/data/pontos_unipe.geojson') 
     .then(response => response.json())
     .then(data => {
         locais = data.features; 
