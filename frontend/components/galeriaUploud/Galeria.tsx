@@ -43,18 +43,17 @@ export function Galeria() {
         <Text style={styles.textoBotao}>+ Adicionar imagem</Text>
       </Pressable>
 
-       <View style={styles.Quadro}>
-      { image && <Image source={{ uri: image }} style={styles.image} /> }
+      <View style={styles.Quadro}>
+        {image && <Image source={{ uri: image }} style={styles.image} />}
       </View>
     </View>
-   
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: 'center',
   },
   image: {
@@ -67,8 +66,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#0f0c0c",
     paddingVertical: 25,
-    padding: 50,
-    marginTop: 150,
+    paddingHorizontal: 50,
+    marginTop: 50,
     opacity: 0.6,
   },
   textoBotao: {
@@ -76,8 +75,8 @@ const styles = StyleSheet.create({
     fontFamily: "Anta_400Regular",
     fontSize: 20,
   },
-  Quadro:{
-    marginTop:120,
+  Quadro: {
+    marginTop: 20,
   },
 
 });

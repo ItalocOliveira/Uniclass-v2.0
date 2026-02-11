@@ -1,7 +1,7 @@
+import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Image, } from "react-native";
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
+import { Image, Pressable, StyleSheet, Text, View, } from "react-native";
 
 export function CameraPer() {
   const cameraRef = useRef<CameraView>(null);
@@ -38,7 +38,7 @@ export function CameraPer() {
   // Se já tirou foto, mostra a imagem e troca de camera para imagem
   if (fotoUrl) {
     return (
-      <View>
+      <View >
         <Image source={{ uri: fotoUrl }} style={styles.image} />
 
         <Pressable style={styles.botaoTiraFoto} onPress={() => setFotoUrl(null)}>
@@ -61,12 +61,6 @@ export function CameraPer() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 50,
-  },
 
   texto: {
     textAlign: "center",
