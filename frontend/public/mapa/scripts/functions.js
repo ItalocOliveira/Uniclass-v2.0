@@ -1,22 +1,11 @@
 // Troca de andares (inutilizado por enquanto)
-// function changeFloor(floor){
-//     currentFloor = floor;
+function changeFloor(floor){
+    currentFloor = floor;
 
-//     Object.values(indoorLayers).forEach(layer => {
-//         if (map.hasLayer(layer)) map.removeLayer(layer);
-//     });
-//     Object.values(labelsLayer).forEach(layer => {
-//         if (map.hasLayer(layer)) map.removeLayer(layer);
-//     });
+    indoorRenderizer();
 
-//     // if (indoorLayers[floor]) {
-//     //     indoorLayers[floor].addTo(map);
-//     // }
-//     // if (markers[floor]) {
-//     //     markers[floor].addTo(map);
-//     // }
-//     console.log(`Andar atualizado: Andar ${floor}`);
-// }
+    console.log(`Andar atualizado: Andar ${floor}`);
+}
 
 // Pontos de destino
 function selectLocation(searchTerm){
@@ -59,7 +48,7 @@ function selectLocation(searchTerm){
     //     markers[floor].addTo(map);
     // }
 
-    console.log(`Andar atualizado: Andar ${floor}`);
+    console.log(`Andar atualizado: Andar ${currentFloor}`);
 }
 
 function togglePopupContent(nomeComercio, destino) {

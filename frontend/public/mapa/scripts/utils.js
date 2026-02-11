@@ -118,3 +118,11 @@ function getBoundsFromCenter(latLng, sizeInMeters) {
 
     return [sw, ne];
 }
+
+// Função auxiliar para desenhar rotas entre dois andares distintos
+function updateRouteByFloor(){
+    if (!onRoute) return;
+
+    const nextStep = findNearestPoint("escada");
+    
+}

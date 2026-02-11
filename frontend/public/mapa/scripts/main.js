@@ -1,6 +1,6 @@
 // Variáveis de estado global
 var currentFloor = 0;
-// var destinationFloor = 0;
+var destinationFloor = null;
 var locais = [];
 var indoorIconsByBuilding = {};
 

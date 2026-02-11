@@ -52,14 +52,19 @@ const indoorMarkers = {
         url: 'documents/imgs/assets/icons/wc-icon.png',
         sizeMeters: 5
     },
+    'bebedouro': {
+        url: 'documents/imgs/assets/icons/water-drinker-icon.png',
+        sizeMeters: 5
+    },
     'escada':{
         url: 'documents/imgs/assets/icons/stairs-icon.png',
         sizeMeters: 5
     },
-    'bebedouro': {
-        url: 'documents/imgs/assets/icons/water-drinker-icon.png',
+    'elevador':{
+        url: 'documents/imgs/assets/icons/elevator-icon.png',
         sizeMeters: 5
     }
+    
 };
 
 // Grupo de camadas para controle

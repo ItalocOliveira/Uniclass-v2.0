@@ -37,6 +37,7 @@ function drawRoute(ghaphResponse, pontoB){
     if (pontoB) L.marker(pontoB).addTo(routesLayer);
 }
 
+
 function calculateRoute(pontoA, pontoB) {
     destinationPosition = pontoB;
     // URL da API local do GraphHopper
