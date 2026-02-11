@@ -72,7 +72,7 @@ function calculateRoute(pontoA, pontoB) {
         .catch(err => console.error("Erro ao conectar com GraphHopper:", err));
 }
 
-// Verifica se o ponto de destino é um prédio e o renderiza
+// Verifica se o ponto de destino é um prédio e o renderiza 
 function verifyDestination(ponto) {
     const features = getBuildingAtPosition(ponto);
     const newBuildingName = features ? features.nome : null;

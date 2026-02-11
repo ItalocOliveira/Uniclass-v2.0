@@ -500,7 +500,7 @@ const detalhesEva = {
         `
     }
 };
-const detalhesGinasio = {
+const detalhesGinasio = { 
     "Ginasio": {
         img: "documents/imgs/ginasio-unipe.png",
         desc: `

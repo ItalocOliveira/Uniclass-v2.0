@@ -149,7 +149,7 @@ function exitPlace(placeName) {
     console.log(`REMOVENDO DO RENDER: ${placeName}`);
     activeBuildings.delete(placeName);
     indoorRenderizer();
-}
+} 
 
 function clearIndoorLayers() {
     Object.values(indoorLayers).forEach(layer => {
