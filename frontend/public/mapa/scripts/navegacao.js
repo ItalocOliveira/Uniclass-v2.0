@@ -134,8 +134,6 @@ function selecionarLocal(termoBusca){
 }
 
 
-
-
 // DEV - TESTES
 var definindoOrigem = true;
 map.on('click', function(e) {

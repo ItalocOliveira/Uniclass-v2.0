@@ -11,6 +11,7 @@ import { styles } from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -21,12 +22,7 @@ export default function LoginScreen() {
     try {
       setLoading(true);
 
-      console.log("Iniciando login...");
-      console.log("Email:", email);
-      console.log("Senha:", password);
-
       if (!email || !password) {
-        console.log("Campos vazios");
         Alert.alert("Atenção", "Informe os campos obrigatórios!");
         return;
       }
@@ -39,8 +35,6 @@ export default function LoginScreen() {
         instituicaoId: "d7d8feda-e008-4a7d-ac85-d05cc0d284ac"
       };
 
-      console.log("Payload enviado:", payload);
-
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -49,35 +43,18 @@ export default function LoginScreen() {
         body: JSON.stringify(payload),
       });
 
-      console.log("Status HTTP:", response.status);
-
-      const rawText = await response.text();
-
-      let data: any = null;
-      try {
-        data = JSON.parse(rawText);
-        console.log("JSON parseado:", data);
-      } catch (jsonError) {
-        console.error("JSON inválido:", jsonError);
-        Alert.alert("Erro", "Resposta inválida do servidor");
-        return;
-      }
+      const data = await response.json();
 
       if (!response.ok) {
-        console.error("Login falhou");
         Alert.alert("Erro", data?.message || "Falha no login");
         return;
       }
 
-      console.log("Login seu certo ");
-      console.log("Token:", data.access_token);
-
       await AsyncStorage.setItem("token", data.access_token);
 
-      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      router.replace("/Home");
 
     } catch (error) {
-      console.error("ERRO GERAL:", error);
       Alert.alert("Erro", "Falha ao conectar com o servidor");
     } finally {
       setLoading(false);
@@ -85,13 +62,14 @@ export default function LoginScreen() {
   }
 
 
+
   return (
     <View style={styles.container}>
-       <Image
+      <Image
         source={require("./image/logo_uniclass.png")}
         style={styles.image}
       />
-      
+
       <View>
         <View style={styles.boxInput}>
           <TextInput

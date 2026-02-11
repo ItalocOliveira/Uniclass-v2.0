@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,9 @@ import Carousel from "react-native-reanimated-carousel";
 import SideMenu from "@/components/barraLateral/barraLateral";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/footer";
+import { authFetch } from "../services/api";
+
+const { width } = Dimensions.get("window");
 
 const catalogo = [
   {
@@ -32,6 +35,26 @@ export default function Home() {
   const [fontsLoaded] = useFonts({ Anta_400Regular });
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    buscarLocais();
+  }, []);
+
+  async function buscarLocais() {
+    try {
+      const response = await authFetch("http://192.168.0.109:3000/locais");
+
+      if (response.status === 401) {
+        console.log("Token inválido — precisa relogar");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Locais recebidos:", data);
+    } catch (error) {
+      console.error("Erro ao buscar locais:", error);
+    }
+  }
+
   if (!fontsLoaded) return null;
 
   return (
@@ -50,8 +73,8 @@ export default function Home() {
 
           <Carousel
             loop
-            width={width * 0.9} // 90% da largura da tela
-            height={width * 0.55} // altura proporcional
+            width={width * 0.9}
+            height={width * 0.55}
             autoPlay
             autoPlayInterval={5000}
             scrollAnimationDuration={1000}
@@ -84,7 +107,7 @@ export default function Home() {
                 src="/mapa/index.html"
                 style={{
                   width: "100%",
-                  height: width * 0.7, // altura proporcional
+                  height: width * 0.7,
                   border: "none",
                   borderRadius: 8,
                 }}
@@ -102,6 +125,7 @@ export default function Home() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
