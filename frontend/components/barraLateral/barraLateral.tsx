@@ -1,16 +1,14 @@
-import React from "react";
-import { useRouter } from "expo-router";
 import {
-  IconUser,
-  IconBulb,
   IconCalendar,
-  IconMapPin,
   IconCalendarEvent,
   IconLogout,
   IconX,
   IconMap2,
-  IconMessageDots
+  IconMessageDots,
+  IconUser
 } from "@tabler/icons-react";
+import { useRouter } from "expo-router";
+import React from "react";
 
 type SideMenuProps = {
   open: boolean;

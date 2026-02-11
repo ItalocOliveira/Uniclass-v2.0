@@ -9,6 +9,7 @@ import { Anta_400Regular, useFonts } from "@expo-google-fonts/anta";
 import { Seletor } from "@/components/seletorTopicos/SeletorTopico";
 
 
+
 export default function Sugestao() {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
@@ -100,6 +101,8 @@ export default function Sugestao() {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   screen: {
