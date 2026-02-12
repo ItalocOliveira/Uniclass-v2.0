@@ -4,6 +4,8 @@ import { Galeria } from "@/components/galeriaUploud/Galeria";
 import { View, ScrollView, StyleSheet, } from "react-native";
 import React from "react";
 import { Header } from "@/components/Header/Header";
+import { SeletorEVet } from "@/components/seletorTopicos/SeletorEvent";
+
 
 export default function Evento() {
 
@@ -19,8 +21,11 @@ export default function Evento() {
                 <View style={styles.header}>
                     <Header />
                 </View>
+                
+                    <SeletorEVet />
+               
 
-                <View style={styles.galeria}>
+                <View >
                     <Galeria />
 
                 </View>
@@ -58,8 +63,5 @@ const styles = StyleSheet.create({
         zIndex: 10,
         elevation: 5,
     },
-    galeria:{
-        
-        
-    },
+   
 });
