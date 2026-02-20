@@ -118,35 +118,3 @@ function getBoundsFromCenter(latLng, sizeInMeters) {
 
     return [sw, ne];
 }
-
-// Função auxiliar para desenhar rotas entre dois andares distintos
-function updateRouteByFloor(){
-    if (!onRoute) return;
-
-    const nextStep = findNearestPoint("escada");
-    
-}
-
-function findConnectorOnRoute(routeCoords, allConnectors) {
-    for (let feature of allConnectors) {
-        const conectorLatLng = {
-            lat: feature.geometry.coordinates[1],
-            lng: feature.geometry.coordinates[0]
-        };
-
-        for (let i = 0; i < routeCoords.length; i++) {
-            const pontoRota = { lat: routeCoords[i][0], lng: routeCoords[i][1] };
-            
-            const distancia = getHaversineDistance(pontoRota, conectorLatLng);
-
-            if (distancia < 2) {
-                console.log(`Conector detectado na rota: ${feature.properties.id}`);
-                return {
-                    feature: feature,
-                    routeIndex: i 
-                };
-            }
-        }
-    }
-    return null;
-}

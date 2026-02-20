@@ -164,7 +164,7 @@ function finishNavigation() {
     if(pDist) pDist.style.display = 'none';
 
     if(getBuildingAtPosition(destinationPosition) && !getBuildingAtPosition(userPosition)){
-        Object.values(indoorLayers).forEach(layer => {
+        Object.values(buildingIndoorLayers).forEach(layer => {
             if (map.hasLayer(layer)) map.removeLayer(layer);
         });
     }

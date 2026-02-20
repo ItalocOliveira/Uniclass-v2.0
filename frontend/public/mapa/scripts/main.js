@@ -1,6 +1,6 @@
 // Variáveis de estado global
 var currentFloor = 0;
-var destinationFloor = null;
+// var destinationFloor = 0;
 var locais = [];
 var indoorIconsByBuilding = {};
 
@@ -25,19 +25,19 @@ var onRoute = false;
 var currentMode = 'pedestrian';
 
 // Fecth para obter locais;
-fetch('documents/data/pontos_unipe.geojson') 
+fetch('map-docs/data/pontos_unipe.geojson') 
     .then(response => response.json())
     .then(data => {
         locais = data.features; 
 
-        renderMarkers(locais);
+        markersRenderizer(locais);
         
         console.log(`${locais.length} locais carregados.`);
     })
     .catch(err => console.error("Erro ao carregar locais:", err));
 
 // Carregamento dos Ícones Indoor
-fetch('documents/data/pontos_indoor_icones.geojson')
+fetch('map-docs/data/pontos_indoor_icones.geojson')
     .then(response => response.json())
     .then(data => {
         processIndoorIcons(data.features);
@@ -51,7 +51,7 @@ fetch('documents/data/pontos_indoor_icones.geojson')
     .catch(err => console.error("Erro ao carregar icones de pontos:", err));
 
 // Fetch para obter geofencing
-fetch('documents/data/predios_com_interior.geojson')
+fetch('map-docs/data/predios_com_interior.geojson')
     .then(response => response.json())
     .then(data => {
         buildingsWithInterior= L.geoJSON(data);
