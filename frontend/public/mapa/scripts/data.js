@@ -1,6 +1,13 @@
+var limitesDoCampus = L.latLngBounds(
+    // Canto Inferior Esquerdo
+    [-7.16353530137493, -34.85958937363623],
+    // Canto Superior Direito
+    [-7.155443330743842, -34.84868800422955]  
+);
+
 const detalhesComercios = {
     "Cantina CT": {
-        img: "documents/imgs/cantina-ct.jpg",
+        img: "map-docs/imgs/cantina-ct.jpg",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-cup-hot"></i> Salgados variados</li>
@@ -31,7 +38,7 @@ const detalhesComercios = {
     },
 
 "Tapiocabana": {
-    img: "documents/imgs/tapiocabana.png",
+    img: "map-docs/imgs/tapiocabana.png",
     desc: `
         <ul class="popup-lista">
             <li><i class="bi bi-egg-fried"></i> Tapiocas doces e salgadas</li>
@@ -78,7 +85,7 @@ const detalhesComercios = {
             <div class="lista-itens" style="display:flex; flex-direction:column; gap:12px; max-height:250px; overflow-y:auto; padding-right:5px;">
                 
                 <div class="item-card" style="display:flex; gap:10px; background:#fff; border-radius:12px; overflow:hidden; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                    <img src="documents/imgs/receita-de-tapioca-com-frango-requeijao.webp" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
+                    <img src="map-docs/imgs/receita-de-tapioca-com-frango-requeijao.webp" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
                     <div style="flex:1;">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <span style="font-weight:600; font-size:14px; color:#111;">Frango com Catupiry</span>
@@ -90,7 +97,7 @@ const detalhesComercios = {
                 </div>
 
                 <div class="item-card" style="display:flex; gap:10px; background:#fff; border-radius:12px; overflow:hidden; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                    <img src="documents/imgs/tapioca-de-carne.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
+                    <img src="map-docs/imgs/tapioca-de-carne.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
                     <div style="flex:1;">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <span style="font-weight:600; font-size:14px; color:#111;">Carne de Sol com Queijo</span>
@@ -102,7 +109,7 @@ const detalhesComercios = {
                 </div>
 
                 <div class="item-card" style="display:flex; gap:10px; background:#fff; border-radius:12px; overflow:hidden; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                    <img src="documents/imgs/tapioca-doce.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
+                    <img src="map-docs/imgs/tapioca-doce.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
                     <div style="flex:1;">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <span style="font-weight:600; font-size:14px; color:#111;">Tapioca Doce</span>
@@ -119,7 +126,7 @@ const detalhesComercios = {
 },
 
     "Restaurante Dona Xica": {
-        img: "documents/imgs/restaurante-piscina-icon.png",
+        img: "map-docs/imgs/restaurante-piscina-icon.png",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-egg-fried"></i> Pratos executivos</li>
@@ -167,7 +174,7 @@ const detalhesComercios = {
             <div class="lista-itens" style="display:flex; flex-direction:column; gap:12px; max-height:250px; overflow-y:auto; padding-right:5px;">
                 
                 <div class="item-card" style="display:flex; gap:10px; background:#fff; border-radius:12px; overflow:hidden; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                    <img src="documents/imgs/self-service.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
+                    <img src="map-docs/imgs/self-service.jpg" style="width:70px; height:70px; object-fit:cover; border-radius:10px;" />
                     <div style="flex:1;">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <span style="font-weight:600; font-size:14px; color:#111;">Self Service</span>
@@ -183,7 +190,7 @@ const detalhesComercios = {
     },
 
     "Minaçaí": {
-        img: "documents/imgs/minacai-icon.png",
+        img: "map-docs/imgs/minacai-icon.png",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-snow"></i> Açaí e cremes gelados</li>
@@ -214,7 +221,7 @@ const detalhesComercios = {
     },
 
     "Pizzaria": {
-        img: "documents/imgs/pizzaria-icon.jpg",
+        img: "map-docs/imgs/pizzaria-icon.jpg",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-pizza"></i> Pizzas artesanais</li>
@@ -245,7 +252,7 @@ const detalhesComercios = {
     },
 
     "Comercio do Museu": {
-        img: "documents/imgs/comercio-museu.jpg",
+        img: "map-docs/imgs/comercio-museu.jpg",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-bread-slice"></i> Lanches rápidos</li>
@@ -277,7 +284,7 @@ const detalhesComercios = {
 };
 const detalhesPraca = {
     "Praça das Pedras": {
-        img: "documents/imgs/praca.jpg",
+        img: "map-docs/imgs/praca.jpg",
         desc: `
             <div class="popup-status aberto">
                 <i class="bi bi-clock"></i>
@@ -303,7 +310,7 @@ const detalhesPraca = {
 }
 const detalhesReitoria = {
     "Reitoria": {
-        img: "documents/imgs/reitoria.webp",
+        img: "map-docs/imgs/reitoria.webp",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-building"></i> Administração</li>
@@ -332,7 +339,7 @@ const detalhesReitoria = {
 }
 const detalhesBiblioteca = {
     "Biblioteca": {
-        img: "documents/imgs/biblioteca.webp",
+        img: "map-docs/imgs/biblioteca.webp",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-book"></i> Acervo de livros e periódicos</li>
@@ -360,7 +367,7 @@ const detalhesBiblioteca = {
 };
 const detalhesMuseu = {
     "Museu": {
-        img: "documents/imgs/museu.jpg",
+        img: "map-docs/imgs/museu.jpg",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-bank"></i> Exposições permanentes e temporárias</li>
@@ -415,29 +422,29 @@ function gerarDescEstacionamento() {
 
 const detalhesEstacionamento = {
     "Estacionamento do EVA": {
-        img: "documents/imgs/estacionamento.png",
+        img: "map-docs/imgs/estacionamento.png",
         desc: gerarDescEstacionamento()
     },
     "Estacionamento do Auditório": {
-        img: "documents/imgs/estacionamento.png",
+        img: "map-docs/imgs/estacionamento.png",
         desc: gerarDescEstacionamento()
     },
     "Estacionamento do Primeiros Socorros": {
-        img: "documents/imgs/estacionamento.png",
+        img: "map-docs/imgs/estacionamento.png",
         desc: gerarDescEstacionamento()
     },
     "Estacionamento de Psicologia": {
-        img: "documents/imgs/estacionamento.png",
+        img: "map-docs/imgs/estacionamento.png",
         desc: gerarDescEstacionamento()
     },
     "Estacionamento da Reitoria": {
-        img: "documents/imgs/estacionamento.png",
+        img: "map-docs/imgs/estacionamento.png",
         desc: gerarDescEstacionamento()
     }
 };
 const detalhesAuditorio = {
     "Auditório": {
-        img: "documents/imgs/auditorio.webp",
+        img: "map-docs/imgs/auditorio.webp",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-mic"></i> Espaço para palestras e eventos</li>
@@ -465,7 +472,7 @@ const detalhesAuditorio = {
 };
 const detalhesEva = {
     "EVA": {
-        img: "documents/imgs/eva.webp",
+        img: "map-docs/imgs/eva.webp",
         desc: `
             <ul class="popup-lista">
                 <li>
@@ -502,7 +509,7 @@ const detalhesEva = {
 };
 const detalhesGinasio = { 
     "Ginasio": {
-        img: "documents/imgs/ginasio-unipe.png",
+        img: "map-docs/imgs/ginasio-unipe.png",
         desc: `
             <ul class="popup-lista">
                 <li><i class="bi bi-dribbble"></i> Quadra poliesportiva</li>
@@ -583,5 +590,229 @@ const markerConfig = {
         icon: 'praca-icon.png',
         size: [48, 48],
         anchor: [28, 28],
+    }
+};
+
+
+// Camadas
+const buildingLayers = {
+    "Bloco A": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_a/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco B": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_b/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco C": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_c/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco D": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_d/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco E": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_e/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco F": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_f/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco G": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_g/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco H": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_h/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco I": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_ei/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco J": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_j/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco K": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_k/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco L": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_l/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco M": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_m/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco N": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_n/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco O": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_o/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco P": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_p/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco Q": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_q/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco R": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_r/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/bloco_s/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Auditorio": L.tileLayer('map-docs/tiles/level_0/indoor/verde/auditorio/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Biblioteca": L.tileLayer('map-docs/tiles/level_0/indoor/azul/biblioteca/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Reitoria": L.tileLayer('map-docs/tiles/level_0/indoor/azul/reitoria/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Museu": L.tileLayer('map-docs/tiles/level_0/indoor/azul/museu/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "EVA": L.tileLayer('map-docs/tiles/level_0/indoor/azul/eva/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "CT": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/ct/solid/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+};
+
+const buildingIndoorLayers = {
+    "Bloco A": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_a/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco B": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_b/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco C": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_c/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco D": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_d/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco E": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_e/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco F": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_f/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco G": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_g/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco H": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_h/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco I": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_ei/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco J": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_j/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco K": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_k/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco L": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_l/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco M": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_m/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco N": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_n/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco O": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_o/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco P": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_p/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco Q": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_q/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco R": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_r/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Bloco S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/bloco_s/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Auditorio": L.tileLayer('map-docs/tiles/level_0/indoor/verde/auditorio/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Biblioteca": L.tileLayer('map-docs/tiles/level_0/indoor/azul/biblioteca/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Reitoria": L.tileLayer('map-docs/tiles/level_0/indoor/azul/reitoria/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "Museu": L.tileLayer('map-docs/tiles/level_0/indoor/azul/museu/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "EVA": L.tileLayer('map-docs/tiles/level_0/indoor/azul/eva/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+    "CT": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/ct/transparent/{z}/{x}/{y}.png', { 
+        minZoom: 17, maxZoom: 21, tms: false, 
+        opacity: 0.5, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
+    }),
+};
+
+
+const indoorMarkers = {
+    'banheiro': {
+        url: 'map-docs/imgs/assets/icons/wc-icon.png',
+        sizeMeters: 5
+    },
+    'escada':{
+        url: 'map-docs/imgs/assets/icons/stairs-icon.png',
+        sizeMeters: 5
+    },
+    'bebedouro': {
+        url: 'map-docs/imgs/assets/icons/water-drinker-icon.png',
+        sizeMeters: 5
     }
 };

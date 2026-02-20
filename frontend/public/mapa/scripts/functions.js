@@ -1,22 +1,15 @@
 // Troca de andares (inutilizado por enquanto)
-// function changeFloor(floor){
-//     currentFloor = floor;
+function changeFloor(floor){
+    currentFloor = floor;
 
-//     Object.values(indoorLayers).forEach(layer => {
-//         if (map.hasLayer(layer)) map.removeLayer(layer);
-//     });
-//     Object.values(labelsLayer).forEach(layer => {
-//         if (map.hasLayer(layer)) map.removeLayer(layer);
-//     });
+    indoorRenderizer();
 
-//     // if (indoorLayers[floor]) {
-//     //     indoorLayers[floor].addTo(map);
-//     // }
-//     // if (markers[floor]) {
-//     //     markers[floor].addTo(map);
-//     // }
-//     console.log(`Andar atualizado: Andar ${floor}`);
-// }
+    if (onRoute && destinationPosition) {
+        calculateRoute(userPosition, destinationPosition);
+    }
+
+    console.log(`Andar atualizado: Andar ${floor}`);
+}
 
 // Pontos de destino
 function selectLocation(searchTerm){
@@ -51,13 +44,6 @@ function selectLocation(searchTerm){
     } else {
         alert("Aguardando localização GPS...");
     }
-
-    // if (indoorLayers[floor]) {
-    //     indoorLayers[floor].addTo(map);
-    // }
-    // if (markers[floor]) {
-    //     markers[floor].addTo(map);
-    // }
 
     console.log(`Andar atualizado: Andar ${floor}`);
 }
@@ -152,13 +138,13 @@ function exitPlace(placeName) {
 } 
 
 function clearIndoorLayers() {
-    Object.values(indoorLayers).forEach(layer => {
+    Object.values(buildingIndoorLayers).forEach(layer => {
         if (map.hasLayer(layer)) map.removeLayer(layer);
     });
 }
 
 // RENDERS
-function renderMarkers(features) {
+function markersRenderizer(features) {
     markers.clearLayers();
 
     features.forEach(local => {
@@ -175,20 +161,20 @@ function renderMarkers(features) {
 
         if(config) {
             const dadosExtras = (config.dataSource && config.dataSource[props.nome]) ? config.dataSource[props.nome] : {};
-            const imageFinal = dadosExtras.img || "documents/imgs/no-image.jpg";
+            const imageFinal = dadosExtras.img || "map-docs/imgs/no-image.jpg";
             const descFinal = dadosExtras.desc || "Sem descrição disponível.";
 
             const popupContent = `
                 <div class="popup">
                     <h3>${props.nome}</h3>
-                    <img src="${imageFinal}" alt="${props.nome}" onerror="this.src='documents/imgs/no-image.jpg'"/>
+                    <img src="${imageFinal}" alt="${props.nome}" onerror="this.src='map-docs/imgs/no-image.jpg'"/>
                     <p>${descFinal}</p>
                 </div>
             `;
 
             let labelMarker = L.marker(latLng, {
                 icon: L.icon({
-                    iconUrl: `documents/imgs/assets/markers/${config.icon}`,
+                    iconUrl: `map-docs/imgs/assets/markers/${config.icon}`,
                     iconSize: config.size,
                     iconAnchor: config.anchor,
                     popupAnchor: [0, -32]
@@ -206,15 +192,15 @@ function renderMarkers(features) {
 
 function indoorRenderizer() {
     const allBuildings = new Set([
-        ...Object.keys(indoorLayers), 
+        ...Object.keys(buildingIndoorLayers), 
         ...Object.keys(indoorIconsByBuilding)
     ]);
 
     allBuildings.forEach(buildingName => {
         if (activeBuildings.has(buildingName)) {
-            if (indoorLayers[buildingName]) {
-                if (!map.hasLayer(indoorLayers[buildingName])) {
-                    indoorLayers[buildingName].addTo(map);
+            if (buildingIndoorLayers[buildingName]) {
+                if (!map.hasLayer(buildingIndoorLayers[buildingName])) {
+                    buildingIndoorLayers[buildingName].addTo(map);
                 }
             }
             if (indoorIconsByBuilding[buildingName]) {
@@ -225,9 +211,9 @@ function indoorRenderizer() {
             }
         } 
         else {
-            if (indoorLayers[buildingName]) {
-                if (map.hasLayer(indoorLayers[buildingName])) {
-                    map.removeLayer(indoorLayers[buildingName]);
+            if (buildingIndoorLayers[buildingName]) {
+                if (map.hasLayer(buildingIndoorLayers[buildingName])) {
+                    map.removeLayer(buildingIndoorLayers[buildingName]);
                 }
             }
             if (indoorIconsByBuilding[buildingName]) {

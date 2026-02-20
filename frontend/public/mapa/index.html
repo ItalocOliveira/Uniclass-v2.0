@@ -228,7 +228,7 @@
     <small style="font-size: 13px; color: #666;">Andar</small>
 
     <div style="display: flex; gap: 8px; margin-top: 8px;">
-      <button onclick="mudarAndar(0)" style="
+      <button onclick="changeFloor(0)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -240,7 +240,7 @@
             cursor: pointer;
         ">Térreo</button>
 
-      <button onclick="mudarAndar(1)" style="
+      <button onclick="changeFloor(1)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -251,7 +251,7 @@
             cursor: pointer;
         ">1º Andar</button>
 
-      <button onclick="mudarAndar(2)" style="
+      <button onclick="changeFloor(2)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -402,10 +402,10 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.min.js"></script>
 
+  <script src="./scripts/data.js"></script>
+  <script src="./scripts/map-setup.js"></script>
   <script src="./scripts/utils.js"></script>
   <script src="./scripts/functions.js"></script>
-  <script src="./scripts/map-setup.js"></script>
-  <script src="./scripts/data.js"></script>
   <script src="./scripts/main.js"></script>
   <script src="./scripts/navigation.js"></script>
   <script src="./scripts/dev-functions.js"></script>
