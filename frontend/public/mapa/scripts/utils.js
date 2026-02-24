@@ -24,87 +24,6 @@ function getHaversineDistance(coords1, coords2) {
     return d;
 }
 
-// Faz chamada para a API do graphopper com a intenção de guardar apenas a distância 
-// entre dois pontos em metros
-async function getRouteDistanceOnly(pontoA, pontoB) {
-    const baseUrl = "http://localhost:8989/route";
-
-    var url =   `${baseUrl}?` +
-                `point=${pontoA.lat},${pontoA.lng}` +
-                `&point=${pontoB.lat},${pontoB.lng}` +
-                `&profile=${currentMode}` +
-                `&points_encoded=false` +
-                `&locale=pt_BR`;
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) return Infinity;
-        
-        const data = await response.json();
-        if (!data.paths || data.paths.length === 0) return Infinity;
-
-        return data.paths[0].distance;
-    } catch (err) {
-        console.error("Erro silencioso GH:", err);
-        return Infinity;
-    }
-} 
-
-function processIndoorIcons(features) {
-    features.forEach(feature => {
-        var props = feature.properties;
-        var coords = feature.geometry.coordinates;
-        var centerLatLng = [coords[1], coords[0]]; 
-        
-        var predio = props.predio ? props.predio.trim() : "Desconhecido";
-        var tipo = props.tipo ? props.tipo.toLowerCase() : 'default';
-        
-        var rotation = props.rotation || 0;
-
-        if (indoorMarkers[tipo]) {
-            var config = indoorMarkers[tipo];
-            var bounds = getBoundsFromCenter(centerLatLng, config.sizeMeters);
-            var layer;
-
-            if (rotation !== 0) {
-
-                var svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svgElement.setAttribute('xmlns', "http://www.w3.org/2000/svg");
-                svgElement.setAttribute('viewBox', "0 0 100 100");
-
-                var imageInside = document.createElementNS("http://www.w3.org/2000/svg", "image");
-                imageInside.setAttributeNS("http://www.w3.org/1999/xlink", "href", config.url);
-                imageInside.setAttribute('x', '15'); 
-                imageInside.setAttribute('y', '15');
-                imageInside.setAttribute('width', '70');
-                imageInside.setAttribute('height', '70');
-
-                imageInside.setAttribute('transform', `rotate(${rotation} 50 50)`);
-
-                svgElement.appendChild(imageInside);
-
-
-                layer = L.svgOverlay(svgElement, bounds, {
-                    interactive: true,
-                    opacity: 0.9
-                });
-            } 
-            else {
-                layer = L.imageOverlay(config.url, bounds, {
-                    interactive: true, 
-                    opacity: 0.9      
-                });
-            }
-
-            if (!indoorIconsByBuilding[predio]) {
-                indoorIconsByBuilding[predio] = L.layerGroup();
-            }
-
-            indoorIconsByBuilding[predio].addLayer(layer);
-        }
-    });
-}
-
 function getBoundsFromCenter(latLng, sizeInMeters) {
     var lat = latLng[0];
     var lng = latLng[1];
@@ -118,3 +37,11 @@ function getBoundsFromCenter(latLng, sizeInMeters) {
 
     return [sw, ne];
 }
+
+
+
+
+
+
+
+

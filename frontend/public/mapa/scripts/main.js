@@ -58,3 +58,12 @@ fetch('map-docs/data/predios_com_interior.geojson')
         console.log(`Camada de Geofencing criada com sucesso.`);
     })
     .catch(err => console.error("Erro ao carregar predios:", err));
+
+
+    
+function inicializarPredios25D() {
+    Object.values(buildingLayers).forEach(layer => {
+        layer.addTo(map);
+    });
+}
+inicializarPredios25D();
