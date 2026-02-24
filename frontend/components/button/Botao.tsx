@@ -23,7 +23,13 @@ export function Botao({
     return (
         <Pressable
             onPress={onPress}
-            style={[styles.button, { backgroundColor: cor }]}
+            style={({ pressed }) => [
+                styles.button,
+                {
+                    backgroundColor: cor,
+                    opacity: pressed ? 0.6 : 1
+                }
+            ]}
         >
             <Text style={[styles.buttonText, { color: corTexto }]}>{titulo}</Text>
         </Pressable>
@@ -39,6 +45,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         minWidth: 120,
+
     },
     buttonText: {
         fontSize: 16,
