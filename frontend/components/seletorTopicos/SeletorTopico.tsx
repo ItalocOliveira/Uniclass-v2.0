@@ -13,13 +13,13 @@ export function Seletor() {
         selectedValue={topico}
         onValueChange={setTopico}
       >
-        <View style={styles.item}>
+       
         <Picker.Item key={1} value={"CONSERTO"} label={"CONSERTO"} />
         <Picker.Item key={2} value={"REPOSICAO_MATERIAL"} label={"REPOSICAO MATERIAL"} />
         <Picker.Item key={3} value={"INSTALACAO"} label={"INSTALACAO"} />
         <Picker.Item key={4} value={"ATUALIZACAO"} label={"ATUALIZACAO"} />
         <Picker.Item key={5} value={"SUPORTE_TECNICO"} label={"SUPORTE TECNICO"} />
-        </View>
+       
       </Picker>
 
       {/* <Text>Você selecionou: {topico}</Text>*/}
@@ -51,9 +51,6 @@ const styles = StyleSheet.create({
 
 
   },
-  item: {
-    borderRadius: 12,
-
-  },
+ 
 
 });

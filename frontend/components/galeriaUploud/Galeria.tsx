@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     paddingHorizontal: 50,
     marginTop: 50,
-    opacity: 0.6,
+   
   },
   textoBotao: {
     color: "#0d0a0a",
