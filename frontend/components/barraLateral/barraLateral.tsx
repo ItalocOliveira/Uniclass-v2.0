@@ -4,7 +4,8 @@ import {
   IconLogout,
   IconX,
   IconMap2,
-  IconMessageDots
+  IconMessageDots,
+  IconUser
 } from "@tabler/icons-react";
 import { useRouter } from "expo-router";
 import React from "react";

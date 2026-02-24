@@ -7,27 +7,25 @@
   <title>Mapa do Campus - Navegação</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./css/style-map.css">
-
-  <script src="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.js"></script>
-  <link href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
 </head>
 
-<body id="mapContainer">
+<body>
 
   <div id="painel-distancia">
     Restam: <span id="distancia-texto"></span>
   </div>
-
   <div id="painel-chegada" style="display: none;">
     <div>
       <span style="font-size: 24px;"></span><br>
       <strong>Você chegou!</strong>
     </div>
-    <button id="painel-chegada-button" onclick="encerrarNavegacao()"
+    <button id="painel-chegada-button" onclick="finishNavigation()"
       style="margin-top:10px; padding:5px 10px; cursor:pointer;">
       Encerrar navegação
     </button>
+
   </div>
 
   <button id="openNavBtn" onclick="toggleNavPanel()" onmouseover="this.style.transform='scale(1.08)'"
@@ -58,8 +56,8 @@
 
   <div id="navPanel" style="
     position: fixed; 
-    top: 12px; 
-    left: 50%;
+    top: 10px; 
+    left: 60%;
     transform: translateX(-50%);
     z-index: 2000; 
     background: white; 
@@ -89,10 +87,6 @@
         cursor: pointer;
       ">✕</button>
     </h4>
-
-    <label style="font-size: 13px; color: #555; display:block; margin-bottom: 6px;">
-      Destino
-    </label>
 
     <div style="display: flex; gap: 24px;">
       <div style="position: relative; flex: 1;">
@@ -133,12 +127,108 @@
       </button>
     </div>
 
-    <hr style="margin: 14px 0; border: none; border-top: 1px solid #eee;">
+    <div style="
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around; 
+    align-items: center; 
+    background-color: #f7f7f7; 
+    border: 1px solid #ddd; 
+    border-radius: 8px;
+    " id="transportModes">
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+          <path d="M7 21l3 -4" />
+          <path d="M16 21l-2 -4l-3 -3l1 -6" />
+          <path d="M6 12l2 -3l4 -1l3 3l3 1" />
+        </svg>
+      </section>
+
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" />
+        </svg>
+      </section>
+
+      <section onclick="selectMode(this)"
+        style="padding:8px; border-radius:8px; cursor:pointer; transition:all .2s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M2 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M16 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+          <path d="M7.5 14h5l4 -4h-10.5m1.5 4l4 -4" />
+          <path d="M13 6h2l1.5 3l2 4" />
+        </svg>
+      </section>
+    </div>
+
+    <div style="
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+">
+
+      <button onclick="findNearestPoint('banheiro')" style="
+    flex: 1;
+    padding: 6px;
+    border-radius: 12px;
+    border: none;
+    background: #f3f4f6;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  ">
+        🚻
+      </button>
+
+      <button onclick="findNearestPoint('bebedouro')" style="
+    flex: 1;
+    padding: 6px;
+    border-radius: 12px;
+    border: none;
+    background: #f3f4f6;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  ">
+        🚰
+      </button>
+
+    </div>
+
+    <script>
+      function selectMode(el) {
+        document.querySelectorAll("#transportModes section").forEach(s => {
+          s.style.backgroundColor = "";
+          s.style.color = "";
+        });
+        el.style.backgroundColor = "#2563eb";
+        el.style.color = "white";
+      }
+    </script>
 
     <small style="font-size: 13px; color: #666;">Andar</small>
 
     <div style="display: flex; gap: 8px; margin-top: 8px;">
-      <button onclick="mudarAndar(0)" style="
+      <button onclick="changeFloor(0)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -150,7 +240,7 @@
             cursor: pointer;
         ">Térreo</button>
 
-      <button onclick="mudarAndar(1)" style="
+      <button onclick="changeFloor(1)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -161,7 +251,7 @@
             cursor: pointer;
         ">1º Andar</button>
 
-      <button onclick="mudarAndar(2)" style="
+      <button onclick="changeFloor(2)" style="
             flex: 1;
             padding: 8px;
             border-radius: 12px;
@@ -173,14 +263,44 @@
         ">2º Andar</button>
     </div>
 
+    <div style="
+    display: flex;
+    align-items: center;
+    justify-content: space-between;">
+
+      <button style="
+            flex: 1;
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: #7e1515;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        " onclick="finishNavigation()">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin-off">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M9.442 9.432a3 3 0 0 0 4.113 4.134m1.445 -2.566a3 3 0 0 0 -3 -3" />
+          <path
+            d="M17.152 17.162l-3.738 3.738a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 0 1 -.476 -10.794m2.18 -1.82a8.003 8.003 0 0 1 10.91 10.912" />
+          <path d="M3 3l18 18" />
+        </svg>
+      </button>
+    </div>
+
   </div>
 
   <div id="map"></div>
 
+  <!-- Listagem de locais para o menu  -->
   <script>
     function irParaSelecionado() {
       if (localSelecionado) {
-        selecionarLocal(localSelecionado);
+        selectLocation(localSelecionado);
       } else {
         alert("Pesquise e selecione um destino!");
       }
@@ -239,17 +359,17 @@
         const item = document.createElement("div");
 
         item.innerHTML = `
-        <strong>${local.properties.nome}</strong>
-        <small style="color:#666;"> — Lvl ${local.properties.level}</small>
-      `;
+              <strong>${local.properties.nome}</strong>
+              <small style="color:#666;"> — Lvl ${local.properties.level}</small>
+            `;
 
         item.style.cssText = `
-        padding: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        border-bottom: 1px solid #eee;
-        transition: background 0.15s ease;
-      `;
+              padding: 10px;
+              cursor: pointer;
+              font-size: 14px;
+              border-bottom: 1px solid #eee;
+              transition: background 0.15s ease;
+            `;
 
         item.onmouseenter = () => item.style.background = "#f3f6ff";
         item.onmouseleave = () => item.style.background = "#fff";
@@ -258,7 +378,7 @@
           input.value = local.properties.nome;
           localSelecionado = local.properties.nome;
           lista.style.display = "none";
-          selecionarLocal(local.properties.nome);
+          selectLocation(local.properties.nome);
         };
 
         lista.appendChild(item);
@@ -277,11 +397,18 @@
     });
   </script>
 
+  <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="./scripts/inicializacao-mapa.js"></script>
-  <script src="./scripts/navegacao.js"></script>
+  <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.min.js"></script>
 
+  <script src="./scripts/data.js"></script>
+  <script src="./scripts/map-setup.js"></script>
+  <script src="./scripts/utils.js"></script>
+  <script src="./scripts/functions.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/navigation.js"></script>
+  <script src="./scripts/dev-functions.js"></script>
 </body>
 
 </html>

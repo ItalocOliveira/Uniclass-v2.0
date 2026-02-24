@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,16 @@ import {
   ScrollView,
   Image,
   Platform,
+  Dimensions,
 } from "react-native";
-import { IconMenu2 } from "@tabler/icons-react";
 import { useFonts, Anta_400Regular } from "@expo-google-fonts/anta";
 import Carousel from "react-native-reanimated-carousel";
 import SideMenu from "@/components/barraLateral/barraLateral";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/footer";
+import { authFetch } from "../services/api";
 
+const { width } = Dimensions.get("window");
 
 const catalogo = [
   {
@@ -33,13 +35,32 @@ export default function Home() {
   const [fontsLoaded] = useFonts({ Anta_400Regular });
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    buscarLocais();
+  }, []);
+
+  async function buscarLocais() {
+    try {
+      const response = await authFetch("http://192.168.0.109:3000/locais");
+
+      if (response.status === 401) {
+        console.log("Token inválido — precisa relogar");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Locais recebidos:", data);
+    } catch (error) {
+      console.error("Erro ao buscar locais:", error);
+    }
+  }
+
   if (!fontsLoaded) return null;
 
   return (
     <View style={{ flex: 1 }}>
       <SideMenu open={open} onClose={() => setOpen(false)} />
-      <ScrollView style={styles.container}>
-
+      <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
         <Header />
 
         <View style={styles.gap} />
@@ -52,15 +73,19 @@ export default function Home() {
 
           <Carousel
             loop
-            width={390}
-            height={220}
+            width={width * 0.9}
+            height={width * 0.55}
             autoPlay
             autoPlayInterval={5000}
             scrollAnimationDuration={1000}
             data={catalogo}
             renderItem={({ item }) => (
               <View style={styles.card}>
-                <Image source={item.image} style={styles.image} />
+                <Image
+                  source={item.image}
+                  style={[styles.image, { height: width * 0.35 }]}
+                  resizeMode="cover"
+                />
                 <Text style={[styles.text, styles.fontAnta]}>{item.title}</Text>
               </View>
             )}
@@ -82,7 +107,7 @@ export default function Home() {
                 src="/mapa/index.html"
                 style={{
                   width: "100%",
-                  height: 320,
+                  height: width * 0.7,
                   border: "none",
                   borderRadius: 8,
                 }}
@@ -100,6 +125,7 @@ export default function Home() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -125,13 +151,13 @@ const styles = StyleSheet.create({
   },
   navBar: {
     backgroundColor: "#ddd",
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 20,
     borderRadius: 8,
   },
   header: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "left",
     marginBottom: 10,
@@ -139,6 +165,7 @@ const styles = StyleSheet.create({
   bodyText: {
     textAlign: "left",
     marginBottom: 20,
+    fontSize: 14,
   },
   card: {
     flex: 1,
@@ -150,18 +177,18 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 150,
     borderRadius: 10,
     marginBottom: 10,
   },
   text: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
+    textAlign: "center",
   },
   maps: {
     backgroundColor: "#ddd",
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 10,
     marginBottom: 20,
     borderRadius: 8,

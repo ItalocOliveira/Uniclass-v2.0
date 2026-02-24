@@ -20,6 +20,7 @@ import { Footer } from "@/components/footer";
 export default function Date() {
     const [fontsLoaded] = useFonts({ Anta_400Regular });
     const [selectedDay, setSelectedDay] = useState(9);
+    const [open, setOpen] = useState(false);
 
     const selectedYear: number = 2026;
     const selectedMonth: string = "janeiro";
@@ -28,7 +29,7 @@ export default function Date() {
 
     const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
     const calendarDays = [
-        [28, 29, 30, 31, 1, 2, 3],
+        ['28', '29', '30', '31', 1, 2, 3],
         [4, 5, 6, 7, 8, 9, 10],
         [11, 12, 13, 14, 15, 16, 17],
         [18, 19, 20, 21, 22, 23, 24],
@@ -67,23 +68,22 @@ export default function Date() {
                         <IconChevronLeft stroke={2} color="#FFFFFF" />
                     </TouchableOpacity>
 
-                <Text style={styles.monthText}>JANEIRO 2026</Text>
+                    <Text style={styles.monthText}>JANEIRO 2026</Text>
 
-                <TouchableOpacity style={styles.button}>
-                    <IconChevronRight stroke={2} color="#FFFFFF" />
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity style={styles.button}>
+                        <IconChevronRight stroke={2} color="#FFFFFF" />
+                    </TouchableOpacity>
+                </View>
 
-            <View style={styles.weekRow}>
-                {daysOfWeek.map((day, index) => (
-                    <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
-                        {day}
-                    </Text>
-                ))}
-            </View>
+                <View style={styles.weekRow}>
+                    {daysOfWeek.map((day, index) => (
+                        <Text key={index} style={[styles.weekDay, styles.fontAnta]}>
+                            {day}
+                        </Text>
+                    ))}
+                </View>
 
-            {
-                calendarDays.map((week, i) => (
+                {calendarDays.map((week, i) => (
                     <View key={i} style={styles.weekRow}>
                         {week.map((day, j) => (
                             <TouchableOpacity
@@ -106,23 +106,19 @@ export default function Date() {
                             </TouchableOpacity>
                         ))}
                     </View>
-                ))
-            }
+                ))}
 
-            <View style={styles.events}>
-                <View style={styles.eventSection}>
-                    <Text style={[styles.eventTitle, styles.fontAnta]}>
-                        Eventos Próximos...
-                    </Text>
-                    <Text style={[styles.eventDate, styles.fontAnta]}>
-                        {formatDate(selectedDay)}
-                    </Text>
-                    <Text style={[styles.eventDescription, styles.fontAnta]}>
-                        Sem Eventos!
-                    </Text>
-                </View>
+                <View style={styles.events}>
+                    <View style={styles.eventSection}>
+                        <Text style={[styles.eventTitle, styles.fontAnta]}>
+                            Eventos Próximos...
+                        </Text>
+                        <Text style={[styles.eventDescription, styles.fontAnta]}>
+                            Sem Eventos!
+                        </Text>
+                    </View>
 
-                <View style={styles.divider} />
+                    <View style={styles.divider} />
 
                     <View style={styles.eventSection2}>
                         <Text style={[styles.eventTitle, styles.fontAnta]}>

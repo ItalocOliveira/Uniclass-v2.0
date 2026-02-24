@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "pontos_indoor_icones2",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+    { "type": "Feature", "properties": { "id": 1, "tipo": "banheiro", "predio": "CT", "rotation": 255 }, "geometry": { "type": "Point", "coordinates": [ -34.856168599139096, -7.159593580003531 ] } },
+    { "type": "Feature", "properties": { "id": 2, "tipo": "banheiro", "predio": "CT", "rotation": 255 }, "geometry": { "type": "Point", "coordinates": [ -34.856199245598276, -7.159477673480525 ] } },
+    { "type": "Feature", "properties": { "id": 3, "tipo": "banheiro", "predio": "EVA", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.854370789706216, -7.16016482013736 ] } },
+    { "type": "Feature", "properties": { "id": 3, "tipo": "banheiro", "predio": "Bloco A", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.854767359616737, -7.159736934908683 ] } },
+    { "type": "Feature", "properties": { "id": 3, "tipo": "banheiro", "predio": "Bloco A", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.85399509115684, -7.159538784156008 ] } },
+    { "type": "Feature", "properties": { "id": 3, "tipo": "banheiro", "predio": "Bloco C", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.854881605697109, -7.159302657333595 ] } },
+    { "type": "Feature", "properties": { "id": 3, "tipo": "banheiro", "predio": "Bloco C", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.854111165427206, -7.159102288440652 ] } },
+    { "type": "Feature", "properties": { "id": 2, "tipo": "banheiro", "predio": "Bloco J", "rotation": 255 }, "geometry": { "type": "Point", "coordinates": [ -34.855852180607499, -7.158768371580349 ] } },
+    { "type": "Feature", "properties": { "id": 1, "tipo": "escada", "predio": "Bloco A", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.854666464383207, -7.159706975549496 ] } },
+    { "type": "Feature", "properties": { "id": 1, "tipo": "escada", "predio": "Bloco C", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.85400988498742, -7.159071298135609 ] } },
+    { "type": "Feature", "properties": { "id": 1, "tipo": "escada", "predio": "Bloco A", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.853895432981616, -7.159508620843461 ] } },
+    { "type": "Feature", "properties": { "id": 1, "tipo": "escada", "predio": "Bloco C", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.854780471708466, -7.159272139362006 ] } },
+    { "type": "Feature", "properties": { "id": 2, "tipo": "escada", "predio": "CT", "rotation": 255 }, "geometry": { "type": "Point", "coordinates": [ -34.856105943819806, -7.159515363146679 ] } },
+    { "type": "Feature", "properties": { "id": 1, "tipo": "escada", "predio": "Bloco J", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.85589300747575, -7.158895636478418 ] } },
+    { "type": "Feature", "properties": { "id": null, "tipo": "elevador", "predio": "Bloco A", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.85501259556456, -7.159690887972381 ] } },
+    { "type": "Feature", "properties": { "id": null, "tipo": "elevador", "predio": "Bloco A", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.854271958327118, -7.159500785031348 ] } },
+    { "type": "Feature", "properties": { "id": null, "tipo": "elevador", "predio": "Bloco J", "rotation": -15 }, "geometry": { "type": "Point", "coordinates": [ -34.85584271229628, -7.158882823540828 ] } },
+    { "type": "Feature", "properties": { "id": null, "tipo": "elevador", "predio": "CT", "rotation": -285 }, "geometry": { "type": "Point", "coordinates": [ -34.856142461091707, -7.15952486917201 ] } }
+]
+}
