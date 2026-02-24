@@ -7,36 +7,6 @@ var iconGPS = L.divIcon({
 });
 
 // API java
-function drawRoute(ghaphResponse, pontoB){
-    // Limpa rota anterior
-    routesLayer.clearLayers();
-
-    var paths = ghaphResponse.paths[0];
-    var coordinates = paths.points.coordinates;
-
-    // Converter coordenadas do graphhopper para leaflet
-    const latLngs = coordinates.map(coord => [coord[1], coord[0]]);
-
-    // Desenha a rota
-    var desenhoRota = L.polyline(latLngs, {
-        color: '#3553C1', 
-        weight: 4,
-        opacity: 1,
-        lineJoin: 'round'
-    }).addTo(routesLayer);
-
-    if (!lastCalculatedPosition) {
-        map.fitBounds(desenhoRota.getBounds(), {
-            padding: [50, 50],
-            maxZoom: 21,
-            animate: true
-        });
-    }
-
-    // Adiciona marcador final fixo no final da rota
-    if (pontoB) L.marker(pontoB).addTo(routesLayer);
-}
-
 function calculateRoute(pontoA, pontoB) {
     destinationPosition = pontoB;
     // URL da API local do GraphHopper
@@ -70,6 +40,36 @@ function calculateRoute(pontoA, pontoB) {
             console.log(`Distância: ${Math.round(distanciaMetros)} metros`);
         })
         .catch(err => console.error("Erro ao conectar com GraphHopper:", err));
+}
+
+function drawRoute(ghaphResponse, pontoB){
+    // Limpa rota anterior
+    routesLayer.clearLayers();
+
+    var paths = ghaphResponse.paths[0];
+    var coordinates = paths.points.coordinates;
+
+    // Converter coordenadas do graphhopper para leaflet
+    const latLngs = coordinates.map(coord => [coord[1], coord[0]]);
+
+    // Desenha a rota
+    var desenhoRota = L.polyline(latLngs, {
+        color: '#3553C1', 
+        weight: 4,
+        opacity: 1,
+        lineJoin: 'round'
+    }).addTo(routesLayer);
+
+    if (!lastCalculatedPosition) {
+        map.fitBounds(desenhoRota.getBounds(), {
+            padding: [50, 50],
+            maxZoom: 21,
+            animate: true
+        });
+    }
+
+    // Adiciona marcador final fixo no final da rota
+    if (pontoB) L.marker(pontoB).addTo(routesLayer);
 }
 
 // Verifica se o ponto de destino é um prédio e o renderiza 
@@ -153,6 +153,32 @@ async function findNearestPoint(pointType){
     calculateRoute(userPosition, winner.latLng);
 }
 
+// Faz chamada para a API do graphopper com a intenção de guardar apenas a distância 
+// entre dois pontos em metros
+async function getRouteDistanceOnly(pontoA, pontoB) {
+    const baseUrl = "http://localhost:8989/route";
+
+    var url =   `${baseUrl}?` +
+                `point=${pontoA.lat},${pontoA.lng}` +
+                `&point=${pontoB.lat},${pontoB.lng}` +
+                `&profile=${currentMode}` +
+                `&points_encoded=false` +
+                `&locale=pt_BR`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) return Infinity;
+        
+        const data = await response.json();
+        if (!data.paths || data.paths.length === 0) return Infinity;
+
+        return data.paths[0].distance;
+    } catch (err) {
+        console.error("Erro silencioso GH:", err);
+        return Infinity;
+    }
+} 
+
 function finishNavigation() {
     console.log("🛑 Encerrando navegação...");
 
@@ -179,12 +205,68 @@ function finishNavigation() {
     onRoute = false;
 }
 
-map.on('popupopen', function(e) {
-    
-    var container = e.popup._container;
+// Pontos de destino
+function selectLocation(searchTerm){
+    const localEncontrado = locais.find(feature => 
+        feature.properties.nome.toLowerCase() === searchTerm.toLowerCase()
+    );
 
-    L.DomEvent.disableClickPropagation(container);
-});
+    if (!localEncontrado) {
+        alert("Local não encontrado!");
+        return;
+    }
+
+    const coordenadas = localEncontrado.geometry.coordinates;
+    const latLngDestino = L.latLng(coordenadas[1], coordenadas[0]); 
+    const andarDestino = localEncontrado.properties.level || 0;
+    
+    currentFloor = andarDestino;
+    console.log(`Andar do destino definido para: ${currentFloor}`);
+
+    destinationPosition = latLngDestino;
+
+    routesLayer.clearLayers();
+
+    L.marker(destinationPosition)
+        .bindPopup(`<b>${localEncontrado.properties.nome}</b><br>Andar: ${andarDestino}`)
+        .addTo(routesLayer)
+        .openPopup();
+
+    // Calcula rota se tiver GPS
+    if (typeof userPosition !== 'undefined' && userPosition) {
+        calculateRoute(userPosition, destinationPosition);
+    } else {
+        alert("Aguardando localização GPS...");
+    }
+
+    console.log(`Andar atualizado: Andar ${floor}`);
+}
+
+
+// PAINEIS
+function dynamicPanel(meters) {
+    var painelDistancia = document.getElementById('painel-distancia');
+    var textoDistancia = document.getElementById('distancia-texto');
+    var painelChegada = document.getElementById('painel-chegada');
+
+    // Torna o painel visivel no css
+    painelDistancia.style.display = 'block';
+
+    // Verificação de chegada
+    if (meters < 15) {
+        painelDistancia.style.display = 'none';
+        painelChegada.style.display = 'block';
+    }
+    else {
+        if (meters > 15 && meters < 1000) {
+            // Converte para Km se for longe
+            textoDistancia.innerText = Math.round(meters) + " m";
+        }
+        else {
+            textoDistancia.innerText = (meters / 1000).toFixed(1) + " km";
+        }
+    }
+}
 
 // --- MONITORAMENTO GPS ---
 // if (navigator.geolocation) {
