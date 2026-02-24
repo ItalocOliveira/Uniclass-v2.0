@@ -24,6 +24,18 @@ var onRoute = false;
 
 var currentMode = 'pedestrian';
 
+let lastGeofenceTick = 0;
+
+map.on('locationfound', (e) => {
+    const now = Date.now();
+    if (now - lastGeofenceTick > 500) { // Só processa se passou meio segundo
+        verifyGeofence(e.latlng);
+        lastGeofenceTick = now;
+    }
+});
+
+buildingsLayer.addTo(map);
+
 // Fecth para obter locais;
 fetch('map-docs/data/pontos_unipe.geojson') 
     .then(response => response.json())
@@ -58,12 +70,3 @@ fetch('map-docs/data/predios_com_interior.geojson')
         console.log(`Camada de Geofencing criada com sucesso.`);
     })
     .catch(err => console.error("Erro ao carregar predios:", err));
-
-
-    
-function inicializarPredios25D() {
-    Object.values(buildingLayers).forEach(layer => {
-        layer.addTo(map);
-    });
-}
-inicializarPredios25D();

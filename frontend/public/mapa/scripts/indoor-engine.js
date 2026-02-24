@@ -100,45 +100,77 @@ function processIndoorIcons(features) {
     });
 }
 
-function indoorRenderizer() {
-    const allBuildings = new Set([
-        ...Object.keys(buildingLayers),
-        ...Object.keys(buildingIndoorLayers),
-        ...Object.keys(indoorIconsByBuilding)
-    ]);
+function indoorRenderizer(currentPlace) {
+    // Se não houver um prédio atual passado pelo geofencer, 
+    // tentamos pegar o último do Set ou tratamos como vazio
+    const activeBuildingName = currentPlace || Array.from(activeBuildings).pop();
 
-    allBuildings.forEach(buildingName => {
-        const isBuildingActive = activeBuildings.has(buildingName);
+    if (activeBuildingName) {
+        Object.keys(buildingIndoorLayers).forEach(name => {
+            if (name !== activeBuildingName && map.hasLayer(buildingIndoorLayers[name])) {
+                map.removeLayer(buildingIndoorLayers[name]);
+            }
+        });
 
-        // LÓGICA 2.5D (Casca do Prédio)
-        if (buildingLayers[buildingName] && buildingIndoorLayers[buildingName]) {
-            if (isBuildingActive) {
-                // Se estou dentro: Esconde sólido, mostra transparente
-                if (map.hasLayer(buildingLayers[buildingName])) buildingLayers[buildingName].remove();
-                if (!map.hasLayer(buildingIndoorLayers[buildingName])) buildingIndoorLayers[buildingName].addTo(map);
-            } else {
-                // Se estou fora: Mostra sólido, esconde transparente
-                if (!map.hasLayer(buildingLayers[buildingName])) buildingLayers[buildingName].addTo(map);
-                if (map.hasLayer(buildingIndoorLayers[buildingName])) buildingIndoorLayers[buildingName].remove();
+        // Adiciona o raio-x do local atual
+        if(buildingIndoorLayers[activeBuildingName]){
+            if (!map.hasLayer(buildingIndoorLayers[activeBuildingName])) {
+                buildingIndoorLayers[activeBuildingName].addTo(map);
+                console.log(`Efeito raio-x aplicado ao: ${activeBuildingName}`);
             }
         }
 
-        // LÓGICA INDOOR (Salas/Planta Baixa)
-        // Aqui você mantém sua lógica de verificar currentFloor para os tiles de salas
-        if (buildingLayers[buildingName]) {
-             // ... seu código existente que usa indoorLayers[buildingName][currentFloor] ...
+        if(map.hasLayer(buildingsLayer)) {
+            map.removeLayer(buildingsLayer);
+        }
+        
+    } else {
+        if(!map.hasLayer(buildingsLayer)) {
+            buildingsLayer.addTo(map);
+            console.log("Restaurando prédios sólidos.");
         }
 
-        // LÓGICA DE ÍCONES
-        if (indoorIconsByBuilding[buildingName]) {
-            const layerGroup = indoorIconsByBuilding[buildingName][currentFloor];
-            if (isBuildingActive && layerGroup) {
-                if (!map.hasLayer(layerGroup)) layerGroup.addTo(map);
-            } else if (layerGroup) {
-                if (map.hasLayer(layerGroup)) layerGroup.remove();
-            }
+        Object.values(buildingIndoorLayers).forEach(layer => {
+            if (map.hasLayer(layer)) map.removeLayer(layer);
+        });
+    }
+}
+
+function geofencer(pos) {
+    const currentBuilding = getBuildingAtPosition(pos);
+    const currentBuildingName = currentBuilding ? currentBuilding.nome : null;
+
+    // Se mudou de prédio ou saiu de um
+    if (currentBuildingName !== lastVisitedBuilding) {
+        
+        // Se saiu de um prédio anterior, removemos ele do Set
+        if (lastVisitedBuilding) {
+            exitPlace(lastVisitedBuilding);
         }
-    });
+
+        // Se entrou em um novo, adicionamos
+        if (currentBuildingName) {
+            enterPlace(currentBuildingName);
+        }
+    }
+
+    lastVisitedBuilding = currentBuildingName;
+
+    // Lógica de destino da rota (opcional manter aqui ou no navigation)
+    if (onRoute && destinationBuilding && !activeBuildings.has(destinationBuilding)) {
+        // Apenas entra no local do destino se não estivermos nele
+        enterPlace(destinationBuilding);
+    }
+}
+
+function enterPlace(placeName) {
+    activeBuildings.add(placeName);
+    indoorRenderizer(placeName); 
+}
+
+function exitPlace(placeName) {
+    activeBuildings.delete(placeName);
+    indoorRenderizer();
 }
 
 function getBuildingAtPosition(pos){
@@ -154,48 +186,6 @@ function getBuildingAtPosition(pos){
 
     return null;
 }
-
-function geofencer(pos) {
-    // Verificar se a posição está em um prédio
-    const currentBuilding = getBuildingAtPosition(pos);
-    const currentBuildingName = currentBuilding? currentBuilding.nome : null;
-
-    // Se um o usuário estiver em um prédio, renderizar o inteiror do prédio.
-    if(currentBuildingName){
-        enterPlace(currentBuildingName);
-    }
-    else {
-        if (typeof lastPhysicalBuilding !== 'undefined' && lastPhysicalBuilding) {
-            exitPlace(lastPhysicalBuilding);
-            lastPhysicalBuilding = null;
-        }
-    }
-
-    if (currentBuildingName) {
-        lastPhysicalBuilding = currentBuildingName;
-    }
-    if (onRoute && typeof destinationBuilding !== 'undefined' && destinationBuilding) {
-        enterPlace(destinationBuilding);
-    }
-}
-
-function enterPlace(placeName){
-    if(activeBuildings.has(placeName)) return;
-
-    console.log(`ADICIONANDO AO RENDER: ${placeName}`);
-
-    activeBuildings.add(placeName);
-
-    indoorRenderizer();
-}
-
-function exitPlace(placeName) {
-    if (!activeBuildings.has(placeName)) return;
-
-    console.log(`REMOVENDO DO RENDER: ${placeName}`);
-    activeBuildings.delete(placeName);
-    indoorRenderizer();
-} 
 
 function clearIndoorLayers() {
     Object.values(buildingIndoorLayers).forEach(layer => {
@@ -239,3 +229,19 @@ function togglePopupContent(nomeComercio, destino) {
         }
     }
 }
+
+
+// // No indoor-engine.js ou main.js
+// function otimizarCarregamento() {
+//     const bounds = map.getBounds(); // Pega o que o usuário está vendo agora
+
+//     Object.keys(buildingLayers).forEach(name => {
+//         const layer = buildingLayers[name];
+//         if (bounds.intersects(layer.getBounds())) {
+//             if (!map.hasLayer(layer)) layer.addTo(map);
+//         } else {
+//             if (map.hasLayer(layer)) map.removeLayer(layer);
+//         }
+//     });
+// }
+// map.on('moveend', otimizarCarregamento);

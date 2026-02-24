@@ -576,343 +576,57 @@ const indoorMarkers = {
     }
 };
 
-// Camadas
-const buildingLayers = {
-    "Bloco A": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_a/solid/{z}/{x}/{y}.png', { 
-        pane: "paneA",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco B": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_b/solid/{z}/{x}/{y}.png', { 
-        pane: "paneB",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco C": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_c/solid/{z}/{x}/{y}.png', { 
-        pane: "paneC",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Bloco D": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_d/solid/{z}/{x}/{y}.png', { 
-    //     pane: "paneD",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Bloco E": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_e/solid/{z}/{x}/{y}.png', { 
-    //     pane: "paneE",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Bloco F": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_f/solid/{z}/{x}/{y}.png', { 
-    //     pane: "paneF",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Bloco G": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_g/solid/{z}/{x}/{y}.png', { 
-        pane: "paneG",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco H": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_h/solid/{z}/{x}/{y}.png', { 
-        pane: "paneH",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco I": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_i/solid/{z}/{x}/{y}.png', { 
-        pane: "paneI",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco J": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_j/solid/{z}/{x}/{y}.png', { 
-        pane: "paneJ",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco K": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_k/solid/{z}/{x}/{y}.png', { 
-        pane: "paneK",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco L": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_l/solid/{z}/{x}/{y}.png', { 
-        pane: "paneL",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco M": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_m/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco N": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_n/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco O": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_o/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco P": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_p/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco Q": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_q/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco R": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_r/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/bloco_s/solid/{z}/{x}/{y}.png', { 
-        pane: "paneS", 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Auditorio": L.tileLayer('map-docs/tiles/level_0/indoor/verde/auditorio/solid/{z}/{x}/{y}.png', { 
-        pane: "paneAuditorio",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Biblioteca": L.tileLayer('map-docs/tiles/level_0/indoor/azul/biblioteca/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Reitoria": L.tileLayer('map-docs/tiles/level_0/indoor/azul/reitoria/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Museu": L.tileLayer('map-docs/tiles/level_0/indoor/azul/museu/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "EVA": L.tileLayer('map-docs/tiles/level_0/indoor/azul/eva/solid/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "CT": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/ct/solid/{z}/{x}/{y}.png', { 
-        pane: "paneCT",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Corr. AL": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/leste/solid/{z}/{x}/{y}.png', { 
-    //     pane: "corredorAL",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Corr. AO": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/oeste/solid/{z}/{x}/{y}.png', { 
-        pane: "corredorAO",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Corr. FS": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/norte/solid/{z}/{x}/{y}.png', { 
-    //     pane: "corredorFS",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Corr. FN": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/sul/solid/{z}/{x}/{y}.png', { 
-    //     pane: "corredorFN",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Corr. S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/corredor/solid/{z}/{x}/{y}.png', { 
-        pane: "corredorS",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Cantina CT": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/cantina_ct/solid/{z}/{x}/{y}.png', { 
-        pane: "paneCantinaCT",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Comércio Museu": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/comercio_museu/solid/{z}/{x}/{y}.png', { 
-        pane: "paneComercioMuseu",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Dona Chica": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/dona_chica/solid/{z}/{x}/{y}.png', { 
-        pane: "paneDonaChica",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Minaçaí": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/minacai/solid/{z}/{x}/{y}.png', { 
-        pane: "paneMinacai",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Pizzaria": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/pizzaria/solid/{z}/{x}/{y}.png', { 
-        pane: "panePizzaria",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Tapiocabana": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/tapiocabana/solid/{z}/{x}/{y}.png', { 
-        pane: "paneTapiocabana",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
+const tileOptions = {
+    minZoom: 17, 
+    maxZoom: 21, 
+    updateWhenIdle: true,    // Só carrega novos tiles quando você para de arrastar (ganha fluidez)
+    updateWhenZooming: false, // Não tenta carregar tiles durante a animação de zoom
+    tms: false
 };
 
+// Camadas
+const buildingsLayer = L.tileLayer("map-docs/tiles/level_0/base/3d/{z}/{x}/{y}.png", {
+    minZoom: 17,
+    maxZoom: 21,
+});
+
 const buildingIndoorLayers = {
-    "Bloco A": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_a/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco B": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_b/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco C": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_c/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Bloco D": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_d/transparent/{z}/{x}/{y}.png', { 
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Bloco E": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_e/transparent/{z}/{x}/{y}.png', { 
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Bloco F": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_f/transparent/{z}/{x}/{y}.png', { 
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Bloco G": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_g/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneG",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco H": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_h/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneH",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco I": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_i/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneI",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco J": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_j/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneJ",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco K": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_k/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneK",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco L": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_l/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneL",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco M": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_m/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco N": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_n/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco O": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_o/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco P": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_p/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco Q": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_q/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco R": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_r/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Bloco S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/bloco_s/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Auditorio": L.tileLayer('map-docs/tiles/level_0/indoor/verde/auditorio/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Biblioteca": L.tileLayer('map-docs/tiles/level_0/indoor/azul/biblioteca/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Reitoria": L.tileLayer('map-docs/tiles/level_0/indoor/azul/reitoria/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Museu": L.tileLayer('map-docs/tiles/level_0/indoor/azul/museu/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "EVA": L.tileLayer('map-docs/tiles/level_0/indoor/azul/eva/transparent/{z}/{x}/{y}.png', { 
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "CT": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/ct/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneCT",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Corr. AL": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/leste/transparent/{z}/{x}/{y}.png', { 
-    //     pane: "corredorAL",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Corr. AO": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/oeste/transparent/{z}/{x}/{y}.png', { 
-        pane: "corredorAO",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    // "Corr. FS": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/norte/transparent/{z}/{x}/{y}.png', { 
-    //     pane: "corredorFS",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    // "Corr. FN": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/sul/transparent/{z}/{x}/{y}.png', { 
-    //     pane: "corredorFN",
-    //     minZoom: 17, maxZoom: 21, tms: false, 
-    //     opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    // }),
-    "Corr. S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/corredor/transparent/{z}/{x}/{y}.png', { 
-        pane: "corredorS",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Cantina CT": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/cantina_ct/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneCantinaCT",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Comércio Museu": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/comercio_museu/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneComercioMuseu",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Dona Chica": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/dona_chica/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneDonaChica",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Minaçaí": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/minacai/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneMinacai",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Pizzaria": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/pizzaria/transparent/{z}/{x}/{y}.png', { 
-        pane: "panePizzaria",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
-    "Tapiocabana": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/tapiocabana/transparent/{z}/{x}/{y}.png', { 
-        pane: "paneTapiocabana",
-        minZoom: 17, maxZoom: 21, tms: false, 
-        opacity: 1, maxBounds: limitesDoCampus, maxBoundsViscosity: 1.0
-    }),
+    "Bloco A": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_a/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco B": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_b/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco C": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/bloco_c/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco D": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_d/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco E": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_e/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco F": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/bloco_f/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco G": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_g/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco H": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_h/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco I": L.tileLayer('map-docs/tiles/level_0/indoor/vermelho/bloco_i/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco J": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_j/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco K": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_k/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco L": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/bloco_l/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco M": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_m/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco N": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_n/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco O": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_o/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco P": L.tileLayer('map-docs/tiles/level_0/indoor/ciano/bloco_p/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco Q": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_q/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco R": L.tileLayer('map-docs/tiles/level_0/indoor/beje/bloco_r/{z}/{x}/{y}.png', {...tileOptions}),
+    "Bloco S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/bloco_s/{z}/{x}/{y}.png', {...tileOptions}),
+    "Auditorio": L.tileLayer('map-docs/tiles/level_0/indoor/verde/auditorio/{z}/{x}/{y}.png', {...tileOptions}),
+    "Biblioteca": L.tileLayer('map-docs/tiles/level_0/indoor/azul/biblioteca/{z}/{x}/{y}.png', {...tileOptions}),
+    "Reitoria": L.tileLayer('map-docs/tiles/level_0/indoor/azul/reitoria/{z}/{x}/{y}.png', {...tileOptions}),
+    "Museu": L.tileLayer('map-docs/tiles/level_0/indoor/azul/museu/{z}/{x}/{y}.png', {...tileOptions}),
+    "EVA": L.tileLayer('map-docs/tiles/level_0/indoor/azul/eva/{z}/{x}/{y}.png', {...tileOptions}),
+    "CT": L.tileLayer('map-docs/tiles/level_0/indoor/amarelo/ct/{z}/{x}/{y}.png', {...tileOptions}),
+    "Corr. AL": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/leste/{z}/{x}/{y}.png', {...tileOptions}),
+    "Corr. AO": L.tileLayer('map-docs/tiles/level_0/indoor/laranja/corredor/oeste/{z}/{x}/{y}.png', {...tileOptions}),
+    "Corr. FS": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/norte/{z}/{x}/{y}.png', {...tileOptions}),
+    "Corr. FN": L.tileLayer('map-docs/tiles/level_0/indoor/roxo/corredor/sul/{z}/{x}/{y}.png', {...tileOptions}),
+    "Corr. S": L.tileLayer('map-docs/tiles/level_0/indoor/verde/corredor/{z}/{x}/{y}.png', {...tileOptions}),
+    "Cantina CT": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/cantina_ct/{z}/{x}/{y}.png', {...tileOptions}),
+    "Comércio Museu": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/comercio_museu/{z}/{x}/{y}.png', {...tileOptions}),
+    "Dona Chica": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/dona_chica/{z}/{x}/{y}.png', {...tileOptions}),
+    "Minaçaí": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/minacai/{z}/{x}/{y}.png', {...tileOptions}),
+    "Pizzaria": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/pizzaria/{z}/{x}/{y}.png', {...tileOptions}),
+    "Tapiocabana": L.tileLayer('map-docs/tiles/level_0/indoor/comercial/tapiocabana/{z}/{x}/{y}.png', {...tileOptions}),
 };
 
 function gerarDescEstacionamento() {
