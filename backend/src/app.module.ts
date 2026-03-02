@@ -10,6 +10,7 @@ import { EventosModule } from './presentation/nest-modules/eventos/eventos.modul
 import { AvisosModule } from './presentation/nest-modules/avisos/avisos.module';
 import { SugestoesModule } from './presentation/nest-modules/sugestoes/sugestoes.module';
 import { CloudinaryModule } from './infra/storage/cloudinary.module';
+import { chatModule } from './presentation/nest-modules/chat/chat.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { CloudinaryModule } from './infra/storage/cloudinary.module';
         AvisosModule, 
         SugestoesModule, 
         CloudinaryModule,
+        chatModule,
     ],
 })
 export class AppModule {}
