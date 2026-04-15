@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "./styles";
 
-type RouteType = "/Home" | "/Date" | "/Evento" | "/Mapa" | "/Sugestao";
+type RouteType = "/Home" | "/Date" | "/Chat" | "/Mapa" | "/Sugestao";
 
 export function Footer() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export function Footer() {
         <MaterialIcons name="calendar-month" size={28} color="#fff" />
       </Pressable>
 
-      <Pressable onPress={() => goTo("/Evento")}>
+      <Pressable onPress={() => goTo("/Chat")}>
         <MaterialIcons name="chat" size={28} color="#fff" />
       </Pressable>
 
