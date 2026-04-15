@@ -9,5 +9,5 @@ export class CreatePerguntaDto {
     @IsString({ message: 'A pergunta deve ser um texto' })
     @IsNotEmpty({ message: 'A pergunta não pode estar vazia' })
     @MinLength(3, { message: 'A pergunta deve ter pelo menos 3 caracteres' })
-    pergunta: string;
+    pergunta!: string; 
 }

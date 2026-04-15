@@ -1,10 +1,9 @@
-import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { CreatePerguntaDto } from 'src/presentation/dtos/chat/CreatePerguntaDto';
 
 @Controller('chat')
 export class ChatController {
     
-    // chat.controller.ts
     @Post('perguntar')
     @HttpCode(200)
     async perguntar(@Body() data: CreatePerguntaDto) {
@@ -25,6 +24,11 @@ export class ChatController {
                 body: JSON.stringify({ pergunta }),
             });
 
+            // Verifica se a resposta da rede foi bem sucedida
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const dataIA = await response.json();
             const duration = (Date.now() - start) / 1000;
             
@@ -32,8 +36,14 @@ export class ChatController {
             return { resposta: dataIA.resposta };
 
         } catch (error) {
-            console.error(`[${timestamp}] ❌ [NEST ERROR] Falha na comunicação com Python:`, error.message);
-            return { resposta: "O assistente está offline ou o tempo de resposta excedeu o limite." };
+            // Resolvendo o erro de 'unknown' com uma verificação de tipo
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            
+            console.error(`[${timestamp}] ❌ [NEST ERROR] Falha na comunicação com Python:`, errorMessage);
+            
+            return { 
+                resposta: "O assistente está offline ou o tempo de resposta excedeu o limite." 
+            };
         }
     }
 }
