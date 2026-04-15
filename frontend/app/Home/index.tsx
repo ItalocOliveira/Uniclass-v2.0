@@ -111,6 +111,7 @@ export default function Home() {
                   border: "none",
                   borderRadius: 8,
                 }}
+                scrolling="no"
                 loading="lazy"
               />
             ) : (
