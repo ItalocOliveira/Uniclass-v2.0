@@ -31,25 +31,22 @@ export function Seletor() {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "stretch",
 
 
   },
   picker: {
-    width: 300,
-    height: 50,
+    width: "100%",
+    height: 48,
     borderBlockColor: "#e7e7e7",
     fontFamily: "Anta_400Regular",
     borderRadius: 12,
-    paddingHorizontal: 10,
-    borderColor:"#08080824",
-    borderWidth: 5,
-
-
+    paddingHorizontal: 8,
+    borderColor: "rgba(8,8,8,0.14)",
+    borderWidth: 1,
+    backgroundColor: "#fafafa",
   },
  
 

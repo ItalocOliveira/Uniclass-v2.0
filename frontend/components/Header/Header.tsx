@@ -14,7 +14,13 @@ import SideMenu from "@/components/barraLateral/barraLateral";
 
 const NAVY = "#03366A";
 
-export type HeaderVariant = "default" | "home" | "calendar" | "chat" | "map";
+export type HeaderVariant =
+  | "default"
+  | "home"
+  | "calendar"
+  | "chat"
+  | "map"
+  | "sugestao";
 
 type HeaderProps = {
   variant?: HeaderVariant;
@@ -25,7 +31,8 @@ function isNavyBarWithWhiteMenu(variant: HeaderVariant) {
   return (
     variant === "calendar" ||
     variant === "chat" ||
-    variant === "map"
+    variant === "map" ||
+    variant === "sugestao"
   );
 }
 
@@ -106,6 +113,8 @@ export function Header({ variant = "default" }: HeaderProps) {
           <Text style={[styles.calendarTitle, styles.fontAnta]}>Chat</Text>
         ) : variant === "map" ? (
           <Text style={[styles.calendarTitle, styles.fontAnta]}>Mapa</Text>
+        ) : variant === "sugestao" ? (
+          <Text style={[styles.calendarTitle, styles.fontAnta]}>Sugestão</Text>
         ) : (
           <Text style={[styles.uniclass, styles.fontAnta]}>Uniclass</Text>
         )}
