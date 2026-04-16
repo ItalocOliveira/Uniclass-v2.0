@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Header } from '@/components/Header/Header';
 
 export default function ChatIA() {
   const [pergunta, setPergunta] = useState('');
@@ -43,43 +44,63 @@ export default function ChatIA() {
 
   return (
     <View style={styles.container}>
-      {/* 3. ADICIONADO: ScrollView com auto-scroll no final */}
-      <ScrollView 
-        ref={scrollViewRef}
-        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-        style={styles.chatBox}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        {conversa.map((item, index) => (
-          <View key={index} style={[styles.balao, item.tipo === 'user' ? styles.user : styles.ia]}>
-            <Text style={item.tipo === 'user' ? styles.textoBranco : styles.textoPreto}>
-              {item.texto}
-            </Text>
-          </View>
-        ))}
+      <Header variant="chat" />
+      <View style={styles.chatBody}>
+        <ScrollView
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current?.scrollToEnd({ animated: true })
+          }
+          style={styles.chatBox}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        >
+          {conversa.map((item, index) => (
+            <View
+              key={index}
+              style={[styles.balao, item.tipo === 'user' ? styles.user : styles.ia]}
+            >
+              <Text
+                style={item.tipo === 'user' ? styles.textoBranco : styles.textoPreto}
+              >
+                {item.texto}
+              </Text>
+            </View>
+          ))}
 
-        {/* Indicador visual de que a IA está processando */}
-        {digitando && (
-          <View style={[styles.balao, styles.ia, { flexDirection: 'row', alignItems: 'center' }]}>
-            <ActivityIndicator size="small" color="#03366a" />
-            <Text style={[styles.textoPreto, { marginLeft: 8, fontStyle: 'italic' }]}>
-              Uniclass está consultando o manual...
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+          {digitando && (
+            <View
+              style={[
+                styles.balao,
+                styles.ia,
+                { flexDirection: 'row', alignItems: 'center' },
+              ]}
+            >
+              <ActivityIndicator size="small" color="#03366a" />
+              <Text
+                style={[styles.textoPreto, { marginLeft: 8, fontStyle: 'italic' }]}
+              >
+                Uniclass está consultando o manual...
+              </Text>
+            </View>
+          )}
+        </ScrollView>
 
-      <View style={styles.inputArea}>
-        <TextInput 
-          style={styles.input} 
-          value={pergunta} 
-          onChangeText={setPergunta} 
-          placeholder="Tire sua dúvida acadêmica..."
-          placeholderTextColor="#999"
-        />
-        <TouchableOpacity onPress={enviarPergunta} style={styles.botao} disabled={digitando}>
-          <Text style={styles.textoBotao}>Enviar</Text>
-        </TouchableOpacity>
+        <View style={styles.inputArea}>
+          <TextInput
+            style={styles.input}
+            value={pergunta}
+            onChangeText={setPergunta}
+            placeholder="Tire sua dúvida acadêmica..."
+            placeholderTextColor="#999"
+          />
+          <TouchableOpacity
+            onPress={enviarPergunta}
+            style={styles.botao}
+            disabled={digitando}
+          >
+            <Text style={styles.textoBotao}>Enviar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -87,6 +108,7 @@ export default function ChatIA() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f5f5f5' },
+  chatBody: { flex: 1 },
   chatBox: { flex: 1, padding: 15 },
   balao: { 
     padding: 12, 

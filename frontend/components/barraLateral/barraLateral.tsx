@@ -1,21 +1,27 @@
 import {
+  IconBulb,
   IconCalendar,
   IconCalendarEvent,
+  IconHome,
   IconLogout,
-  IconX,
   IconMap2,
-  IconMessageDots,
-  IconUser
+  IconX,
 } from "@tabler/icons-react";
 import { useRouter } from "expo-router";
 import React from "react";
+
+const ICON_MENU = {
+  size: 22,
+  stroke: 1.75,
+  color: "white",
+} as const;
 
 type SideMenuProps = {
   open: boolean;
   onClose: () => void;
 };
 
-type RouteType = "/Home" | "/Sugestao" | "/Date" | "/Mapa" | "/Evento" |"/";
+type RouteType = "/Home" | "/Sugestao" | "/Date" | "/Mapa" | "/Evento" | "/";
 
 export default function SideMenu({ open, onClose }: SideMenuProps) {
   const router = useRouter();
@@ -34,7 +40,7 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
             position: "fixed",
             inset: 0,
             background: "rgba(0,0,0,0.45)",
-            zIndex: 9998,
+            zIndex: 2147483646,
           }}
         />
       )}
@@ -48,29 +54,102 @@ export default function SideMenu({ open, onClose }: SideMenuProps) {
           width: 280,
           background: "#0c3c78",
           color: "white",
-          zIndex: 9999,
+          zIndex: 2147483647,
           transform: open ? "translateX(0)" : "translateX(100%)",
           transition: "0.25s ease",
-          padding: "18px",
-          display: "flex",
-          flexDirection: "column",
+          overflow: "hidden",
           borderTopLeftRadius: 20,
           borderBottomLeftRadius: 20,
         }}
       >
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={onClose} style={iconButton}>
-            <IconX size={26} />
-          </button>
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: -52,
+            right: -52,
+            width: 180,
+            height: 180,
+            borderRadius: "50%",
+            background: "rgba(255, 255, 255, 0.09)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: "18%",
+            left: -40,
+            width: 120,
+            height: 120,
+            borderRadius: "50%",
+            background: "rgba(0, 0, 0, 0.12)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "42%",
+            right: -28,
+            width: 72,
+            height: 72,
+            borderRadius: "50%",
+            background: "rgba(255, 255, 255, 0.05)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            padding: "18px",
+            boxSizing: "border-box",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <button type="button" onClick={onClose} style={iconButton} aria-label="Fechar menu">
+              <IconX size={26} stroke={2} color="white" />
+            </button>
+          </div>
+
+          <MenuItem
+            icon={<IconHome {...ICON_MENU} />}
+            label="Home"
+            onClick={() => goTo("/Home")}
+          />
+          <MenuItem
+            icon={<IconBulb {...ICON_MENU} />}
+            label="Sugestão"
+            onClick={() => goTo("/Sugestao")}
+          />
+          <MenuItem
+            icon={<IconCalendar {...ICON_MENU} />}
+            label="Datas"
+            onClick={() => goTo("/Date")}
+          />
+          <MenuItem
+            icon={<IconMap2 {...ICON_MENU} />}
+            label="Maps"
+            onClick={() => goTo("/Mapa")}
+          />
+          <MenuItem
+            icon={<IconCalendarEvent {...ICON_MENU} />}
+            label="Evento"
+            onClick={() => goTo("/Evento")}
+          />
+          <MenuItem
+            icon={<IconLogout {...ICON_MENU} />}
+            label="Sair"
+            onClick={() => goTo("/")}
+          />
         </div>
-
-        <MenuItem icon={<IconUser size={22} />} label="Home" onClick={() => goTo("/Home")} />
-        <MenuItem icon={<IconMessageDots size={22} />} label="Sugestão" onClick={() => goTo("/Sugestao")} />
-        <MenuItem icon={<IconCalendar size={22} />} label="Datas" onClick={() => goTo("/Date")} />
-        <MenuItem icon={<IconMap2 size={22} />} label="Maps" onClick={() => goTo("/Mapa")} />
-        <MenuItem icon={<IconLogout size={22} />} label="Evento" onClick={() => goTo("/Evento")} />
-        <MenuItem icon={<IconLogout size={22} />} label="Sair" onClick={() => goTo("/")} />
-
       </aside>
     </>
   );
@@ -87,6 +166,7 @@ function MenuItem({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         display: "flex",
